@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Group;
 use App\Models\User;
+use App\Models\UserGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -49,27 +50,29 @@ class UserController extends Controller
         }
     }
 
-    public function inviteuser(Request $request, $group_id, $user_id)
+    public function inviteuser(Request $request)
     {
-        $me = Auth::user();
-        $user = User::where('id', $user_id);
-        $inviting = DB::table('user_groups')
-            ->where('user_id', $user->id)
-            ->where('group_id', $group_id)
+        // $me = Auth::user();
+        $group = Group::find($request->group_id);
+        // $user = User::where('id', $user_id)->first();
+        $inviting = UserGroup::
+            where('user_id', $request->user_id)
+            ->where('group_id', $request->group_id)
             ->first();
-
+        //  return $inviting ;
         if ($inviting) {
 
             return redirect()->back()->withErrors('You are already send a invitation to this user, wait for the responce!');
         } else {
-            DB::table('user_groups')->insert([
-                'user_id' => $user_id,
-                'group_id' => $group_id,
+
+            $invite = UserGroup::create([
+                'user_id' => $request->user_id,
+                'group_id' => $request->group_id,
                 'status' => 'pending',
                 'created_at' => now(),
                 'updated_at' => now()
             ]);
-
+            // return $inviting ;
             return redirect()->back()->with('success', 'invitation request sent successfully.');
         }
     }

@@ -53,7 +53,8 @@
                                         invite
                                     </a> --}}
                                     <button type="button" class="btn btn-sendinvite" data-toggle="modal"
-                                        data-target="#inviteuserModal-{{ $group->id }}">invite</button>
+                                        data-target="#inviteuserModal">invite</button>
+
                                     <form action={{ route('deletegroup', ['group_id' => $group->id]) }} method="POST"
                                         style="display:inline;">
                                         @csrf
@@ -64,7 +65,7 @@
                             </div>
                         </div>
                         {{-- model for inviting user --}}
-                        <div class="modal fade" id="inviteuserModal-{{ $group->id }}" tabindex="-1"
+                        <div class="modal fade" id="inviteuserModal" tabindex="-1"
                             aria-labelledby="inviteuserModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -76,7 +77,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <form
-                                            action="{{ route('inviteuser', ['group_id' => $group->id, 'user_id' => $user->id]) }}">
+                                            action="{{ route('inviteuser') }}">
                                             @csrf
                                             <div class="form-group">
                                                 <label for="fileSelect"></label>

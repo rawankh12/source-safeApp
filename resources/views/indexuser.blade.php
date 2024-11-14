@@ -41,13 +41,13 @@
                                         @csrf
                                         <button type="submit" class="btn btn-Add">reserve</button>
                                     </form> --}}
-                                    <form
+                                    {{-- <form
                                         action={{ route('deletefile', ['group_id' => $group->id, 'file_id' => $file->id]) }}
                                         method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-delete">Delete</button>
-                                    </form>
+                                    </form> --}}
                                 </div>
                             </div>
                         </div>

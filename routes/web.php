@@ -23,6 +23,7 @@ Route::get('/profile', function () {
 })->name('profile');
 Route::get('/JoinRequests', [GroupController::class, 'showJoinRequests'])->name('showJoinRequests');
 Route::get('/fileRequests', [GroupController::class, 'showaddfileRequests'])->name('showaddfileRequests');
+Route::get('/inviteRequests', [GroupController::class, 'showinviteRequests'])->name('showinviteRequests');
 
 
 
@@ -63,6 +64,7 @@ Route::group(['prefix' => 'users'], function () {
     Route::get('/', [UserController::class, 'index'])->name('users');
     Route::Post('/invite', [UserController::class, 'invite'])->name('invite');
     Route::get('/search', [UserController::class, 'search'])->name('search');
-    Route::get('/invite/{group_id}/{user_id}', [UserController::class, 'inviteuser'])->name('inviteuser');
+    Route::get('/invite', [UserController::class, 'inviteuser'])->name('inviteuser');
+    
 
 });

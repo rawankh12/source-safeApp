@@ -24,7 +24,7 @@
         <div class="heading">Source Safe </div>
         <form id="registerForm" method="POST" action="{{ route('register') }}" class="hidden">
             @csrf
-            <div class="subheading">Please enter your info to continue</div>
+            {{-- <div class="subheading">Please enter your info to continue</div> --}}
             <div class="form-group">
                 <input id="name" type="text" placeholder="Enter your full name" class="form-control"
                     name="name" required>
@@ -58,6 +58,23 @@
             </div>
         </form>
     </div>
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+            {{ session('success') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+    @if ($errors->any())
+        <div class="alert alert-danger" style="background-color: rgb(211, 231, 231); color:black;">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 </body>
 
 </html>

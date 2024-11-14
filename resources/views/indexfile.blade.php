@@ -129,13 +129,15 @@
                                     @endphp
                                     @foreach ($userFiles as $file)
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="file_ids[]" value="{{ $file->id }}" id="file_{{ $file->id }}">
+                                            <input class="form-check-input" type="checkbox" name="file_ids[]"
+                                                value="{{ $file->id }}" id="file_{{ $file->id }}">
                                             <label class="form-check-label" for="file_{{ $file->id }}">
                                                 {{ $file->name }}
                                             </label>
                                         </div>
                                     @endforeach
                                 </div>
+                                <input type="hidden" name="file_id" value="{{ $file->id }}">
                                 <input type="hidden" name="group_id" value="{{ $group->id }}">
                                 <button type="submit" class="btn btn-Add">Add to Group</button>
                             </form>

@@ -77,7 +77,7 @@ class RegisterController extends Controller
         } catch (\Exception $e) {
             // return false ;
             DB::rollBack();
-            return back()->withErrors(['error' => 'Something went wrong, please try again.']);
+            return back()->withErrors(['Something went wrong, please try again.']);
         }
     }
 

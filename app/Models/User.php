@@ -54,10 +54,17 @@ class User extends Authenticatable
             ->withPivot('status');
     }
 
+    public function groupss()
+    {
+        return $this->belongsToMany(Group::class, 'user_groups', 'user_id', 'group_id')
+            // ->wherePivot('status', 'pending')
+            ->withPivot('status');
+    }
+
     public function lgroups()
     {
         return $this->belongsToMany(Group::class, 'user_groups')
-        ->withPivot('status');
+            ->withPivot('status');
     }
 
     public function files()

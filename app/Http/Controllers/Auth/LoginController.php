@@ -36,11 +36,11 @@ class LoginController extends Controller
     {
         DB::beginTransaction();
         try {
-            $Request->validated();
-            $user = User::where('email', $Request->email)->first();
+            $validatedData = $Request->validated();
+            $user = User::where('email', $validatedData['email'])->first();
 
-            if (!$user || !Hash::check($Request->password, $user->password)) {
-                return redirect()->route('login')->withErrors(['email' => __('backend.credentials not match')]);
+            if (!$user || !Hash::check($validatedData['password'], $user->password)) {
+                return redirect()->back()->withErrors('Invalid credentials.');
             }
 
             $token = $user->createToken('auth_token')->plainTextToken;
@@ -49,9 +49,11 @@ class LoginController extends Controller
             return redirect()->route('home')->with('success', 'Login successful.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withErrors(['error' => 'Something went wrong, please try again.']);
+            \Log::error($e->getMessage());
+            return back()->withErrors(['error'=>'Something went wrong, please try again.']);
         }
     }
+
 
     /**
      * Create a new controller instance.

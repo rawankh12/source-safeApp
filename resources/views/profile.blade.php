@@ -31,6 +31,7 @@
                 <a href="{{ route('user.lockedfiles') }}" class="btn btn-Info d-block">My Locked Files</a>
                 <a href="{{ route('showJoinRequests') }}" class="btn btn-Reauests d-block">Join requests</a>
                 <a href="{{ route('showaddfileRequests') }}" class="btn btn-fileReauests d-block">AddFile requests</a>
+                <a href="{{ route('showinviteRequests') }}" class="btn btn-fileReauests d-block">invited requests</a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="btn btn-Logout d-block">Logout</button>
