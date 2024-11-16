@@ -28,7 +28,7 @@ class GroupController extends Controller
                 $query->where('user_id', $user);
             })
             ->get();
-        return view('home', compact('groups'));
+        return view('allgroups', compact('groups'));
     }
     public function mygroup()
     {

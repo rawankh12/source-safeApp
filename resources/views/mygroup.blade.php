@@ -4,36 +4,9 @@
 
 @section('content')
 
-    <div class="header">
-        <div class="link">
-            <a href="{{ route('home') }}">
-                <i class="fa fa-home"></i>
-            </a>
-            <a href="{{ route('profile') }}">
-                <i class="fa fa-user"></i>
-            </a>
-            <a href="{{ route('users') }}">
-                <i class="fa fa-users"></i>
-            </a>
-        </div>
-    </div>
-
     <body>
         <div class="home">
-            <h2 class="text-center">My Groups</h2>
-            @if (Auth::check())
-                <p style="margin-top: 40px;">Welcome, {{ Auth::user()->name }}</p>
-            @else
-                <p style="margin-top: 40px;">You are not logged in.</p>
-            @endif
-
-            <div class="btn-group mb-4" role="group" aria-label="Group buttons">
-                <a href="{{ route('home') }}" class="btn">All Groups</a>
-                <a href="{{ route('mygroup') }}" class="btn" style="margin-left: 20px;">My Groups</a>
-                <a href="{{ route('membergroup') }}" class="btn btn-toggle" id="member-groups" style="margin-left: 20px;">
-                    Groups I am a member of </a>
-            </div>
-
+            <h2 class="text-right">غروباتي</h2>
             <div class="row">
                 @if ($groups->isEmpty())
                     <p>There's no groups</p>
@@ -47,44 +20,47 @@
                                     <h5 class="card-text">{{ $group->description }}</h5>
                                     {{-- @if (Auth::user()->name === $group->user_create) --}}
                                     <a href="{{ route('group.files', $group->id) }}" class="btn btn-view">
-                                        View Files
+                                        رؤية الملفات
                                     </a>
                                     {{-- <a href="{{ route('invite') }}" class="btn btn-sendinvite">
                                         invite
                                     </a> --}}
                                     <button type="button" class="btn btn-sendinvite" data-toggle="modal"
-                                        data-target="#inviteuserModal">invite</button>
+                                        data-target="#inviteuserModal">دعوة</button>
 
                                     <form action={{ route('deletegroup', ['group_id' => $group->id]) }} method="POST"
                                         style="display:inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-delete">Delete</button>
+                                        <button type="submit" class="btn btn-delete">حذف</button>
                                     </form>
                                 </div>
                             </div>
                         </div>
                         {{-- model for inviting user --}}
-                        <div class="modal fade" id="inviteuserModal" tabindex="-1"
-                            aria-labelledby="inviteuserModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="inviteuserModal" tabindex="-1" aria-labelledby="inviteuserModalLabel"
+                            aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="inviteuserModalLabel">Add user from the list</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <h5 class="modal-title" id="inviteuserModalLabel">اضافة مستخدم</h5>
+                                        {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
-                                        </button>
+                                        </button> --}}
                                     </div>
                                     <div class="modal-body">
-                                        <form
-                                            action="{{ route('inviteuser') }}">
+                                        <form action="{{ route('inviteuser') }}">
                                             @csrf
                                             <div class="form-group">
                                                 <label for="fileSelect"></label>
                                                 <select class="form-control" id="userSelect" name="user_id" required>
-                                                    <option value="">Select user</option>
+                                                    <option value="">اختار مسمتخدم</option>
                                                     @php
-                                                        $users = App\Models\User::where('id', '!=', Auth::user()->id)->get();
+                                                        $users = App\Models\User::where(
+                                                            'id',
+                                                            '!=',
+                                                            Auth::user()->id,
+                                                        )->get();
                                                     @endphp
                                                     @foreach ($users as $user)
                                                         <option value="{{ $user->id }}">{{ $user->name }}</option>
@@ -92,7 +68,9 @@
                                                 </select>
                                             </div>
                                             <input type="hidden" name="group_id" value="{{ $group->id }}">
-                                            <button type="submit" class="btn btn-Add">Add to Group</button>
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">اغلاق</button>
+                                                <button type="submit" class="btn btn-Add">اضافة الى الغروب</button>
                                         </form>
                                     </div>
                                 </div>
@@ -114,33 +92,28 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="createGroupModalLabel">Create New Group</h5>
+                        <h5 class="modal-title" id="createGroupModalLabel">انشاء غروب جديد</h5>
                     </div>
                     <div class="modal-body">
                         <form action="{{ route('groups.store') }}" method="POST">
                             @csrf
                             <div class="form-group">
-                                <label id="name">Name:</label>
+                                <label id="name">الاسم:</label>
                                 <input type="text" name="name" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label id="description">Description:</label>
+                                <label id="description">الوصف:</label>
                                 <input type="text" name="description" class="form-control" required>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-Add">Add Group</button>
-                            </div>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+                                <button type="submit" class="btn btn-Add">اضافة غروب</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
         <!-- Modal for search -->
-        <a href="#" class="floating-button2" data-toggle="modal" data-target="#searchModal">
-            <i class="fa fa-search"></i>
-        </a>
-        <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+        {{-- <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -159,7 +132,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">

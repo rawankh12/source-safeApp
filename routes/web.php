@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -9,18 +11,25 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 
+
+Route::get('set-locale/{locale}', [LanguageController::class, 'setLocale'])->name('setLocale');
+
 Auth::routes();
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::get('/register', [AuthController::class, 'showRegistrForm'])->name('register');
-Route::get('/home', [GroupController::class, 'index'])->name('home');
+Route::get('/allgroups', action: [GroupController::class, 'index'])->name('allgroups');
 Route::get('/code-verification', [EmailController::class, 'verification'])->name('code-verification');
 Route::get('/', function () {
     return redirect()->route('login');
 });
-Route::get('/profile', function () {
-    return view('profile');
-})->name('profile');
+Route::get('/home',  [HomeController::class, 'index'])->name('home');
+
+// Route::get('/profile', function () {
+//     return view('profile');
+// })->name('profile');
+
+Route::get('/profile', [UserController::class, 'indexx'])->name('profile');
 Route::get('/JoinRequests', [GroupController::class, 'showJoinRequests'])->name('showJoinRequests');
 Route::get('/fileRequests', [GroupController::class, 'showaddfileRequests'])->name('showaddfileRequests');
 Route::get('/inviteRequests', [GroupController::class, 'showinviteRequests'])->name('showinviteRequests');
@@ -65,6 +74,6 @@ Route::group(['prefix' => 'users'], function () {
     Route::Post('/invite', [UserController::class, 'invite'])->name('invite');
     Route::get('/search', [UserController::class, 'search'])->name('search');
     Route::get('/invite', [UserController::class, 'inviteuser'])->name('inviteuser');
-    
+
 
 });

@@ -3,7 +3,7 @@
 @section('title', 'Home')
 
 @section('content')
-
+{{-- 
     <div class="header">
         <div class="link">
             <a href="{{ route('home') }}">
@@ -16,7 +16,7 @@
                 <i class="fa fa-users"></i>
             </a>
         </div>
-    </div>
+    </div> --}}
 
     <body>
         <div class="home">
@@ -66,9 +66,6 @@
             @endif
 
             <!-- Modal for search -->
-            <a href="#" class="floating-button2" data-toggle="modal" data-target="#searchModal">
-                <i class="fa fa-search"></i>
-            </a>
             <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">

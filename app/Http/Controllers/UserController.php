@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Group;
 use App\Models\User;
 use App\Models\UserGroup;
+use App\Models\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -79,4 +80,23 @@ class UserController extends Controller
 
     //    return view('mygroup',compact('inviteuser'));
     // }
+
+    public function indexx()
+{
+    $user = Auth::user(); // جلب المستخدم الحالي
+    $files = File::where('user_id', Auth::id())->get();
+    $lockedFiles = File::where('user_id', $user->id)
+            ->whereHas('groups', function ($query) {
+                $query->where('status', 'blocked');
+            })
+            ->with([
+                'groups' => function ($query) {
+                    $query->where('status', 'blocked');
+                }
+            ])
+            ->get();
+
+    return view('profile', compact('user', 'files', 'lockedFiles'));
+}
+
 }
