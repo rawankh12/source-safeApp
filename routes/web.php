@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LanguageController;
@@ -35,7 +36,13 @@ Route::get('/fileRequests', [GroupController::class, 'showaddfileRequests'])->na
 Route::get('/inviteRequests', [GroupController::class, 'showinviteRequests'])->name('showinviteRequests');
 
 
-
+Route::group([], function () {
+    Route::get('/adminHome', [AdminController::class, 'index'])->name('adminHome');
+    Route::get('/adminSetting', [AdminController::class, 'setting'])->name('adminSetting');
+    Route::get('/adminFile', [AdminController::class, 'file'])->name('adminFile');
+    Route::get('/adminUser', [AdminController::class, 'user'])->name('adminUser');
+    Route::get('/download-all-files', [AdminController::class, 'downloadAllFiles'])->name('download.all.files');
+});
 Route::group(['prefix' => 'groups'], function () {
     Route::get('/create', [GroupController::class, 'create'])->name('groups.create');
     Route::get('/', [GroupController::class, 'mygroup'])->name('mygroup');
@@ -47,7 +54,6 @@ Route::group(['prefix' => 'groups'], function () {
     Route::delete('/deleterequest/{userId}/{groupId}', [GroupController::class, 'deleteJoinRequest'])->name('deleteJoinRequest');
     Route::post('/accept/{fileId}/{groupId}', [GroupController::class, 'acceptRequest'])->name('acceptRequest');
     Route::delete('/delete/{fileId}/{groupId}', [GroupController::class, 'deleteRequest'])->name('deleteRequest');
-
 });
 
 Route::group(['prefix' => 'files'], function () {
@@ -63,7 +69,6 @@ Route::group(['prefix' => 'files'], function () {
     Route::get('/blockfile/{groupid}/{fileid}', [FileController::class, 'blockfile'])->name('blockfile');
     Route::get('/unblockfile/{groupid}/{fileid}', [FileController::class, 'unblockfile'])->name('unblockfile');
     Route::post('/uploadfile/{file_id}', [FileController::class, 'uploadFile'])->name('uploadfile');
-
 });
 
 Route::get('/view-file/{filePath}', [FileController::class, 'viewFile'])->where('filePath', '.*');
@@ -74,6 +79,4 @@ Route::group(['prefix' => 'users'], function () {
     Route::Post('/invite', [UserController::class, 'invite'])->name('invite');
     Route::get('/search', [UserController::class, 'search'])->name('search');
     Route::get('/invite', [UserController::class, 'inviteuser'])->name('inviteuser');
-
-
 });

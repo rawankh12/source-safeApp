@@ -46,11 +46,15 @@ class LoginController extends Controller
             $token = $user->createToken('auth_token')->plainTextToken;
             Auth::login($user);
             DB::commit();
-            return redirect()->route('home')->with('success', 'Login successful.');
+            if ($user->role == 1) {
+                return redirect()->route('home')->with('success', 'Login successful.');
+            } else {
+                return redirect()->route('adminHome')->with('success', 'Login successful.');
+            }
         } catch (\Exception $e) {
             DB::rollBack();
             \Log::error($e->getMessage());
-            return back()->withErrors(['error'=>'Something went wrong, please try again.']);
+            return back()->withErrors(['error' => 'Something went wrong, please try again.']);
         }
     }
 

@@ -55,5 +55,8 @@ class Group extends Model
             ->withPivot('status')
             ->wherePivot('status', 'blocked');
     }
-
+    public function reports()
+    {
+        return $this->hasMany(Report::class, 'group_id');
+    }
 }

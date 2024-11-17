@@ -19,40 +19,45 @@ class UserSeeder extends Seeder
 
             'name' => 'Admin',
             'email' => 'Admin@gmail.com',
-            'password'=> bcrypt('password'),
-            'id' => 1
+            'password' => bcrypt('password'),
+            'id' => 1,
+            'role' => 2
 
         ]);
         User::create([
 
             'name' => 'rawan',
             'email' => 'rawan@gmail.com',
-            'password'=> bcrypt('password1'),
-            'id' => 2
+            'password' => bcrypt('password1'),
+            'id' => 2,
+            'role' => 1
 
         ]);
         User::create([
 
             'name' => 'kheder',
             'email' => 'kheder@gmail.com',
-            'password'=> bcrypt('password2'),
-            'id' => 3
+            'password' => bcrypt('password2'),
+            'id' => 3,
+            'role' => 1
 
         ]);
         User::create([
 
             'name' => 'aya',
             'email' => 'aya@gmail.com',
-            'password'=> bcrypt('password3'),
-            'id' => 4
+            'password' => bcrypt('password3'),
+            'id' => 4,
+            'role' => 1
 
         ]);
         User::create([
 
             'name' => 'raghad',
             'email' => 'raghad@gmail.com',
-            'password'=> bcrypt('password4'),
-            'id' => 5
+            'password' => bcrypt('password4'),
+            'id' => 5,
+            'role' => 1
 
         ]);
 
@@ -60,8 +65,9 @@ class UserSeeder extends Seeder
 
             'name' => 'mohamad',
             'email' => 'mohamad@gmail.com',
-            'password'=> bcrypt('password5'),
-            'id' => 6
+            'password' => bcrypt('password5'),
+            'id' => 6,
+            'role' => 1
 
         ]);
 
@@ -69,8 +75,9 @@ class UserSeeder extends Seeder
 
             'name' => 'bassam',
             'email' => 'bassam@gmail.com',
-            'password'=> bcrypt('password6'),
-            'id' => 7
+            'password' => bcrypt('password6'),
+            'id' => 7,
+            'role' => 1
 
         ]);
 
@@ -78,8 +85,9 @@ class UserSeeder extends Seeder
 
             'name' => 'mary',
             'email' => 'mary@gmail.com',
-            'password'=> bcrypt('password7'),
-            'id' => 8
+            'password' => bcrypt('password7'),
+            'id' => 8,
+            'role' => 1
 
         ]);
 
@@ -87,8 +95,9 @@ class UserSeeder extends Seeder
 
             'name' => 'rania',
             'email' => 'rania@gmail.com',
-            'password'=> bcrypt('password8'),
-            'id' => 9
+            'password' => bcrypt('password8'),
+            'id' => 9,
+            'role' => 1
 
         ]);
 
@@ -96,10 +105,10 @@ class UserSeeder extends Seeder
 
             'name' => 'ar',
             'email' => 'ar@gmail.com',
-            'password'=> bcrypt('password9'),
-            'id' => 10
+            'password' => bcrypt('password9'),
+            'id' => 10,
+            'role' => 1
 
         ]);
-
     }
 }

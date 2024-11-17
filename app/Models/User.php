@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role'
     ];
 
     /**
@@ -72,4 +73,12 @@ class User extends Authenticatable
         return $this->hasMany(File::class, 'user_id');
     }
 
+    public function reports()
+    {
+        return $this->hasMany(Report::class, 'user_id');
+    }
+    public function createdGroups()
+    {
+        return $this->hasMany(Group::class, 'user_create', 'name');  // ربط created_by (اسم المستخدم) مع name (اسم المستخدم في جدول users)
+    }
 }

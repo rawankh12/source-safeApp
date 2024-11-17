@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FileRequest;
+use App\Jobs\LookFile;
 use App\Models\GroupFile;
 use App\Services\FileService;
 use Illuminate\Support\Facades\Auth;
@@ -121,6 +122,7 @@ class FileController extends Controller
         $response = $this->fileService->blockFile($groupId, $fileId);
         if ($response['status'] === 'success') {
             return redirect()->back()->with('success', $response['message']);
+            $delayedjob = (new LookFile($fileId, $user->id, $groupId));
         }
         return redirect()->back()->withErrors($response['message']);
     }
@@ -167,4 +169,3 @@ class FileController extends Controller
         }
     }
 }
-

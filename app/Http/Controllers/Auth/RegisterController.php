@@ -50,15 +50,15 @@ class RegisterController extends Controller
     {
         DB::beginTransaction();
         try {
-            
+
             // $random_number = random_int(100000, 999999);
             // $mailData = [
             //     'title' => 'Code login',
             //     'code' => $random_number,
             // ];
-            
+
             // try {
-                
+
             //     Mail::to($request->email)->send(new VerfMail($mailData));
             // } catch (\Exception $e) {
             //     return $e->getMessage();
@@ -68,7 +68,8 @@ class RegisterController extends Controller
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => Hash::make($request->password)
+                'password' => Hash::make($request->password),
+                'role' => 1
             ]);
             Auth::login($user);
             // $request->session()->put('email', $user->email);
@@ -80,5 +81,4 @@ class RegisterController extends Controller
             return back()->withErrors(['Something went wrong, please try again.']);
         }
     }
-
 }
