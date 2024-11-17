@@ -6,6 +6,7 @@ use App\Models\Group;
 use App\Models\User;
 use App\Models\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -17,11 +18,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $groups = Group::all();
-        $files = File::all();
+        $user = Auth::user();
+        $groups = Group::where('user_create', '!=', $user->name)->get();
+        $files = File::where('user_id', $user->id)
+            ->get();
         $users = User::all();
-    
+
         return view('home', compact('groups', 'files', 'users'));
     }
-    
+
 }

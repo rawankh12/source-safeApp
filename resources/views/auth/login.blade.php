@@ -59,7 +59,7 @@
             </div>
             <button type="submit">Login</button>
             <div class="register-link">
-                <p>Don't have an account? <a href="{{ route('register') }}">Register</a></p>
+                <p>Don't have an account? <a href="{{ route('register') }}" style="color: rgb(190, 209, 226);">Register</a></p>
             </div>
         </form>
     </div>

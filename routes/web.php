@@ -42,7 +42,7 @@ Route::group(['prefix' => 'groups'], function () {
     Route::get('/Amember', [GroupController::class, 'membergroup'])->name('membergroup');
     Route::post('/create', [GroupController::class, 'store'])->name('groups.store');
     Route::delete('/delete/{group_id}', [GroupController::class, 'deletegroup'])->name('deletegroup');
-    Route::get('/sendrequest/{groupid}', [GroupController::class, 'sendrequest'])->name('sendrequest');
+    Route::post('/sendrequest/{groupid}', [GroupController::class, 'sendrequest'])->name('sendrequest');
     Route::post('/acceptrequest/{userId}/{groupId}', [GroupController::class, 'acceptJoinRequest'])->name('acceptJoinRequest');
     Route::delete('/deleterequest/{userId}/{groupId}', [GroupController::class, 'deleteJoinRequest'])->name('deleteJoinRequest');
     Route::post('/accept/{fileId}/{groupId}', [GroupController::class, 'acceptRequest'])->name('acceptRequest');

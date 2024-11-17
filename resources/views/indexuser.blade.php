@@ -20,10 +20,10 @@
 
     <body>
         <div class="home">
-            <h2 class="text-center">My Files</h2>
+            <h2 class="text-right">ملفاتي</h2>
 
             @if ($Files->isEmpty())
-                <p class="text-center">No files available.</p>
+                <p class="text-center">لا يوجد ملفات</p>
             @else
                 <div class="row">
                     @foreach ($Files as $file)
@@ -31,11 +31,9 @@
                             <div class="card mb-4 shadow-sm">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $file->name }}</h5>
-                                    @if ($file->description)
-                                        <p class="card-text">Description: {{ $file->description }}</p>
-                                    @endif
-                                        <p class="card-text">Status: free</p>
-                                    <p class="card-text">URL: <a href="{{ url('/view-file/' . $file->url) }}" target="_blank" rel="noopener noreferrer">{{ $file->url }}</a></p>
+                                    <p class="card-text">حالة الملف: free</p>
+                                    <p class="card-text"> <a href="{{ url('/view-file/' . $file->url) }}" target="_blank"
+                                            rel="noopener noreferrer">{{ $file->url }}</a></p>
                                     {{-- <form action={{ route('blockfile', ['groupid' => $group->id, 'fileid' => $file->id]) }}
                                         style="display:inline;">
                                         @csrf
@@ -103,32 +101,32 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="createFileModalLabel">Create New File</h5>
+                            <h5 class="modal-title" id="createFileModalLabel">اختر ملف</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action="{{ route('files.store') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('addToGroup') }}" method="POST">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="fileName">Name:</label>
-                                    <input type="text" class="form-control" id="fileName" name="name"
-                                        placeholder="Enter the name of file" required>
+                                    <label for="fileSelect">اختر ملف:</label>
+                                    @php
+                                        $userFiles = App\Models\File::where('user_id', Auth::id())->get();
+                                    @endphp
+                                    @foreach ($userFiles as $file)
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="file_ids[]"
+                                                value="{{ $file->id }}" id="file_{{ $file->id }}">
+                                            <label class="form-check-label" for="file_{{ $file->id }}">
+                                                {{ $file->name }}
+                                            </label>
+                                        </div>
+                                    @endforeach
                                 </div>
-                                <div class="form-group">
-                                    <label for="fileUpload">File:</label>
-                                    <input type="file" class="form-control-file" id="fileUpload" name="file" required>
-                                </div>
-                                {{-- <div class="form-group">
-                                    <label for="groupSelect">Choose Group:</label>
-                                    <select class="form-control" id="groupSelect" name="group_id" required>
-                                        @foreach (auth()->user()->groups as $group)
-                                            <option value="{{ $group->id }}">{{ $group->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div> --}}
-                                <button type="submit" class="btn btn-Add">Add</button>
+                                <input type="hidden" name="file_id" value="{{ $file->id }}">
+                                <input type="hidden" name="group_id" value="{{ $group->id }}">
+                                <button type="submit" class="btn btn-Add">اضافة</button>
                             </form>
                         </div>
                     </div>

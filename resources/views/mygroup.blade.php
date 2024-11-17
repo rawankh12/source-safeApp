@@ -54,7 +54,7 @@
                                             <div class="form-group">
                                                 <label for="fileSelect"></label>
                                                 <select class="form-control" id="userSelect" name="user_id" required>
-                                                    <option value="">اختار مسمتخدم</option>
+                                                    <option value="">اختار مستخدم</option>
                                                     @php
                                                         $users = App\Models\User::where(
                                                             'id',

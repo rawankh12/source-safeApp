@@ -8,7 +8,7 @@
             <div class="section profile-section">
                 {{-- <img alt="Profile Image" height="300" --}}
                 <i class="fa fa-user profile-icon" style="font-size: 200px; color: #0c2347;"></i>
-                    {{-- width="300" /> --}}
+                {{-- width="300" /> --}}
                 <div class="info">
                     <p>
                         <strong>آخر تسجيل دخول:</strong>
@@ -70,6 +70,23 @@
             </div>
         </div>
     </div>
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+            {{ session('success') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+    @if ($errors->any())
+        <div class="alert alert-danger" style="background-color: rgb(211, 231, 231); color:black;">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 @endsection
 
 {{-- <body>

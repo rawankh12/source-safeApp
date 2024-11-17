@@ -21,7 +21,7 @@
     <body>
         <div class="home">
             @if ($pendingRequests->isEmpty())
-                <p>No pending requests.</p>
+                <p>لا يوجد طلبات.</p>
             @else
                 <ul>
                     @foreach ($pendingRequests as $request)
@@ -37,9 +37,9 @@
                             justify-content: space-between; 
                             align-items: center;">
                                 <div style="flex: 1;">
-                                    Requested to add file: {{ $file->name }}
-                                    to Group: {{ $request->name }}
-                                    - Request Date: {{ \Carbon\Carbon::parse($request->created_at)->format('Y-m-d H:i') }}
+                                    ارسل طلب لاضافة الملف : {{ $file->name }}
+                                    الى المجموعة: {{ $request->name }}
+                                    - تاريخ ارسال الطلب : {{ \Carbon\Carbon::parse($request->created_at)->format('Y-m-d H:i') }}
                                 </div>
                                 <div class="btngroups" style="display: flex; gap: 10px;">
                                     <!-- نموذج Accept -->
@@ -47,7 +47,7 @@
                                         action="{{ route('acceptRequest', ['fileId' => $file->id, 'groupId' => $request->id]) }}"
                                         method="POST">
                                         @csrf
-                                        <button type="submit" class="btn btn-Add">Accept</button>
+                                        <button type="submit" class="btn btn-Add">قبول</button>
                                     </form>
 
                                     <!-- نموذج Delete -->
@@ -56,7 +56,7 @@
                                         method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-delete">Delete</button>
+                                        <button type="submit" class="btn btn-delete">الغاء</button>
                                     </form>
                                 </div>
                             </li>
@@ -70,7 +70,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="searchModalLabel">Search</h5>
+                            <h5 class="modal-title" id="searchModalLabel">بحث</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -80,7 +80,7 @@
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="query" placeholder="Enter...">
                                 </div>
-                                <button type="submit" class="btn btn-Add">Ok</button>
+                                <button type="submit" class="btn btn-Add">اوك</button>
                             </form>
                         </div>
                     </div>
@@ -109,7 +109,7 @@
     <style>
         .btngroups .btn-delete {
             background-color: #7a1b23;
-            margin-top: 20px;
+            /* margin-top: 20px; */
             color: #f6f1f1;
             margin-left: 20px;
         }

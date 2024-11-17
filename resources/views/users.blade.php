@@ -20,7 +20,7 @@
 
     <body>
         <div class="home">
-            <h2 class="text-center">Users</h2>
+            <h2 class="text-right">المستخدمين</h2>
             @if (session('error'))
                 <div class="alert alert-danger" role="alert">
                     {{ session('error') }}
@@ -28,7 +28,7 @@
             @endif
             <div class="row">
                 @if ($users->isEmpty())
-                    <p>There's no users</p>
+                    <p>لا يوجد مستخدمين</p>
                 @else
                     @foreach ($users as $user)
                         <div class="col-md-4" style="margin-bottom: 20px;">
@@ -37,9 +37,9 @@
                                     <i class="fa fa-user"></i>
                                     <h5 class="card-title">{{ $user->name }}</h5>
                                     <h5 class="card-text">{{ $user->email }}</h5>
-                                    <a href="{{ route('invite') }}" class="btn btn-invite">
-                                        invite
-                                    </a>
+                                    {{-- <a href="{{ route('invite') }}" class="btn btn-invite">
+                                        ارسال دعوة
+                                    </a> --}}
                                 </div>
                             </div>
                         </div>

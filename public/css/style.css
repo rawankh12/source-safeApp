@@ -5,7 +5,7 @@
    left: 0;
    width: calc(100% - 260px); 
    z-index: 1000;
-   background-color: white; 
+   background-color: rgb(255, 255, 255); 
    display: flex;
    align-items: center;
    justify-content: space-between;
@@ -194,7 +194,7 @@ a.sidebar-link:hover {
 .rrow {
     display: flex;
     flex-wrap: wrap;
-    justify-content: left;
+    justify-content: right;
     text-align: center;
     margin-top: 40px;   
  }
@@ -226,7 +226,7 @@ a.sidebar-link:hover {
 .btn-Add {
     background-color: #112e4c;
     border: none;
-    margin-top: 20px;
+    /* margin-top: 20px; */
     color: #f6f1f1;
     right: 0;
  }
@@ -437,20 +437,33 @@ body.light-mode .profile-btn a {
 }
 /*home*/
 .grid-container {
-   display: grid;
-   grid-template-columns: 1fr 1fr;
-   grid-template-rows: auto 1fr;
-   gap: 20px;
-   height: 100vh;
+   display: flex;
+   gap: 5px;
+   justify-content: space-between;
+   top: 50px;
+   
+   position: relative;
+}
+.main-text-section {
+   text-align: center;
+   margin-top: 0;
+   top: -200px;
+   position: relative;
+}
+.main-text-section img {
+   margin-top: 0;
+   display: block;
+   max-width: 80%;
+   object-fit: cover;
+   /* height: 80%; */
 }
 .section {
-   padding: 20px;
+   padding: 10px;
    background-color: #d8e4ef;
-   display: flex;
-   flex-direction: column;
-   height: 100%;
    border-radius: 20px;
+   width: 30%;
    border: 1px solid #ddd;
+   flex: 1;
 }
 .section h3 {
    text-align: right;
@@ -463,13 +476,12 @@ body.light-mode .profile-btn a {
    border-radius: 20px;
 }
 .item {
-   padding: 10px;
+   padding: 5px;
    margin: 5px 0;
    background-color: #fff;
 }
-.grid-container>.section:nth-child(3) {
-   grid-column: span 2;
-   height: 70%;
+.grid-container .section:nth-child(n + 2) {
+   grid-column: span 2; 
 }
 .btn-more {
    display: block;

@@ -174,6 +174,7 @@
         .modal-header .btn-close.move-right {
             position: absolute;
             right: 1rem;
+            text-align: right;
         }
 
         #sidebar {
@@ -327,7 +328,7 @@
             transition: transform 0.2s, box-shadow 0.2s;
             height: 100%;
             width: 80%;
-            background-color: #abc3d8; 
+            background-color: #abc3d8;
             margin-right: 30px;
             margin-top: 40px;
         }
@@ -356,6 +357,7 @@
             border: none;
             margin-top: 20px;
             color: #f6f1f1;
+            right: 0;
         }
 
         .btn-sendinvite {
@@ -406,10 +408,17 @@
             background-color: #8faecf;
             width: 100%;
             height: 100%;
+            text-align: right;
         }
 
-        .modal-footer .btn-secondary {
+        .form-group label {
+            text-align: right;
+            right: 0;
+        }
+
+        .btn-secondary {
             margin-top: 20px;
+            right: 0;
         }
 
         .btn-group a {
@@ -584,16 +593,16 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             grid-template-rows: auto 1fr;
-            gap: 20px;
+            gap: 10px;
             height: 100vh;
         }
 
         .section {
-            padding: 20px;
-            background-color: #f9f9f9;
+            padding: 10px;
+            background-color: #d8e4ef;
             display: flex;
             flex-direction: column;
-            height: 100%;
+            height: 90%;
             border-radius: 20px;
             border: 1px solid #ddd;
         }
@@ -607,10 +616,11 @@
             flex: 1;
             overflow-y: auto;
             text-align: right;
+            border-radius: 20px;
         }
 
         .item {
-            padding: 10px;
+            padding: 5px;
             margin: 5px 0;
             background-color: #fff;
         }

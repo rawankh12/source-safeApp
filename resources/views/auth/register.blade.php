@@ -54,7 +54,7 @@
             </div>
             <button type="submit">Register</button>
             <div class="register-link">
-                <p>Already have an account? <a href="{{ route('login') }}">Login</a></p>
+                <p>Already have an account? <a href="{{ route('login') }}" style="color: rgb(190, 209, 226);">Login</a></p>
             </div>
         </form>
     </div>

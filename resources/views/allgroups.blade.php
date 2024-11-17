@@ -4,6 +4,23 @@
 
 @section('content')
 
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+            {{ session('success') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+    @if ($errors->any())
+        <div class="alert alert-danger" style="background-color: rgb(211, 231, 231); color:black;">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <div class="container mt-5 main">
         <div class="row mb-4">
             <div class="col-12">
@@ -12,7 +29,7 @@
         </div>
         <div class="rrow">
             @if ($groups->isEmpty())
-                <p>There's no groups</p>
+                <p>لا يوجد غروبات</p>
             @else
                 @foreach ($groups as $group)
                     <div class="col-md-4" style="margin-bottom: 20px;">
@@ -23,7 +40,7 @@
                                 <h5 class="card-text">{{ $group->description }}</h5>
                                 <form action="{{ route('sendrequest', ['groupid' => $group->id]) }}">
                                     @csrf
-                                    <button type="submit" class="btn btn-invite">send join request</button>
+                                    <button type="submit" class="btn btn-invite">ارسل طلب انضمام</button>
                                 </form>
                             </div>
                         </div>
@@ -43,44 +60,26 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="createGroupModalLabel">Create New Group</h5>
+                    <h5 class="modal-title" id="createGroupModalLabel">انشاء غروب جديد</h5>
                 </div>
                 <div class="modal-body">
                     <form action="{{ route('groups.store') }}" method="POST">
                         @csrf
                         <div class="form-group">
-                            <label id="name">Name:</label>
+                            <label id="name">الاسم:</label>
                             <input type="text" name="name" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label id="description">Description:</label>
+                            <label id="description">الوصف:</label>
                             <input type="text" name="description" class="form-control" required>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-Add">Add Group</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+                            <button type="submit" class="btn btn-Add">اضافة غروب</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-            {{ session('success') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    @endif
-    @if ($errors->any())
-        <div class="alert alert-danger" style="background-color: rgb(211, 231, 231); color:black;">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
 @endsection
