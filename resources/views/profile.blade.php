@@ -32,8 +32,11 @@
                 <div class="subsection" id="my-files-section">
                     <div style="display: flex; justify-content: space-between; align-items: center; direction: rtl;">
                         <h3 style="margin: 0;">ملفاتي</h3>
-                        <a href="{{ route('files.store') }}" class="btn btn-sm btn-Addd">إضافة
-                            ملف</a>
+                        {{-- <form action="{{ route('files.store') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-sm btn-Addd"> إضافة
+                                ملف</button>
+                        </form> --}}
                     </div>
                     <hr>
                     <div class="section-content" id="my-files-content">
@@ -88,26 +91,3 @@
         </div>
     @endif
 @endsection
-
-{{-- <body>
-        <div class="rectangle-wrapper">
-            <div class="home">
-                <h2 class="modal-title text-center" style="margin-right: 30px; margin-bottom:20px;">My Profile </h2>
-            </div>
-            <div class="modal-body text-center">
-                <i class="fa fa-user profile-icon" style="font-size: 80px; color: #0c2347;"></i>
-                <p>{{ Auth::user()->name }}</p>
-                <p>{{ Auth::user()->email }}</p>
-                <a href="{{ route('user.files') }}" class="btn btn-File mb-3 d-block">My Files</a>
-                <a href="{{ route('user.lockedfiles') }}" class="btn btn-Info d-block">My Locked Files</a>
-                <a href="{{ route('showJoinRequests') }}" class="btn btn-Reauests d-block">Join requests</a>
-                <a href="{{ route('showaddfileRequests') }}" class="btn btn-fileReauests d-block">AddFile requests</a>
-                <a href="{{ route('showinviteRequests') }}" class="btn btn-fileReauests d-block">invited requests</a>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="btn btn-Logout d-block">Logout</button>
-                </form>
-            </div>
-          
-        </div>
-    </body> --}}

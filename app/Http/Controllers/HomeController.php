@@ -27,4 +27,15 @@ class HomeController extends Controller
         return view('home', compact('groups', 'files', 'users'));
     }
 
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        $files = File::where('name', 'LIKE', "%$query%")->get();
+        $groups = Group::where('name', 'LIKE', "%$query%")->get();
+        $users = User::where('name', 'LIKE', "%$query%")->get();
+
+        return view('usersearch', compact('files', 'groups', 'users'));
+    }
+
 }

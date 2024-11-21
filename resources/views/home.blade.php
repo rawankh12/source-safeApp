@@ -26,7 +26,7 @@
     @endif
     <div class="container mt-5 main">
         {{-- <div class="main-text-section">
-            <img src="/img/photo2.jpg" alt="Descriptive Alt Text" style="width: 100%;">
+            <img src="/img/photo4.jpg" alt="Descriptive Alt Text" style="width: 100%;">
         </div> --}}
         <div class="grid-container">
             <!-- القسم الأول: جميع الغروبات -->

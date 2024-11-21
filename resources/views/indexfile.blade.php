@@ -4,111 +4,106 @@
 
 @section('content')
 
-    {{-- <div class="header">
-        <div class="link">
-            <a href="{{ route('home') }}">
-                <i class="fa fa-home"></i>
-            </a>
-            <a href="{{ route('profile') }}">
-                <i class="fa fa-user"></i>
-            </a>
-            <a href="{{ route('users') }}">
-                <i class="fa fa-users"></i>
-            </a>
-        </div>
-    </div> --}}
-
     <body>
         <div class="home">
             <h2 class="text-right">ملفات الغروب : {{ $group->name }}</h2>
 
             @if ($existingFiles->isEmpty())
-                <p class="text-center">لا يوجد اي ملفات متاحة هنا.</p>
+                <p class="text-right" style="margin-right: 50px;">لا يوجد أي ملفات متاحة هنا.</p>
             @else
-                <div class="row">
-                    @foreach ($existingFiles as $file)
-                        <div class="col-md-4" style="margin-bottom: 20px;">
-                            <div class="card mb-4 shadow-sm">
-                                <div class="card-body">
-                                    @php
-                                        $isblocked = $file->pivot->status === 'blocked';
-
-                                    @endphp
-
-                                    @if ($isblocked)
-                                        <a href="{{ asset($file->url) }}" target="_blank" download class="btn-download">
-                                            <i class="fa fa-download"></i>
-                                        </a>
-                                    @else
-                                        <p class="text-danger">يجب ان يكون الملف محجوز لتستطيع تحميله.</p>
-                                    @endif
-                                    <a href="#" class="btn-upload" data-toggle="modal"
-                                        data-target="#uploadFileModal-{{ $file->id }}">
-                                        <i class="fa fa-upload"></i>
-                                    </a>
-                                    <h5 class="card-title">{{ $file->name }}</h5>
-                                    <p class="card-text">حالة الملف : {{ $file->pivot->status }}</p>
-                                    {{-- <button type="button" class="btn btn-edit" data-toggle="modal"
-                                        data-target="#editFileModal-{{ $file->id }}">Update</button> --}}
-                                    <p class="card-text"> <a href="{{ url('/view-file/' . $file->url) }}"
-                                            target="_blank" rel="noopener noreferrer">{{ $file->url }}</a></p>
-                                    <form action={{ route('blockfile', ['groupid' => $group->id, 'fileid' => $file->id]) }}
-                                        style="display:inline;">
-                                        @csrf
-                                        <button type="submit" class="btn btn-Add">حجز</button>
-                                    </form>
-                                    <form
-                                        action={{ route('unblockfile', ['groupid' => $group->id, 'fileid' => $file->id]) }}
-                                        style="display:inline;">
-                                        @csrf
-                                        <button type="submit" class="btn btn-Add">فك حجز</button>
-                                    </form>
-                                    {{-- <form
-                                        action="{{ route('deletefile', ['group_id' => $group->id, 'file_id' => $file->id]) }}"
-                                        method="POST" style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-delete">Delete</button>
-                                    </form> --}}
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Modal for uploading a file -->
-                        <div class="modal fade" id="uploadFileModal-{{ $file->id }}" tabindex="-1"
-                            aria-labelledby="uploadFileModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="uploadFileModalLabel">رفع ملف</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form
-                                            action="{{ route('uploadfile', ['group_id' => $group->id, 'file_id' => $file->id]) }}"
-                                            method="POST" enctype="multipart/form-data">
-                                            @csrf
-                                            <div class="form-group">
-                                                <label for="file">اخر ملف لرفعه:</label>
-                                                <input type="file" name="file" id="file" class="form-control"
-                                                    required>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-dismiss="modal">الغاء</button>
-                                                <button type="submit" class="btn btn-Add">رفع</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
+                <div class="text-right mb-4">
+                    <button id="showCheckboxes" class="btn btn-Addcheck">سيليكت</button>
                 </div>
+
+                <form action="{{ route('blockfile', ['groupid' => $group->id]) }}" method="POST" id="multiFileActionForm">
+                    @csrf
+                    <!-- تحديد الإجراء -->
+                    <div class="text-right mt-4 d-none" style="margin-right: 30px;" id="actionContainer">
+                        <label for="action">الإجراء:</label>
+                        <select name="action" id="action" class="form-select" required
+                            style="border-radius: 20px; width:20%; hight:30%;">
+                            <option value="">اختر الإجراء </option>
+                            <option value="block">حجز</option>
+                            <option value="unblock">فك الحجز</option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        @foreach ($existingFiles as $file)
+                            <div class="col-md-4" style="margin-bottom: 20px;">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <!-- شيك بوكس لتحديد الملفات -->
+                                        <input type="checkbox" name="file_ids[]" value="{{ $file->id }}"
+                                            id="file-{{ $file->id }}" class="form-check-input file-checkbox d-none">
+                                        <label for="file-{{ $file->id }}" class="form-check-label d-none"></label>
+
+                                        @php
+                                            $isblocked = $file->pivot->status === 'blocked';
+                                        @endphp
+
+                                        @if ($isblocked)
+                                            <a href="{{ asset($file->url) }}" target="_blank" download class="btn-download">
+                                                <i class="fa fa-download"></i>
+                                            </a>
+                                            {{-- <a href="#" class="btn-upload" data-toggle="modal"
+                                                data-target="#uploadFileModal-{{ $file->id }}">
+                                                <i class="fa fa-upload"></i>
+                                            </a> --}}
+                                        @else
+                                            <p class="text-danger">يجب ان يكون الملف محجوز لتستطيع تحميله.</p>
+                                        @endif
+                                        <h5 class="card-title">{{ $file->name }}</h5>
+                                        <p class="card-text">حالة الملف: {{ $file->pivot->status }}</p>
+                                        <p class="card-text">
+                                            <a href="{{ url('/view-file/' . $file->url) }}" target="_blank"
+                                                rel="noopener noreferrer">{{ $file->url }}</a>
+                                        </p>
+                                        <a href="{{ route('show', $file->id) }}" class="btn btn-view">
+                                            تفاصيل الملف
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- مودال رفع الملف -->
+                            {{-- <div class="modal fade" id="uploadFileModal-{{ $file->id }}" tabindex="-1"
+                                aria-labelledby="uploadFileModalLabel-{{ $file->id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="uploadFileModalLabel-{{ $file->id }}">رفع ملف
+                                            </h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="{{ route('uploadfile', ['fileId' => $file->id]) }}"
+                                                method="POST" enctype="multipart/form-data">
+                                                @csrf
+                                                <div class="form-group">
+                                                    <label for="file-{{ $file->id }}">اختر ملفًا:</label>
+                                                    <input type="file" name="file" id="file-{{ $file->id }}"
+                                                        class="form-control" required>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">إلغاء</button>
+                                                    <button type="submit" class="btn btn-Add">رفع</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> --}}
+                        @endforeach
+                    </div>
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-success d-none" id="submitActionButton"
+                            style="margin-top: 20px;">تنفيذ</button>
+                    </div>
+                </form>
             @endif
             <!-- Modal for creating a new file -->
-            <a href="#" class="floating-button" data-toggle="modal" data-target="#createFileModal">+</a>
+            <a href="#" class="floating-button" data-toggle="modal" data-target="#createFileModal"
+                title="انشاء ملف جديدة">+</a>
             <div class="modal fade" id="createFileModal" tabindex="-1" role="dialog"
                 aria-labelledby="createFileModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -145,30 +140,7 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Modal for search -->
-            <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="searchModalLabel">Search</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="#" method="GET">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" name="query" placeholder="Enter...">
-                                </div>
-                                <button type="submit" class="btn btn-Add">Ok</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+            <!-- رسائل التنبيه -->
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
                     {{ session('success') }}
@@ -178,7 +150,7 @@
                 </div>
             @endif
             @if ($errors->any())
-                <div class="alert alert-danger" style="background-color: rgb(211, 231, 231); color:black;">
+                <div class="alert alert-danger">
                     <ul>
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
@@ -187,7 +159,28 @@
                 </div>
             @endif
         </div>
+
+        <script>
+            // إظهار/إخفاء checkboxes والقائمة
+            document.getElementById('showCheckboxes').addEventListener('click', function() {
+                document.querySelectorAll('.file-checkbox').forEach(checkbox => checkbox.classList.toggle('d-none'));
+                document.querySelectorAll('.form-check-label').forEach(label => label.classList.toggle('d-none'));
+                document.getElementById('actionContainer').classList.toggle('d-none');
+                document.getElementById('submitActionButton').classList.toggle('d-none');
+            });
+
+            // التأكد من اختيار إجراء
+            document.getElementById('submitActionButton').addEventListener('click', function(event) {
+                const action = document.getElementById('action').value;
+
+                if (!action) {
+                    event.preventDefault();
+                    alert('يرجى اختيار الإجراء قبل المتابعة.');
+                }
+            });
+        </script>
     </body>
+
     <style>
         /* هيدر */
         .header {
@@ -340,6 +333,11 @@
             color: rgb(106, 176, 195) !important;
         }
 
+        #sidebar.light-mode {
+            background-color: #f8f9fa;
+            border-left: 1px solid #000;
+        }
+
         .footer {
             position: fixed;
             bottom: 0;
@@ -364,26 +362,6 @@
             width: calc(100% - 260px);
         }
 
-        .link {
-            display: flex;
-            justify-content: right;
-            align-items: center;
-            margin-right: 50px;
-        }
-
-        .link a {
-            margin: 0 20px;
-            transition: transform 0.2s;
-            font-size: 30px;
-            color: #0c2347;
-            text-decoration: none;
-        }
-
-        .link a:hover {
-            transform: scale(1.3);
-            color: #7aa1cb;
-        }
-
         .home {
             justify-content: center;
             text-align: center;
@@ -401,21 +379,13 @@
             color: rgb(26, 36, 48);
         }
 
-        .rrow {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: left;
-            text-align: center;
-            margin-top: 40px;
-        }
-
         .card {
             border-radius: 15px;
             transition: transform 0.2s, box-shadow 0.2s;
             height: 100%;
-            width: 80%;
+            width: 100%;
             background-color: #abc3d8;
-            margin-right: 30px;
+            margin-right: 20px;
             margin-top: 40px;
         }
 
@@ -430,20 +400,28 @@
             text-align: center;
         }
 
-        .btn-view {
-            background-color: #112e4c;
-            border: none;
-            transition: background-color 0.3s ease;
-            margin-top: 20px;
-            color: #f6f1f1;
-        }
-
         .btn-Add {
             background-color: #112e4c;
             border: none;
             margin-top: 20px;
             color: #f6f1f1;
             right: 0;
+        }
+
+        .btn-view {
+            background-color: var(--btn-color);
+            border: none;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+            color: var(--background-color);
+            border: 2px solid black;
+        }
+
+        .btn-Addcheck {
+            background-color: #112e4c;
+            border: none;
+            color: #f6f1f1;
+            margin-right: 40px;
         }
 
         .btn-sendinvite {
@@ -459,24 +437,6 @@
             left: 40px;
             width: 56px;
             height: 56px;
-            background-color: #7891ad;
-            color: rgb(11, 11, 11);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 24px;
-            text-decoration: none;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            transition: background-color 0.3s;
-        }
-
-        .floating-button2 {
-            position: fixed;
-            left: 40px;
-            width: 56px;
-            height: 56px;
-            top: 20px;
             background-color: #7891ad;
             color: rgb(11, 11, 11);
             border-radius: 50%;
@@ -507,15 +467,6 @@
             right: 0;
         }
 
-        .btn-group a {
-            border: 2px solid black;
-        }
-
-        .modal-body .btn-File {
-            background-color: #8faecf;
-            color: #333;
-        }
-
         .modal-body .btn-Info {
             background-color: #44134a;
             color: #f6f1f1;
@@ -528,52 +479,12 @@
             width: 100%;
         }
 
-        .modal-body .btn-Reauests {
-            background-color: rgb(13, 50, 104);
-            margin-top: 20px;
-            color: #f6f1f1;
-            width: 100%;
-        }
-
-        .modal-body .btn-fileReauests {
-            background-color: rgb(15, 81, 85);
-            margin-top: 20px;
-            color: #f6f1f1;
-            width: 100%;
-        }
-
         #fileStatus {
             padding: 8px;
             border-radius: 20px;
             width: 100%;
             margin-bottom: 10px;
             background-color: #8faecf;
-        }
-
-        .card-body .btn-invite {
-            background-color: rgb(76, 13, 86);
-            margin-top: 20px;
-            color: #f6f1f1;
-            width: 100%;
-        }
-
-        .card-body .fa-user {
-            font-size: 3rem;
-            margin-bottom: 10px;
-        }
-
-        .card-body .btn-edit {
-            background-color: #112e4c;
-            margin-top: 20px;
-            color: #f6f1f1;
-            /* width: 100%; */
-        }
-
-        .card-body .btn-delete {
-            background-color: #7a1b23;
-            margin-top: 20px;
-            color: #f6f1f1;
-            margin-left: 20px;
         }
 
         .card-body .btn-download {
@@ -590,212 +501,8 @@
             font-size: 1.4rem;
         }
 
-        /* ligjt and dark mode */
-
-        body.light-mode {
-            background-color: #fafbfe;
-            color: #000;
-        }
-
-        body.dark-mode {
-            background-color: rgb(30, 40, 52);
-            color: #fff;
-        }
-
-        .header.dark-mode {
-            background-color: rgb(30, 40, 52);
-            color: #fff;
-        }
-
-        .header.light-mode {
-            background-color: #f8f9fa;
-            color: hwb(0 0% 100%);
-        }
-
-        .footer.dark-mode {
-            color: #fff;
-        }
-
-        .footer.light-mode {
-            background-color: #f8f9fa;
-            color: hwb(0 0% 100%);
-        }
-
         .profile-btn a {
             color: inherit;
-        }
-
-        body.dark-mode .profile-btn a {
-            color: #fff;
-        }
-
-        body.light-mode .profile-btn a {
-            color: #000000;
-        }
-
-        #sidebar.dark-mode {
-            background-color: rgb(30, 40, 52);
-            border-left: 2px solid #fff;
-        }
-
-        #sidebar.light-mode {
-            background-color: #f8f9fa;
-            border-left: 2px solid #000;
-        }
-
-        #sidebar.dark-mode a.sidebar-link {
-            color: hwb(0 86% 9%);
-        }
-
-        #sidebar.light-mode a.sidebar-link {
-            color: hwb(0 7% 93%);
-        }
-
-        #sidebar.light-mode a.sidebar-link:hover {
-            background-color: hwb(254 40% 28% / 0.075);
-            border-right: 3px solid #3b7ddd;
-        }
-
-        #sidebar.dark-mode a.sidebar-link.active {
-            border-right: 3px solid hwb(203 71% 9%);
-            margin-right: 10px;
-        }
-
-        #sidebar.dark-mode a.sidebar-link:hover {
-            background-color: 3px solid hwb(203 71% 9%);
-            border-right: 3px solid hwb(203 71% 9%);
-        }
-
-        #sidebar.dark-mode .sidebar-logo a {
-            color: hwb(0 86% 9%);
-        }
-
-        #sidebar.dark-mode #toggle-btn i {
-            color: hwb(0 86% 9%);
-        }
-
-        /*home*/
-        .grid-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: auto 1fr;
-            gap: 10px;
-            height: 100vh;
-        }
-
-        .section {
-            padding: 10px;
-            background-color: #d8e4ef;
-            display: flex;
-            flex-direction: column;
-            height: 90%;
-            border-radius: 20px;
-            border: 1px solid #ddd;
-        }
-
-        .section h3 {
-            text-align: right;
-            margin-bottom: 15px;
-        }
-
-        .section-content {
-            flex: 1;
-            overflow-y: auto;
-            text-align: right;
-            border-radius: 20px;
-        }
-
-        .item {
-            padding: 5px;
-            margin: 5px 0;
-            background-color: #fff;
-        }
-
-        .grid-container>.section:nth-child(3) {
-            grid-column: span 2;
-            height: 70%;
-        }
-
-        .btn-more {
-            display: block;
-            margin-top: 20px;
-            padding: 10px;
-            text-align: center;
-            color: rgb(10, 10, 10);
-            text-decoration: none;
-            border: 1px solid black;
-            font-weight: bold;
-            border-radius: 15px;
-        }
-
-        /* profile */
-        .grid-container-profile {
-            display: flex;
-            gap: 20px;
-        }
-
-        .profile-section {
-            border: 1px solid #ddd;
-            padding: 20px;
-            background-color: #fefefe;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            width: 30%;
-            border-radius: 20px;
-            height: 37.5rem;
-        }
-
-        .info p {
-            text-align: right;
-            margin-top: 30px;
-        }
-
-        .files-section {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            width: 65%;
-            border-radius: 20px;
-            border: 1px solid #ddd;
-        }
-
-        .subsection {
-            padding: 20px;
-            background-color: #f9f9f9;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .subsection h3 {
-            text-align: right;
-            margin-bottom: 15px;
-        }
-
-        .section-content {
-            flex: 1;
-            overflow-y: auto;
-        }
-
-        .file-item {
-            display: flex;
-            align-items: center;
-            margin: 5px 0;
-            padding: 10px 0;
-        }
-
-        hr {
-            border: 0.5px solid rgba(66, 63, 108, 0.597);
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        .btn-Addd {
-            margin-left: 20px;
-            border-radius: 10px;
-            background-color: #0c2347;
-            color: #ddd;
         }
     </style>
 @endsection

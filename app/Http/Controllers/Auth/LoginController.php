@@ -11,6 +11,7 @@ use App\Http\Requests\RegisterRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use Illuminate\Support\Str;
 
 class LoginController extends Controller
 {
@@ -32,24 +33,43 @@ class LoginController extends Controller
      *
      * @var string
      */
-    public function login(LoginRequest $Request)
+    public function login(LoginRequest $request)
     {
         DB::beginTransaction();
         try {
-            $validatedData = $Request->validated();
+            $validatedData = $request->validated();
             $user = User::where('email', $validatedData['email'])->first();
 
             if (!$user || !Hash::check($validatedData['password'], $user->password)) {
                 return redirect()->back()->withErrors('Invalid credentials.');
             }
 
-            $token = $user->createToken('auth_token')->plainTextToken;
+            $accessToken = $user->createToken('auth_token')->plainTextToken;
+
+            $refreshToken = Str::random(64); 
+            $expiresAt = now()->addDays(30); 
+
+            DB::table('refresh_tokens')->insert([
+                'user_id' => $user->id,
+                'token' => $refreshToken,
+                'expires_at' => $expiresAt
+            ]);
+
             Auth::login($user);
             DB::commit();
+
             if ($user->role == 1) {
-                return redirect()->route('home')->with('success', 'Login successful.');
+                return redirect()->route('home')->with([
+                    'success' => 'Login successful.',
+                    'access_token' => $accessToken,
+                    'refresh_token' => $refreshToken
+                ]);
             } else {
-                return redirect()->route('adminHome')->with('success', 'Login successful.');
+                return redirect()->route('adminHome')->with([
+                    'success' => 'Login successful.',
+                    'access_token' => $accessToken,
+                    'refresh_token' => $refreshToken
+                ]);
             }
         } catch (\Exception $e) {
             DB::rollBack();
@@ -57,6 +77,7 @@ class LoginController extends Controller
             return back()->withErrors(['error' => 'Something went wrong, please try again.']);
         }
     }
+
 
 
     /**

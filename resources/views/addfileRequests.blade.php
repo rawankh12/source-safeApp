@@ -21,7 +21,7 @@
     <body>
         <div class="home">
             @if ($pendingRequests->isEmpty())
-                <p>لا يوجد طلبات.</p>
+            <p class="text-center" style="margin-right: 50px;">لا يوجد طلبات.</p>
             @else
                 <ul>
                     @foreach ($pendingRequests as $request)

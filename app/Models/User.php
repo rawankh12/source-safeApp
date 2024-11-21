@@ -81,4 +81,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Group::class, 'user_create', 'name');  // ربط created_by (اسم المستخدم) مع name (اسم المستخدم في جدول users)
     }
+
+    public function refreshTokens()
+    {
+        return $this->hasMany(RefreshToken::class);
+    }
+
 }

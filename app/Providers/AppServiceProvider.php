@@ -22,14 +22,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         
-        if (session()->has('locale')) {
-            app()->setLocale(session('locale'));
-        }
-
-        view()->composer('layout.header', function ($view) {
-            $view->with('current_locale', app()->getLocale());
-            $view->with('available_locales', config('app.available_locales'));
-        });
     }
+
+
 
 }

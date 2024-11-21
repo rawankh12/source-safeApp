@@ -64,6 +64,13 @@ class FileController extends Controller
             ->get();
         return view('lockedfile', compact('files'));
     }
+    public function show($id)
+    {
+        $file = File::findOrFail($id);
+        $group = GroupFile::where('file_id',$file->id)->get();
+
+        return view('show', compact('file','group'));
+    }
     public function store(Request $request, FileService $fileService)
     {
         $this->validate($request, ['file' => 'required|mimes:pdf,docx']);
@@ -117,12 +124,12 @@ class FileController extends Controller
             return redirect()->back()->withErrors('An error occurred while deleting the file.');
         }
     }
-    public function blockFile(Request $request, $groupId, $fileId)
+    public function blockFile(Request $request, $groupId)
     {
-        $response = $this->fileService->blockFile($groupId, $fileId);
+        $response = $this->fileService->blockFile($request,$groupId);
         if ($response['status'] === 'success') {
             return redirect()->back()->with('success', $response['message']);
-            $delayedjob = (new LookFile($fileId, $user->id, $groupId));
+            // $delayedjob = (new LookFile($fileId, $user->id, $groupId));
         }
         return redirect()->back()->withErrors($response['message']);
     }

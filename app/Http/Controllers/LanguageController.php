@@ -14,14 +14,11 @@ class LanguageController extends Controller
      * @param string $locale
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function setLocale($locale)
+    public function langChange(Request $request)
     {
-        if (in_array($locale, ['en', 'ar'])) {
-            app()->setLocale($locale);
-            session()->put('locale', $locale);
-        }
-        return redirect()->back();
+        App::setLocale($request->lang);
+        session()->put('language', $request->lang);
+        return back();
     }
-
 
 }

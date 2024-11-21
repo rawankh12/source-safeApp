@@ -28,7 +28,7 @@
             @endif
             <div class="row">
                 @if ($users->isEmpty())
-                    <p>لا يوجد مستخدمين</p>
+                <p class="text-center" style="margin-right: 50px;">لا يوجد مستخدمين</p>
                 @else
                     @foreach ($users as $user)
                         <div class="col-md-4" style="margin-bottom: 20px;">

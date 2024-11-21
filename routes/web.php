@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -13,7 +14,10 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 
 
-Route::get('set-locale/{locale}', [LanguageController::class, 'setLocale'])->name('setLocale');
+//ترجمة
+Route::get('langChange', [LanguageController::class, 'langChange'])->name('langChange');
+
+
 
 Auth::routes();
 
@@ -24,11 +28,8 @@ Route::get('/code-verification', [EmailController::class, 'verification'])->name
 Route::get('/', function () {
     return redirect()->route('login');
 });
-Route::get('/home',  [HomeController::class, 'index'])->name('home');
-
-// Route::get('/profile', function () {
-//     return view('profile');
-// })->name('profile');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/search', [HomeController::class, 'search'])->name('search');
 
 Route::get('/profile', [UserController::class, 'indexx'])->name('profile');
 Route::get('/JoinRequests', [GroupController::class, 'showJoinRequests'])->name('showJoinRequests');
@@ -47,6 +48,7 @@ Route::group(['prefix' => 'groups'], function () {
     Route::get('/create', [GroupController::class, 'create'])->name('groups.create');
     Route::get('/', [GroupController::class, 'mygroup'])->name('mygroup');
     Route::get('/Amember', [GroupController::class, 'membergroup'])->name('membergroup');
+    Route::get('/{group_id}/report', [ReportController::class, 'getAllReportGroup'])->name('reportgroup');
     Route::post('/create', [GroupController::class, 'store'])->name('groups.store');
     Route::delete('/delete/{group_id}', [GroupController::class, 'deletegroup'])->name('deletegroup');
     Route::post('/sendrequest/{groupid}', [GroupController::class, 'sendrequest'])->name('sendrequest');
@@ -61,14 +63,15 @@ Route::group(['prefix' => 'files'], function () {
     Route::get('/memberfile/{id}', [FileController::class, 'showmemberFiles'])->name('member.files');
     Route::get('/', [FileController::class, 'userFile'])->name('user.files');
     Route::get('/locked', [FileController::class, 'userlockedFile'])->name('user.lockedfiles');
+    Route::get('/{id}', [FileController::class, 'show'])->name('show');
     Route::get('/create', [FileController::class, 'createFile'])->name('files.create');
     Route::post('/add', [FileController::class, 'store'])->name('files.store');
     Route::post('/addToGroup', [FileController::class, 'addToGroup'])->name('addToGroup');
     Route::put('/update/{group_id}/{id}', [FileController::class, 'updatefile'])->name('updatefile');
     Route::delete('/delete/{group_id}/{file_id}', [FileController::class, 'deletefile'])->name('deletefile');
-    Route::get('/blockfile/{groupid}/{fileid}', [FileController::class, 'blockfile'])->name('blockfile');
+    Route::post('/blockfile/{groupid}', [FileController::class, 'blockfile'])->name('blockfile');
     Route::get('/unblockfile/{groupid}/{fileid}', [FileController::class, 'unblockfile'])->name('unblockfile');
-    Route::post('/uploadfile/{file_id}', [FileController::class, 'uploadFile'])->name('uploadfile');
+    Route::post('/uploadfile/{fileId}', [FileController::class, 'uploadFile'])->name('uploadfile');
 });
 
 Route::get('/view-file/{filePath}', [FileController::class, 'viewFile'])->where('filePath', '.*');

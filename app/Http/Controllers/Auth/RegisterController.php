@@ -14,6 +14,7 @@ use App\Http\Requests\RegisterRequest;
 use Illuminate\Http\Request;
 use App\Mail\VerfMail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -50,35 +51,37 @@ class RegisterController extends Controller
     {
         DB::beginTransaction();
         try {
-
-            // $random_number = random_int(100000, 999999);
-            // $mailData = [
-            //     'title' => 'Code login',
-            //     'code' => $random_number,
-            // ];
-
-            // try {
-
-            //     Mail::to($request->email)->send(new VerfMail($mailData));
-            // } catch (\Exception $e) {
-            //     return $e->getMessage();
-
-            //     return back()->withErrors(['error' => 'Something went wrong while sending the email, please try again.']);
-            // }
+            
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'role' => 1
             ]);
+
             Auth::login($user);
-            // $request->session()->put('email', $user->email);
+
+            $accessToken = $user->createToken('auth_token')->plainTextToken;
+
+            $refreshToken = Str::random(64); 
+            $expiresAt = now()->addDays(30); 
+
+            DB::table('refresh_tokens')->insert([
+                'user_id' => $user->id,
+                'token' => $refreshToken,
+                'expires_at' => $expiresAt
+            ]);
+
             DB::commit();
-            return redirect()->route('home')->with('success', 'youre loged in successfully.');
+            return redirect()->route('home')->with([
+                'success' => 'You are logged in successfully.',
+                'access_token' => $accessToken,
+                'refresh_token' => $refreshToken
+            ]);
         } catch (\Exception $e) {
-            // return false ;
             DB::rollBack();
             return back()->withErrors(['Something went wrong, please try again.']);
         }
     }
+
 }

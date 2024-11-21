@@ -9,7 +9,7 @@
             <h2 class="text-right">ملفاتي المحجوزة</h2>
 
             @if ($files->isEmpty())
-                <p class="text-center">لا يوجد ملفات محجوزة</p>
+            <p class="text-center" style="margin-right: 50px;">لا يوجد ملفات محجوزة</p>
             @else
                 <div class="row">
                     @foreach ($files as $file)

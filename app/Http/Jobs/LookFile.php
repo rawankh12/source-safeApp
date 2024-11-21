@@ -39,8 +39,6 @@ class LookFile implements ShouldQueue
         // $file = File::find($this->file_id);
         // $lockKey = 'file:' . $file->id . ':field_lock';
         //$lockValue = 'locked';
-
-
         DB::table('reports')->insert([
             'report' => "check_out",
             'user_id' => $this->user_id,

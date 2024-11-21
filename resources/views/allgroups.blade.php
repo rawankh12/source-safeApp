@@ -29,7 +29,7 @@
         </div>
         <div class="rrow">
             @if ($groups->isEmpty())
-                <p>لا يوجد غروبات</p>
+            <p class="text-center" style="margin-right: 50px;">لا يوجد غروبات</p>
             @else
                 @foreach ($groups as $group)
                     <div class="col-md-4" style="margin-bottom: 20px;">
@@ -49,7 +49,7 @@
             @endif
         </div>
 
-        <a href="{{ route('groups.create') }}" class="floating-button" data-toggle="modal" data-target="#createGroupModal">
+        <a href="{{ route('groups.create') }}" class="floating-button" data-toggle="modal" data-target="#createGroupModal" title="انشاء مجموعة جديدة">
             +
         </a>
     </div>

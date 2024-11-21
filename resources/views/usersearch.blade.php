@@ -4,29 +4,9 @@
 
 @section('content')
 
-    {{-- <div class="header">
-        <div class="link">
-            <a href="{{ route('home') }}">
-                <i class="fa fa-home"></i>
-            </a>
-            <a href="{{ route('profile') }}">
-                <i class="fa fa-user"></i>
-            </a>
-            <a href="{{ route('users') }}">
-                <i class="fa fa-users"></i>
-            </a>
-        </div>
-    </div> --}}
-
     <body>
         <div class="home">
-            <h2 class="text-center">Users</h2>
-            @if (session('error'))
-                <div class="alert alert-danger" role="alert">
-                    {{ session('error') }}
-                </div>
-            @endif
-            <div class="row">
+            <div class="row-right">
                 @foreach ($users as $user)
                     <div class="col-md-4" style="margin-bottom: 20px;">
                         <div class="card mb-4 shadow-sm">
@@ -42,7 +22,6 @@
                     </div>
                 @endforeach
             </div>
-
             <!-- Modal for search -->
             {{-- <a href="#" class="floating-button2" data-toggle="modal" data-target="#searchModal">
                 <i class="fa fa-search"></i>

@@ -9,7 +9,7 @@
             <h2 class="text-right">ملفات الغروب : {{ $group->name }}</h2>
 
             @if ($existingFiles && $existingFiles->isEmpty())
-                <p class="text-center">لا يوجد اي ملفات متاحة هنا.</p>
+            <p class="text-right" style="margin-right: 50px;">لا يوجد اي ملفات متاحة هنا.</p>
             @else
                 <div class="row">
                     @foreach ($existingFiles as $file)
@@ -88,7 +88,7 @@
             @endif
 
             <!-- Modal for creating a new file -->
-            <a href="#" class="floating-button" data-toggle="modal" data-target="#createFileModal">+</a>
+            <a href="#" class="floating-button" data-toggle="modal" data-target="#createFileModal" title="انشاء ملف جديدة">+</a>
             <div class="modal fade" id="createFileModal" tabindex="-1" role="dialog"
                 aria-labelledby="createFileModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">

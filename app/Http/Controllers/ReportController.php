@@ -20,9 +20,9 @@ class ReportController extends Controller
     }
     public function getAllReportGroup($group_id)
     {
-        $reports = Report::where('file_id', $group_id)->get();
+        $reports = Report::where('group_id', $group_id)->get();
         $users = $reports->map(function ($report) {
-            return $report->user; // هذا سيعيد المستخدم المرتبط بكل تقرير
+            return $report->user;
         });
         return $reports;
     }

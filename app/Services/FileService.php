@@ -64,7 +64,7 @@ class FileService
         return ['status' => 'success', 'message' => 'Files successfully added.'];
     }
 
-    public function blockFile($groupId, $fileId)
+    public function blockFile(Request $request, $groupId)
     {
         $user = Auth::user();
         $group = $this->groupRepository->findg($groupId);
@@ -78,23 +78,34 @@ class FileService
             return ['status' => 'error', 'message' => 'You are not a member or admin of this group.'];
         }
 
-        $file = $this->fileRepository->findFileWithGroup($fileId, $groupId);
-        if (!$file) {
-            return ['status' => 'error', 'message' => 'File not found'];
+        // التحقق من اختيار الملفات
+        $fileIds = $request->input('file_ids', []);
+        if (empty($fileIds) || !is_array($fileIds)) {
+            return ['status' => 'error', 'message' => 'No files selected.'];
         }
 
-        $pivot = $file->groups()->where('group_id', $group->id)->first()->pivot ?? null;
-
-        if ($pivot && $pivot->status === 'blocked') {
-            return ['status' => 'error', 'message' => 'It\'s already blocked'];
+        $action = $request->input('action');
+        if ($action !== 'block' && $action !== 'unblock') {
+            return ['status' => 'error', 'message' => 'Invalid action selected.'];
         }
 
-        if ($pivot && $pivot->status === 'free') {
-            $this->fileRepository->updateFileStatus($fileId, $groupId, 'blocked');
-            return ['status' => 'success', 'message' => 'The file was blocked successfully'];
+        $files = $this->fileRepository->findFileWithGroup($fileIds, $groupId);
+
+        if (count($files) !== count($fileIds)) {
+            return ['status' => 'error', 'message' => 'Some files were not found.'];
         }
 
-        return ['status' => 'error', 'message' => 'Unable to block the file.'];
+        foreach ($files as $file) {
+            $pivot = $file->groups()->where('group_id', $group->id)->first()->pivot ?? null;
+            if (!$pivot || ($action === 'block' && $pivot->status !== 'free') || ($action === 'unblock' && $pivot->status !== 'blocked')) {
+                return ['status' => 'error', 'message' => 'Invalid file state for the selected action.'];
+            }
+
+            $newStatus = $action === 'block' ? 'blocked' : 'free';
+            $this->fileRepository->updateFileStatus($file->id, $groupId, $newStatus);
+        }
+
+        return ['status' => 'success', 'message' => 'The action was applied successfully.'];
     }
 
     public function unblockFile($groupId, $fileId)

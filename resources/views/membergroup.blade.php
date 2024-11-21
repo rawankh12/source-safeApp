@@ -9,7 +9,7 @@
             <h2 class="text-right">الغروبات الاخرى</h2>
             <div class="row">
                 @if ($groups->isEmpty())
-                    <p>There's no groups</p>
+                    <p class="text-center" style="margin-right: 50px;">لا يوجد غروبات</p>
                 @else
                     @foreach ($groups as $group)
                         <div class="col-md-4" style="margin-bottom: 20px;">
@@ -29,14 +29,14 @@
                 @endif
             </div>
 
-            <a href="{{ route('groups.create') }}" class="floating-button" data-toggle="modal"
+            {{-- <a href="{{ route('groups.create') }}" class="floating-button" data-toggle="modal"
                 data-target="#createGroupModal">
                 +
-            </a>
+            </a> --}}
         </div>
 
         <!-- Modal for create group -->
-        <div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="createGroupModalLabel"
+        {{-- <div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="createGroupModalLabel"
             aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -62,7 +62,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!-- Modal for search -->
         {{-- <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
             <div class="modal-dialog">
