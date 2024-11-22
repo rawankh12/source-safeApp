@@ -124,6 +124,12 @@
                                         Block
                                     </a>
                                 @endif
+
+                                <a class="bg-green c-white button-shape mr-5" style="margin-left: 5px"
+                                    href="{{ route('getAllReportUser', $user->id) }}">
+                                    <i class="fa fa-eye"></i>
+                                    report
+                                </a>
                             </div>
                         </div>
 
@@ -214,7 +220,7 @@
                                             'Success' : 'Error',
                                         text: data.message,
                                     });
-                                
+
                                 })
                                 .catch(error => {
                                     console.error('Error:', error);

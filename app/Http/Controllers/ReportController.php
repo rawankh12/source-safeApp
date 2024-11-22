@@ -33,6 +33,6 @@ class ReportController extends Controller
         $users = $reports->map(function ($report) {
             return $report->user;
         });
-        return $reports;
+        return view('Admin.ReportUser', compact('reports'));
     }
 }

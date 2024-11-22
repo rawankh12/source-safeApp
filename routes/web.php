@@ -45,6 +45,7 @@ Route::group([], function () {
     Route::get('/download-all-files', [AdminController::class, 'downloadAllFiles'])->name('download.all.files');
     Route::post('/users/{id}/block', [BlockController::class, 'store']);
     Route::post('/users/{id}/unblock', [BlockController::class, 'unblockUser']);
+    Route::get('/getAllReportUser/{id}', [ReportController::class, 'getAllReportUser'])->name('getAllReportUser');
 });
 Route::group(['prefix' => 'groups'], function () {
     Route::get('/create', [GroupController::class, 'create'])->name('groups.create');
