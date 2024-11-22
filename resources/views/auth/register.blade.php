@@ -25,53 +25,57 @@
 </head>
 
 <body>
-    @if ($errors->has('error'))
-        <div class="alert alert-danger">
-            {{ $errors->first('error') }}
-        </div>
-    @endif
     <img width="40" height="40" src="https://img.icons8.com/color/48/google-translate.png" alt="Switch Language"
         id="languageSwitcher">
     <div class="content">
-        <div class="heading">{{ __('messages.heading') }}</div>
-        <form id="registerForm" method="POST" action="{{ route('register') }}" class="hidden">
+        <div class="heading">{{ 'messages.heading' }}</div>
+        <form id="registerForm" method="POST" action="{{ route('register') }}">
             @csrf
-            {{-- <div class="subheading">Please enter your info to continue</div> --}}
             <div class="form-group">
-                <input id="name" type="text" placeholder="{{ __('messages.name') }}" class="form-control"
-                    name="name" required>
+                <input id="name" type="text" placeholder="{{ 'messages.name' }}" class="form-control"
+                    name="name">
                 @error('name')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
+                    <div class="invalid-feedback">
+                        @foreach ($errors->get('name') as $message)
+                            <p><strong>{{ $message }}</strong></p>
+                        @endforeach
+                    </div>
                 @enderror
             </div>
             <div class="form-group">
-                <input id="email" type="email" placeholder="{{ __('messages.email') }}" class="form-control"
-                    name="email" required>
+                <input id="email" type="email" placeholder="{{ 'messages.email' }}" class="form-control"
+                    name="email">
                 @error('email')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
+                    <div class="invalid-feedback">
+                        @foreach ($errors->get('email') as $message)
+                            <p><strong>{{ $message }}</strong></p>
+                        @endforeach
+                    </div>
                 @enderror
             </div>
             <div class="form-group">
-                <input id="password" type="password" placeholder="{{ __('messages.password') }}" class="form-control"
-                    name="password" required>
+                <input id="password" type="password" placeholder="{{ 'messages.password' }}" class="form-control"
+                    name="password">
+
                 @error('password')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
+                    <div class="invalid-feedback">
+                        @foreach ($errors->get('password') as $message)
+                            <p><strong>{{ $message }}</strong></p>
+                        @endforeach
+                    </div>
                 @enderror
             </div>
-            <button type="submit">{{ __('messages.Register') }}</button>
+
+            <button type="submit">{{ 'messages.Register' }}</button>
+
             <div class="register-link">
-                <p>{{ __('messages.quess') }}<a href="{{ route('login') }}"
+                <p>{{ 'messages.quess' }}<a href="{{ route('login') }}"
                         style="color: rgb(190, 209, 226);">{{ __('messages.Login') }}</a></p>
             </div>
         </form>
+
     </div>
-    @if (session('success'))
+    {{-- @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
             {{ session('success') }}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -87,7 +91,7 @@
                 @endforeach
             </ul>
         </div>
-    @endif
+    @endif --}}
 </body>
 
 </html>

@@ -62,6 +62,7 @@ class FileController extends Controller
                 }
             ])
             ->get();
+            // $group = Group::findOrFail($id);
         return view('lockedfile', compact('files'));
     }
     public function show($id)
@@ -133,7 +134,7 @@ class FileController extends Controller
         }
         return redirect()->back()->withErrors($response['message']);
     }
-    public function unblockFile(Request $request, $groupId, $fileId)
+    public function unblockFile($groupId, $fileId)
     {
         $response = $this->fileService->unblockFile($groupId, $fileId);
         if ($response['status'] === 'success') {

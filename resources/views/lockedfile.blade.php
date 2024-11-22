@@ -9,7 +9,7 @@
             <h2 class="text-right">ملفاتي المحجوزة</h2>
 
             @if ($files->isEmpty())
-            <p class="text-center" style="margin-right: 50px;">لا يوجد ملفات محجوزة</p>
+                <p class="text-center" style="margin-right: 50px;">لا يوجد ملفات محجوزة</p>
             @else
                 <div class="row">
                     @foreach ($files as $file)
@@ -24,22 +24,46 @@
                                         <i class="fa fa-upload"></i>
                                     </a>
                                     <h5 class="card-title">{{ $file->name }}</h5>
-                                    <p class="card-text"> <a href="{{ $file->url }}"
-                                            target="_blank">{{ $file->url }}</a></p>
-                                    {{-- <button type="button" class="btn btn-edit" data-toggle="modal"
-                                        data-target="#editFileModal-{{ $file->id }}">Update</button> --}}
-                                    @php $buttonShown = false; @endphp
+                                    <p class="card-text">
+                                        <a href="{{ url('/view-file/' . $file->url) }}" target="_blank"
+                                            rel="noopener noreferrer">{{ $file->url }}</a>
+                                    </p>
                                     @foreach ($file->groups as $group)
-                                        @if (!$buttonShown)
-                                            <form
-                                                action="{{ route('unblockfile', ['groupid' => $group->id, 'fileid' => $file->id]) }}"
-                                                style="display:inline;">
-                                                @csrf
-                                                <button type="submit" class="btn btn-Add">فك الحجز</button>
-                                            </form>
-                                            @php $buttonShown = true; @endphp
-                                        @endif
+                                        <form
+                                            action="{{ route('unblockfile', ['groupId' => $group->id, 'fileId' => $file->id]) }}"
+                                            style="display:inline;">
+                                            @csrf
+                                            <button type="submit" class="btn btn-Add">فك الحجز</button>
+                                        </form>
                                     @endforeach
+                                </div>
+                            </div>
+                        </div>
+                        <!-- مودال رفع الملف -->
+                        <div class="modal fade" id="uploadFileModal-{{ $file->id }}" tabindex="-1"
+                            aria-labelledby="uploadFileModalLabel-{{ $file->id }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="uploadFileModalLabel-{{ $file->id }}">رفع ملف
+                                        </h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ route('uploadfile', ['fileId' => $file->id]) }}" method="POST"
+                                            enctype="multipart/form-data">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label for="file-{{ $file->id }}">اختر ملفًا:</label>
+                                                <input type="file" name="file" id="file-{{ $file->id }}"
+                                                    class="form-control" required>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">إلغاء</button>
+                                                <button type="submit" class="btn btn-Add">رفع</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -47,31 +71,6 @@
                 </div>
             @endif
         </div>
-        <!-- Modal for search -->
-        {{-- <a href="#" class="floating-button2" data-toggle="modal" data-target="#searchModal">
-            <i class="fa fa-search"></i>
-        </a> --}}
-        <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="searchModalLabel">search</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="#" method="GET">
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="query" placeholder="enter.....">
-                            </div>
-                            <button type="submit" class="btn btn-Add">Ok ...</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
                 {{ session('success') }}

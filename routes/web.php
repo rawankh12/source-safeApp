@@ -69,8 +69,8 @@ Route::group(['prefix' => 'files'], function () {
     Route::post('/addToGroup', [FileController::class, 'addToGroup'])->name('addToGroup');
     Route::put('/update/{group_id}/{id}', [FileController::class, 'updatefile'])->name('updatefile');
     Route::delete('/delete/{group_id}/{file_id}', [FileController::class, 'deletefile'])->name('deletefile');
-    Route::post('/blockfile/{groupid}', [FileController::class, 'blockfile'])->name('blockfile');
-    Route::get('/unblockfile/{groupid}/{fileid}', [FileController::class, 'unblockfile'])->name('unblockfile');
+    Route::post('/blockfile/{groupId}', [FileController::class, 'blockfile'])->name('blockfile');
+    Route::get('/unblockfile/{groupId}/{fileId}', [FileController::class, 'unblockfile'])->name('unblockfile');
     Route::post('/uploadfile/{fileId}', [FileController::class, 'uploadFile'])->name('uploadfile');
 });
 

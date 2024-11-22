@@ -8,7 +8,6 @@
 body, html {
     height: 100%;
     font-family: Arial, sans-serif;
-   
 }
 body {
     background-image: url('../img/background2.jpg');
@@ -76,4 +75,10 @@ button {
 
 .register-link {
     margin-top: 20px;
+}
+
+.invalid-feedback {
+    color: red;
+    font-size: 0.875rem;
+    margin-top: 5px;
 }

@@ -18,13 +18,22 @@ class FileRepository implements FileRepositoryInterface
         return File::find($fileId);
     }
 
-    public function findFileWithGroup(array $fileIds, $groupId)
+    public function findFilesWithGroup(array $fileIds, $groupId)
     {
-        return File::whereIn('id', $fileIds) 
+        return File::whereIn('id', $fileIds)
             ->whereHas('groups', function ($query) use ($groupId) {
-                $query->where('group_id', $groupId); 
+                $query->where('group_id', $groupId);
             })
-            ->get(); 
+            ->get();
+    }
+
+    public function findFileWithGroup($fileId, $groupId)
+    {
+        return File::where('id', $fileId)
+            ->whereHas('groups', function ($query) use ($groupId) {
+                $query->where('groups.id', $groupId);
+            })
+            ->first();
     }
 
     public function updateFileStatus($fileId, $groupId, $status)

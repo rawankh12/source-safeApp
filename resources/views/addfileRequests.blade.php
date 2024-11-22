@@ -3,21 +3,6 @@
 @section('title', 'Home')
 
 @section('content')
-{{-- 
-    <div class="header">
-        <div class="link">
-            <a href="{{ route('home') }}">
-                <i class="fa fa-home"></i>
-            </a>
-            <a href="{{ route('profile') }}">
-                <i class="fa fa-user"></i>
-            </a>
-            <a href="{{ route('users') }}">
-                <i class="fa fa-users"></i>
-            </a>
-        </div>
-    </div> --}}
-
     <body>
         <div class="home">
             @if ($pendingRequests->isEmpty())
@@ -109,7 +94,6 @@
     <style>
         .btngroups .btn-delete {
             background-color: #7a1b23;
-            /* margin-top: 20px; */
             color: #f6f1f1;
             margin-left: 20px;
         }

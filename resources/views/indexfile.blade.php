@@ -7,26 +7,11 @@
     <body>
         <div class="home">
             <h2 class="text-right">ملفات الغروب : {{ $group->name }}</h2>
-
             @if ($existingFiles->isEmpty())
                 <p class="text-right" style="margin-right: 50px;">لا يوجد أي ملفات متاحة هنا.</p>
             @else
-                <div class="text-right mb-4">
-                    <button id="showCheckboxes" class="btn btn-Addcheck">سيليكت</button>
-                </div>
-
-                <form action="{{ route('blockfile', ['groupid' => $group->id]) }}" method="POST" id="multiFileActionForm">
+                <form action="{{ route('blockfile', ['groupId' => $group->id]) }}" method="POST" id="multiFileActionForm">
                     @csrf
-                    <!-- تحديد الإجراء -->
-                    <div class="text-right mt-4 d-none" style="margin-right: 30px;" id="actionContainer">
-                        <label for="action">الإجراء:</label>
-                        <select name="action" id="action" class="form-select" required
-                            style="border-radius: 20px; width:20%; hight:30%;">
-                            <option value="">اختر الإجراء </option>
-                            <option value="block">حجز</option>
-                            <option value="unblock">فك الحجز</option>
-                        </select>
-                    </div>
                     <div class="row">
                         @foreach ($existingFiles as $file)
                             <div class="col-md-4" style="margin-bottom: 20px;">
@@ -34,70 +19,22 @@
                                     <div class="card-body">
                                         <!-- شيك بوكس لتحديد الملفات -->
                                         <input type="checkbox" name="file_ids[]" value="{{ $file->id }}"
-                                            id="file-{{ $file->id }}" class="form-check-input file-checkbox d-none">
-                                        <label for="file-{{ $file->id }}" class="form-check-label d-none"></label>
-
-                                        @php
-                                            $isblocked = $file->pivot->status === 'blocked';
-                                        @endphp
-
-                                        @if ($isblocked)
-                                            <a href="{{ asset($file->url) }}" target="_blank" download class="btn-download">
-                                                <i class="fa fa-download"></i>
-                                            </a>
-                                            {{-- <a href="#" class="btn-upload" data-toggle="modal"
-                                                data-target="#uploadFileModal-{{ $file->id }}">
-                                                <i class="fa fa-upload"></i>
-                                            </a> --}}
-                                        @else
-                                            <p class="text-danger">يجب ان يكون الملف محجوز لتستطيع تحميله.</p>
-                                        @endif
+                                            id="file-{{ $file->id }}" class="form-check-input">
+                                        <label for="file-{{ $file->id }}" class="form-check-label"></label>
                                         <h5 class="card-title">{{ $file->name }}</h5>
                                         <p class="card-text">حالة الملف: {{ $file->pivot->status }}</p>
                                         <p class="card-text">
                                             <a href="{{ url('/view-file/' . $file->url) }}" target="_blank"
                                                 rel="noopener noreferrer">{{ $file->url }}</a>
                                         </p>
-                                        <a href="{{ route('show', $file->id) }}" class="btn btn-view">
-                                            تفاصيل الملف
-                                        </a>
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- مودال رفع الملف -->
-                            {{-- <div class="modal fade" id="uploadFileModal-{{ $file->id }}" tabindex="-1"
-                                aria-labelledby="uploadFileModalLabel-{{ $file->id }}" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="uploadFileModalLabel-{{ $file->id }}">رفع ملف
-                                            </h5>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form action="{{ route('uploadfile', ['fileId' => $file->id]) }}"
-                                                method="POST" enctype="multipart/form-data">
-                                                @csrf
-                                                <div class="form-group">
-                                                    <label for="file-{{ $file->id }}">اختر ملفًا:</label>
-                                                    <input type="file" name="file" id="file-{{ $file->id }}"
-                                                        class="form-control" required>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-dismiss="modal">إلغاء</button>
-                                                    <button type="submit" class="btn btn-Add">رفع</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> --}}
                         @endforeach
-                    </div>
-                    <div class="text-center mt-4">
-                        <button type="submit" class="btn btn-success d-none" id="submitActionButton"
-                            style="margin-top: 20px;">تنفيذ</button>
+                        <div class="text-left mt-4">
+                            <button type="submit" class="btn btn-Addb" style="margin-top: 30px;">حجز الملفات
+                                المختارة</button>
+                        </div>
                     </div>
                 </form>
             @endif
@@ -159,28 +96,7 @@
                 </div>
             @endif
         </div>
-
-        <script>
-            // إظهار/إخفاء checkboxes والقائمة
-            document.getElementById('showCheckboxes').addEventListener('click', function() {
-                document.querySelectorAll('.file-checkbox').forEach(checkbox => checkbox.classList.toggle('d-none'));
-                document.querySelectorAll('.form-check-label').forEach(label => label.classList.toggle('d-none'));
-                document.getElementById('actionContainer').classList.toggle('d-none');
-                document.getElementById('submitActionButton').classList.toggle('d-none');
-            });
-
-            // التأكد من اختيار إجراء
-            document.getElementById('submitActionButton').addEventListener('click', function(event) {
-                const action = document.getElementById('action').value;
-
-                if (!action) {
-                    event.preventDefault();
-                    alert('يرجى اختيار الإجراء قبل المتابعة.');
-                }
-            });
-        </script>
     </body>
-
     <style>
         /* هيدر */
         .header {
@@ -406,6 +322,15 @@
             margin-top: 20px;
             color: #f6f1f1;
             right: 0;
+        }
+
+        .btn-Addb {
+            background-color: #112e4c;
+            border: none;
+            margin-top: 20px;
+            color: #f6f1f1;
+            /* right: 0; */
+            left: 0;
         }
 
         .btn-view {

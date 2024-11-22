@@ -78,18 +78,12 @@ class FileService
             return ['status' => 'error', 'message' => 'You are not a member or admin of this group.'];
         }
 
-        // التحقق من اختيار الملفات
         $fileIds = $request->input('file_ids', []);
         if (empty($fileIds) || !is_array($fileIds)) {
-            return ['status' => 'error', 'message' => 'No files selected.'];
+            return ['status' => 'error', 'message' => 'No files selected for blocking.'];
         }
 
-        $action = $request->input('action');
-        if ($action !== 'block' && $action !== 'unblock') {
-            return ['status' => 'error', 'message' => 'Invalid action selected.'];
-        }
-
-        $files = $this->fileRepository->findFileWithGroup($fileIds, $groupId);
+        $files = $this->fileRepository->findFilesWithGroup($fileIds, $groupId);
 
         if (count($files) !== count($fileIds)) {
             return ['status' => 'error', 'message' => 'Some files were not found.'];
@@ -97,17 +91,17 @@ class FileService
 
         foreach ($files as $file) {
             $pivot = $file->groups()->where('group_id', $group->id)->first()->pivot ?? null;
-            if (!$pivot || ($action === 'block' && $pivot->status !== 'free') || ($action === 'unblock' && $pivot->status !== 'blocked')) {
-                return ['status' => 'error', 'message' => 'Invalid file state for the selected action.'];
+            if (!$pivot || $pivot->status !== 'free') {
+                return ['status' => 'error', 'message' => 'All files must be in "free" state to block them together.'];
             }
-
-            $newStatus = $action === 'block' ? 'blocked' : 'free';
-            $this->fileRepository->updateFileStatus($file->id, $groupId, $newStatus);
         }
 
-        return ['status' => 'success', 'message' => 'The action was applied successfully.'];
-    }
+        foreach ($files as $file) {
+            $this->fileRepository->updateFileStatus($file->id, $groupId, 'blocked');
+        }
 
+        return ['status' => 'success', 'message' => 'The selected files were blocked successfully'];
+    }
     public function unblockFile($groupId, $fileId)
     {
         $user = Auth::user();
@@ -117,6 +111,7 @@ class FileService
             return ['status' => 'error', 'message' => 'Group not found'];
         }
 
+        // Check if the user is a member or group admin
         $isMember = $group->users()->where('users.id', $user->id)->exists();
         if (!$isMember && $group->user_create !== $user->name) {
             return ['status' => 'error', 'message' => 'You are not a member or admin of this group.'];
@@ -138,7 +133,7 @@ class FileService
             return ['status' => 'success', 'message' => 'The file was unblocked successfully'];
         }
 
-        return ['status' => 'error', 'message' => 'Unable to block the file.'];
+        return ['status' => 'error', 'message' => 'Unable to unblock the file.'];
     }
 
     public function updateFile(array $data, $groupId, $fileId, $userId)

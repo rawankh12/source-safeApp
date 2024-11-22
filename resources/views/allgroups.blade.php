@@ -38,10 +38,12 @@
                                 <h5 class="card-title">{{ $group->name }}</h5>
                                 <hr class="hr">
                                 <h5 class="card-text">{{ $group->description }}</h5>
-                                <form action="{{ route('sendrequest', ['groupid' => $group->id]) }}">
-                                    @csrf
-                                    <button type="submit" class="btn btn-invite">ارسل طلب انضمام</button>
-                                </form>
+                                <form
+                                action="{{ route('sendrequest', ['groupid' => $group->id]) }}"
+                                method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-invite">ارسل طلب انضمام</button>
+                            </form>
                             </div>
                         </div>
                     </div>
