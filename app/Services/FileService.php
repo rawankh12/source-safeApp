@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services;
+use App\jobs\LookFile;
 use App\Repositories\FileRepository;
 use App\Repositories\GroupRepository;
 use Illuminate\Http\Request;
@@ -92,14 +93,16 @@ class FileService
         foreach ($files as $file) {
             $pivot = $file->groups()->where('group_id', $group->id)->first()->pivot ?? null;
             if (!$pivot || $pivot->status !== 'free') {
+                LookFile::dispatch($file->id, $user->id, $groupId);
                 return ['status' => 'error', 'message' => 'All files must be in "free" state to block them together.'];
             }
         }
 
         foreach ($files as $file) {
-            $this->fileRepository->updateFileStatus($file->id, $groupId, 'blocked');
-        }
 
+            $this->fileRepository->updateFileStatus($file->id, $groupId, 'blocked');
+            LookFile::dispatch($file->id, $user->id, $groupId);
+        }
         return ['status' => 'success', 'message' => 'The selected files were blocked successfully'];
     }
     public function unblockFile($groupId, $fileId)
@@ -130,9 +133,10 @@ class FileService
 
         if ($pivot && $pivot->status === 'blocked') {
             $this->fileRepository->updateFileStatus($fileId, $groupId, 'free');
+            LookFile::dispatch($fileId, $user->id, $groupId);
             return ['status' => 'success', 'message' => 'The file was unblocked successfully'];
         }
-
+        $delayedjob = (new LookFile($fileId, $user->id, $groupId));
         return ['status' => 'error', 'message' => 'Unable to unblock the file.'];
     }
 

@@ -32,9 +32,6 @@
                                     <a href="{{ route('group.files', $group->id) }}" class="btn btn-view">
                                         رؤية الملفات
                                     </a>
-                                    {{-- <a href="{{ route('invite') }}" class="btn btn-sendinvite">
-                                        invite
-                                    </a> --}}
                                     <button type="button" class="btn btn-sendinvite" data-toggle="modal"
                                         data-target="#inviteuserModal">دعوة</button>
                                     <form action={{ route('reportgroup', ['group_id' => $group->id]) }}

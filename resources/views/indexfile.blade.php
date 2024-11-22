@@ -47,30 +47,26 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="createFileModalLabel">اختر ملف</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
                         </div>
                         <div class="modal-body">
                             <form action="{{ route('addToGroup') }}" method="POST">
                                 @csrf
                                 <div class="form-group">
                                     <label for="fileSelect">اختر ملف:</label>
-                                    @php
-                                        $userFiles = App\Models\File::where('user_id', Auth::id())->get();
-                                    @endphp
                                     @foreach ($userFiles as $file)
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="file_ids[]"
-                                                value="{{ $file->id }}" id="file_{{ $file->id }}">
-                                            <label class="form-check-label" for="file_{{ $file->id }}">
+                                            <input class="form-check-input custom-checkbox" type="checkbox"
+                                                name="file_ids[]" value="{{ $file->id }}"
+                                                id="file_{{ $file->id }}">
+                                            <label class="form-check-label custom-label" for="file_{{ $file->id }}" style="margin-right: 50px;">
                                                 {{ $file->name }}
                                             </label>
                                         </div>
                                     @endforeach
                                 </div>
-                                <input type="hidden" name="file_id" value="{{ $file->id }}">
+                                {{-- <input type="hidden" name="file_id" value="{{ $file->id }}"> --}}
                                 <input type="hidden" name="group_id" value="{{ $group->id }}">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
                                 <button type="submit" class="btn btn-Add">اضافة</button>
                             </form>
                         </div>
@@ -374,17 +370,13 @@
             transition: background-color 0.3s;
         }
 
-        .form-group input {
-            border-radius: 20px;
-            background-color: #8faecf;
-            width: 100%;
-            height: 100%;
-            text-align: right;
+        .custom-checkbox {
+            margin-right: 10px !important;
         }
 
-        .form-group label {
-            text-align: right;
-            right: 0;
+        .custom-label {
+            margin-left: 5px !important;
+            font-size: 14px;
         }
 
         .btn-secondary {

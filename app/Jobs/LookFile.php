@@ -15,7 +15,7 @@ use Carbon\Carbon;
 
 class LookFile implements ShouldQueue
 {
-    use Queueable,  InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, Queueable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
      * Create a new job instance.

@@ -28,7 +28,8 @@ class FileController extends Controller
             return redirect()->back()->withErrors('No group found for the user');
         }
         $existingFiles = $group->acceptedfiles;
-        return view('indexfile', compact('group', 'existingFiles'));
+        $userFiles = File::where('user_id', Auth::id())->get();
+        return view('indexfile', compact('group', 'existingFiles','userFiles'));
     }
     public function showmemberFiles($id)
     {
@@ -130,7 +131,6 @@ class FileController extends Controller
         $response = $this->fileService->blockFile($request,$groupId);
         if ($response['status'] === 'success') {
             return redirect()->back()->with('success', $response['message']);
-            $delayedjob = (new LookFile($fileId, $user->id, $groupId));
         }
         return redirect()->back()->withErrors($response['message']);
     }

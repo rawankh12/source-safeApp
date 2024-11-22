@@ -18,67 +18,18 @@
                             <div class="col-md-4" style="margin-bottom: 20px;">
                                 <div class="card shadow-sm">
                                     <div class="card-body">
-                                        <!-- شيك بوكس لتحديد الملفات -->
                                         <input type="checkbox" name="file_ids[]" value="{{ $file->id }}"
                                             id="file-{{ $file->id }}" class="form-check-input">
                                         <label for="file-{{ $file->id }}" class="form-check-label"></label>
-                                        {{-- @php
-                                        $isblocked = $file->pivot->status === 'blocked';
-                                        $isme = $file->user_id = Auth::user()->id;
-                                    @endphp --}}
-
-                                        {{-- @if ($isblocked && $isme)
-                                        <a href="{{ asset($file->url) }}" target="_blank" download class="btn-download">
-                                            <i class="fa fa-download"></i>
-                                        </a> --}}
-                                        {{-- <a href="#" class="btn-upload" data-toggle="modal"
-                                            data-target="#uploadFileModal-{{ $file->id }}">
-                                            <i class="fa fa-upload"></i>
-                                        </a> --}}
-                                        {{-- @else
-                                        <p class="text-danger">يجب ان يكون الملف محجوز لتستطيع تحميله.</p>
-                                    @endif --}}
                                         <h5 class="card-title">{{ $file->name }}</h5>
                                         <p class="card-text">حالة الملف: {{ $file->pivot->status }}</p>
                                         <p class="card-text">
                                             <a href="{{ url('/view-file/' . $file->url) }}" target="_blank"
                                                 rel="noopener noreferrer">{{ $file->url }}</a>
                                         </p>
-                                        {{-- <a href="{{ route('show', $file->id) }}" class="btn btn-view">
-                                        تفاصيل الملف
-                                    </a> --}}
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- مودال رفع الملف -->
-                            {{-- <div class="modal fade" id="uploadFileModal-{{ $file->id }}" tabindex="-1"
-                            aria-labelledby="uploadFileModalLabel-{{ $file->id }}" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="uploadFileModalLabel-{{ $file->id }}">رفع ملف
-                                        </h5>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form action="{{ route('uploadfile', ['fileId' => $file->id]) }}"
-                                            method="POST" enctype="multipart/form-data">
-                                            @csrf
-                                            <div class="form-group">
-                                                <label for="file-{{ $file->id }}">اختر ملفًا:</label>
-                                                <input type="file" name="file" id="file-{{ $file->id }}"
-                                                    class="form-control" required>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-dismiss="modal">إلغاء</button>
-                                                <button type="submit" class="btn btn-Add">رفع</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
                         @endforeach
                         <div class="text-left mt-4">
                             <button type="submit" class="btn btn-Addb" style="margin-top: 30px;">حجز الملفات
