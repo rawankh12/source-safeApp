@@ -40,7 +40,7 @@
                     </div>
                     <hr>
                     <div class="section-content" id="my-files-content">
-                        @foreach ($files->take(3) as $file)
+                        @foreach ($files->take(2) as $file)
                             <div class="file-item" data-id="{{ $file->id }}">
                                 <div>
                                     <strong>{{ $file->name }}</strong>
@@ -59,7 +59,7 @@
                     </div>
                     <hr>
                     <div class="section-content" id="locked-files-content">
-                        @foreach ($lockedFiles->take(3) as $file)
+                        @foreach ($lockedFiles->take(2) as $file)
                             <div class="file-item" data-id="{{ $file->id }}">
                                 <div>
                                     <strong>{{ $file->name }}</strong>

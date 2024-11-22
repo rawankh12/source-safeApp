@@ -9,86 +9,88 @@
             <h2 class="text-right">ملفات الغروب : {{ $group->name }}</h2>
 
             @if ($existingFiles && $existingFiles->isEmpty())
-            <p class="text-right" style="margin-right: 50px;">لا يوجد اي ملفات متاحة هنا.</p>
+                <p class="text-right" style="margin-right: 50px;">لا يوجد اي ملفات متاحة هنا.</p>
             @else
-                <div class="row">
-                    @foreach ($existingFiles as $file)
-                        <div class="col-md-4" style="margin-bottom: 20px;">
-                            <div class="card mb-4 shadow-sm">
-                                <div class="card-body">
-                                    @php
+                <form action="{{ route('blockfile', ['groupId' => $group->id]) }}" method="POST" id="multiFileActionForm">
+                    @csrf
+                    <div class="row">
+                        @foreach ($existingFiles as $file)
+                            <div class="col-md-4" style="margin-bottom: 20px;">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <!-- شيك بوكس لتحديد الملفات -->
+                                        <input type="checkbox" name="file_ids[]" value="{{ $file->id }}"
+                                            id="file-{{ $file->id }}" class="form-check-input">
+                                        <label for="file-{{ $file->id }}" class="form-check-label"></label>
+                                        {{-- @php
                                         $isblocked = $file->pivot->status === 'blocked';
+                                        $isme = $file->user_id = Auth::user()->id;
+                                    @endphp --}}
 
-                                    @endphp
-
-                                    @if ($isblocked)
+                                        {{-- @if ($isblocked && $isme)
                                         <a href="{{ asset($file->url) }}" target="_blank" download class="btn-download">
                                             <i class="fa fa-download"></i>
-                                        </a>
-                                    @else
+                                        </a> --}}
+                                        {{-- <a href="#" class="btn-upload" data-toggle="modal"
+                                            data-target="#uploadFileModal-{{ $file->id }}">
+                                            <i class="fa fa-upload"></i>
+                                        </a> --}}
+                                        {{-- @else
                                         <p class="text-danger">يجب ان يكون الملف محجوز لتستطيع تحميله.</p>
-                                    @endif
-                                    <a href="#" class="btn-upload" data-toggle="modal"
-                                        data-target="#uploadFileModal-{{ $file->id }}">
-                                        <i class="fa fa-upload"></i>
-                                    </a>
-                                    <h5 class="card-title">{{ $file->name }}</h5>
-                                    <p class="card-text">حالة الملف : {{ $file->pivot->status }}</p>
-                                    {{-- <button type="button" class="btn btn-edit" data-toggle="modal"
-                                        data-target="#editFileModal-{{ $file->id }}">Update</button> --}}
-                                    <p class="card-text">URL: <a href="{{ url('/view-file/' . $file->url) }}"
-                                            target="_blank" rel="noopener noreferrer">{{ $file->url }}</a></p>
-                                    <form action={{ route('blockfile', ['groupid' => $group->id, 'fileid' => $file->id]) }}
-                                        style="display:inline;">
-                                        @csrf
-                                        <button type="submit" class="btn btn-Add">حجز</button>
-                                    </form>
-                                    <form
-                                        action={{ route('unblockfile', ['groupid' => $group->id, 'fileid' => $file->id]) }}
-                                        style="display:inline;">
-                                        @csrf
-                                        <button type="submit" class="btn btn-Add">فك الحجز</button>
-                                    </form>
+                                    @endif --}}
+                                        <h5 class="card-title">{{ $file->name }}</h5>
+                                        <p class="card-text">حالة الملف: {{ $file->pivot->status }}</p>
+                                        <p class="card-text">
+                                            <a href="{{ url('/view-file/' . $file->url) }}" target="_blank"
+                                                rel="noopener noreferrer">{{ $file->url }}</a>
+                                        </p>
+                                        {{-- <a href="{{ route('show', $file->id) }}" class="btn btn-view">
+                                        تفاصيل الملف
+                                    </a> --}}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- Modal for uploading a file -->
-                        <div class="modal fade" id="uploadFileModal-{{ $file->id }}" tabindex="-1"
-                            aria-labelledby="uploadFileModalLabel" aria-hidden="true">
+
+                            <!-- مودال رفع الملف -->
+                            {{-- <div class="modal fade" id="uploadFileModal-{{ $file->id }}" tabindex="-1"
+                            aria-labelledby="uploadFileModalLabel-{{ $file->id }}" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="uploadFileModalLabel">رفع ملف</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
+                                        <h5 class="modal-title" id="uploadFileModalLabel-{{ $file->id }}">رفع ملف
+                                        </h5>
                                     </div>
                                     <div class="modal-body">
-                                        <form
-                                            action="{{ route('uploadfile', ['group_id' => $group->id, 'file_id' => $file->id]) }}"
+                                        <form action="{{ route('uploadfile', ['fileId' => $file->id]) }}"
                                             method="POST" enctype="multipart/form-data">
                                             @csrf
                                             <div class="form-group">
-                                                <label for="file">اخر ملف لرفعه:</label>
-                                                <input type="file" name="file" id="file" class="form-control"
-                                                    required>
+                                                <label for="file-{{ $file->id }}">اختر ملفًا:</label>
+                                                <input type="file" name="file" id="file-{{ $file->id }}"
+                                                    class="form-control" required>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary"
-                                                    data-dismiss="modal">الغاء</button>
+                                                    data-dismiss="modal">إلغاء</button>
                                                 <button type="submit" class="btn btn-Add">رفع</button>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
                             </div>
+                        </div> --}}
+                        @endforeach
+                        <div class="text-left mt-4">
+                            <button type="submit" class="btn btn-Addb" style="margin-top: 30px;">حجز الملفات
+                                المختارة</button>
                         </div>
-                    @endforeach
-                </div>
+                    </div>
+                </form>
             @endif
 
             <!-- Modal for creating a new file -->
-            <a href="#" class="floating-button" data-toggle="modal" data-target="#createFileModal" title="انشاء ملف جديدة">+</a>
+            <a href="#" class="floating-button" data-toggle="modal" data-target="#createFileModal"
+                title="انشاء ملف جديدة">+</a>
             <div class="modal fade" id="createFileModal" tabindex="-1" role="dialog"
                 aria-labelledby="createFileModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -117,7 +119,6 @@
                                         </div>
                                     @endforeach
                                 </div>
-                                <input type="hidden" name="file_id" value="{{ $file->id }}">
                                 <input type="hidden" name="group_id" value="{{ $group->id }}">
                                 <button type="submit" class="btn btn-Add">اضافة</button>
                             </form>
@@ -125,33 +126,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Modal for search -->
-            {{-- <a href="#" class="floating-button2" data-toggle="modal" data-target="#searchModal">
-                <i class="fa fa-search"></i>
-            </a> --}}
-            <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="searchModalLabel">Search</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="#" method="GET">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" name="query" placeholder="Enter...">
-                                </div>
-                                <button type="submit" class="btn btn-Add">Ok</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
                     {{ session('success') }}

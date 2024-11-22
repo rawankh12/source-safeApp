@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\File;
 use App\Models\Group;
 use App\Models\User;
+use App\Models\UserGroup;
 use Illuminate\Support\Facades\DB;
 
 class GroupRepository implements GroupRepositoryInterface
@@ -84,7 +85,8 @@ class GroupRepository implements GroupRepositoryInterface
 
     public function createJoinRequest($userId, $groupId)
     {
-        return DB::table('user_groups')->insert([
+
+        return UserGroup::create([
             'user_id' => $userId,
             'group_id' => $groupId,
             'status' => 'pending',
@@ -92,5 +94,4 @@ class GroupRepository implements GroupRepositoryInterface
             'updated_at' => now()
         ]);
     }
-
 }

@@ -25,9 +25,6 @@
         </div>
     @endif
     <div class="container mt-5 main">
-        {{-- <div class="main-text-section">
-            <img src="/img/photo4.jpg" alt="Descriptive Alt Text" style="width: 100%;">
-        </div> --}}
         <div class="grid-container">
             <!-- القسم الأول: جميع الغروبات -->
             <div class="section" id="groups-section">
@@ -38,11 +35,6 @@
                         <div class="group-item"
                             >
                             <div class="item" data-id="{{ $group->id }}">{{ $group->name }}</div>
-                            {{-- <form action="{{ route('sendrequest', ['groupid' => $group->id]) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="btn btn-Addd"> طلب
-                                    انضمام</button>
-                            </form> --}}
                         </div>
                     @endforeach
                 </div>
@@ -72,7 +64,6 @@
                     @endforeach
                 </div>
                 <a href="{{ route('users') }}" class="btn btn-more">رؤية المزيد</a>
-                <div class="loading" style="display: none;">Loading...</div>
             </div>
         </div>
     </div>
