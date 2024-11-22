@@ -12,7 +12,7 @@ use App\Http\Controllers\GroupController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
-
+use App\Http\Controllers\BlockController;
 
 //ترجمة
 Route::get('langChange', [LanguageController::class, 'langChange'])->name('langChange');
@@ -43,6 +43,8 @@ Route::group([], function () {
     Route::get('/adminFile', [AdminController::class, 'file'])->name('adminFile');
     Route::get('/adminUser', [AdminController::class, 'user'])->name('adminUser');
     Route::get('/download-all-files', [AdminController::class, 'downloadAllFiles'])->name('download.all.files');
+    Route::post('/users/{id}/block', [BlockController::class, 'store']);
+    Route::post('/users/{id}/unblock', [BlockController::class, 'unblockUser']);
 });
 Route::group(['prefix' => 'groups'], function () {
     Route::get('/create', [GroupController::class, 'create'])->name('groups.create');

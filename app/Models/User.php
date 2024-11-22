@@ -87,4 +87,9 @@ class User extends Authenticatable
         return $this->hasMany(RefreshToken::class);
     }
 
+    public function bannedUser()
+    {
+        return $this->hasOne(Block::class);
+    }
+
 }

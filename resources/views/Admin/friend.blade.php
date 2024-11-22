@@ -12,6 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500&display=swap">
     <link rel="stylesheet" href="Css/normalize.css">
+
     <title>Friends</title>
 
 
@@ -20,46 +21,46 @@
 <body>
     <div class="page d-flex">
         <div class="sidebar bg-white p-20 p-relative">
-            <h3 class="p-relative mt-0 text-center">Khader</h3>
+            <h3 class="p-relative mt-0 text-center">{{ $user->name }}</h3>
             <ul>
                 <li>
-                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="main.html">
+                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('adminHome') }}">
                         <i class="fa fa-bar-chart"></i>
                         <span class="fs-14 ml-14 hide-mobile">Dashboard</span>
                     </a>
                 </li>
                 <li>
-                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="setting.html">
+                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('adminSetting') }}">
                         <i class="fa fa-gear fa-fw"></i>
                         <span class="fs-14 ml-14 hide-mobile">Setting</span>
                     </a>
                 </li>
                 <li>
-                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="porfile.html">
+                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('profile') }}">
                         <i class="fa fa-user-o fa-fw"></i>
                         <span class="fs-14 ml-14 hide-mobile">Profile</span>
                     </a>
                 </li>
                 <li>
-                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="Project.html">
+                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('profile') }}">
                         <i class="fa fa-share-alt fa-fw"></i>
                         <span class="fs-14 ml-14 hide-mobile">Projects</span>
                     </a>
                 </li>
                 <li>
-                    <a class=" d-flex align-items fs-14 rad-6 c-black p-10" href="course.html">
+                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="course.html">
                         <i class="fa fa-graduation-cap fa-fw"></i>
                         <span class="fs-14 ml-14 hide-mobile">Courses</span>
                     </a>
                 </li>
                 <li>
-                    <a class="active d-flex align-items fs-14 rad-6 c-black p-10" href="friend.html">
+                    <a class="active d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('adminUser') }}">
                         <i class="fa fa-user-circle-o fa-fw"></i>
                         <span class="fs-14 ml-14 hide-mobile">Friends</span>
                     </a>
                 </li>
                 <li>
-                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="file.html">
+                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('adminFile') }}">
                         <i class="fa fa-file-o fa-fw"></i>
                         <span class="fs-14 ml-14 hide-mobile">Files</span>
                     </a>
@@ -111,14 +112,18 @@
                             <span class="c-crey">Joined
                                 {{ \Carbon\Carbon::parse($user->created_at)->format('d/m/Y') }}</span>
                             <div>
-                                <a class="bg-blue c-white button-shape" href="porfile.html">
-                                    <i class="fa fa-block-user"></i>
-                                    Block
-                                </a>
-                                <a class="bg-red c-white button-shape ml-14" href="#">
-                                    <i class="fa fa-trash-o"></i>
-                                    Remive
-                                </a>
+                                @if ($user->bannedUser)
+                                    <a class="bg-blue c-white button-shape unBlock-user-btn disabled" href="#"
+                                        data-user-id="{{ $user->id }}">
+                                        Blocked
+                                    </a>
+                                @else
+                                    <a class="bg-red c-white button-shape block-user-btn" href="#"
+                                        data-user-id="{{ $user->id }}">
+                                        <i class="fa fa-user-times"></i>
+                                        Block
+                                    </a>
+                                @endif
                             </div>
                         </div>
 
@@ -126,6 +131,106 @@
                 @endforeach
             </div>
         </div>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <script>
+            document.querySelectorAll('.block-user-btn').forEach(button => {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const userId = this.getAttribute('data-user-id');
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "Do you really want to block this user?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, block them!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch(`/users/${userId}/block`, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                    },
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    Swal.fire({
+                                        icon: data.message.includes('successfully') ?
+                                            'success' : 'error',
+                                        title: data.message.includes('successfully') ?
+                                            'Success' : 'Error',
+                                        text: data.message,
+                                    });
+                                    if (data.message.includes('successfully')) {
+                                        this.classList.add('disabled');
+                                        this.textContent = 'Blocked';
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Oops...',
+                                        text: 'Something went wrong!',
+                                    });
+                                });
+                        }
+                    });
+                });
+            });
+
+
+            document.querySelectorAll('.unBlock-user-btn').forEach(button => {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const userId = this.getAttribute('data-user-id');
+
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "Do you really want to unblock this user?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, unblock them!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch(`/users/${userId}/unblock`, { // استخدام userId في المسار
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRF-TOKEN': '{{ csrf_token() }}', // تأمين الطلب
+                                    },
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    Swal.fire({
+                                        icon: data.message.includes('successfully') ?
+                                            'success' : 'error',
+                                        title: data.message.includes('successfully') ?
+                                            'Success' : 'Error',
+                                        text: data.message,
+                                    });
+                                
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Oops...',
+                                        text: 'Something went wrong!',
+                                    });
+                                });
+                        }
+                    });
+                });
+            });
+        </script>
+
+
 </body>
 
 

@@ -20,28 +20,28 @@
 <body>
     <div class="page d-flex">
         <div class="sidebar bg-white p-20 p-relative">
-            <h3 class="p-relative mt-0 text-center">Khader</h3>
+            <h3 class="p-relative mt-0 text-center">{{ $user->name }}</h3>
             <ul>
                 <li>
-                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="main.html">
+                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('adminHome') }}">
                         <i class="fa fa-bar-chart"></i>
                         <span class="fs-14 ml-14 hide-mobile">Dashboard</span>
                     </a>
                 </li>
                 <li>
-                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="setting.html">
+                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('adminSetting') }}">
                         <i class="fa fa-gear fa-fw"></i>
                         <span class="fs-14 ml-14 hide-mobile">Setting</span>
                     </a>
                 </li>
                 <li>
-                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="porfile.html">
+                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('profile') }}">
                         <i class="fa fa-user-o fa-fw"></i>
                         <span class="fs-14 ml-14 hide-mobile">Profile</span>
                     </a>
                 </li>
                 <li>
-                    <a class="active d-flex align-items fs-14 rad-6 c-black p-10" href="Project.html">
+                    <a class="active d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('profile') }}">
                         <i class="fa fa-share-alt fa-fw"></i>
                         <span class="fs-14 ml-14 hide-mobile">Projects</span>
                     </a>
@@ -53,13 +53,13 @@
                     </a>
                 </li>
                 <li>
-                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="friend.html">
+                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('adminUser') }}">
                         <i class="fa fa-user-circle-o fa-fw"></i>
                         <span class="fs-14 ml-14 hide-mobile">Friends</span>
                     </a>
                 </li>
                 <li>
-                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="file.html">
+                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('adminFile') }}">
                         <i class="fa fa-file-o fa-fw"></i>
                         <span class="fs-14 ml-14 hide-mobile">Files</span>
                     </a>

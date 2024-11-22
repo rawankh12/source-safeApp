@@ -129,7 +129,7 @@ class FileController extends Controller
         $response = $this->fileService->blockFile($request,$groupId);
         if ($response['status'] === 'success') {
             return redirect()->back()->with('success', $response['message']);
-            // $delayedjob = (new LookFile($fileId, $user->id, $groupId));
+            $delayedjob = (new LookFile($fileId, $user->id, $groupId));
         }
         return redirect()->back()->withErrors($response['message']);
     }

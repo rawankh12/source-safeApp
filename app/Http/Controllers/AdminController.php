@@ -58,12 +58,14 @@ class AdminController extends Controller
     public function user()
     {
         $user = Auth::user();
-        // = User::get();
-        $allUsers = User::withCount([
-            'files',    // عدد الملفات التي أضافها كل مستخدم
-            'groups',
-            'createdGroups'   // عدد المجموعات التي انضم إليها كل مستخدم
-        ])->get();
+        $allUsers = User::where('role', 1)
+            ->withCount(['files', 'groups', 'createdGroups']) // حساب عدد الملفات والمجموعات
+            ->with(['bannedUser' => function ($query) { // جلب بيانات حالة الحظر
+                $query->select('user_id'); // إذا كنت تحتاج فقط لـ user_id
+            }])
+            ->get();
+
+        // return $allUsers;
         return view('Admin.friend', compact(['user', 'allUsers']));
     }
 

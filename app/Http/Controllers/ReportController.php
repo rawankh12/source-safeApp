@@ -26,4 +26,13 @@ class ReportController extends Controller
         });
         return $reports;
     }
+
+    public function getAllReportUser($user_id)
+    {
+        $reports = Report::where('user_id', $user_id)->get();
+        $users = $reports->map(function ($report) {
+            return $report->user;
+        });
+        return $reports;
+    }
 }
