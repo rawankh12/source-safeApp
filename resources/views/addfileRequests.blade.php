@@ -6,7 +6,7 @@
     <body>
         <div class="home">
             @if ($pendingRequests->isEmpty())
-            <p class="text-center" style="margin-right: 50px;">لا يوجد طلبات.</p>
+            <p class="text-center" style="margin-right: 50px;">{{ __('messages.no_request') }}</p>
             @else
                 <ul>
                     @foreach ($pendingRequests as $request)
@@ -22,9 +22,9 @@
                             justify-content: space-between; 
                             align-items: center;">
                                 <div style="flex: 1;">
-                                    ارسل طلب لاضافة الملف : {{ $file->name }}
-                                    الى المجموعة: {{ $request->name }}
-                                    - تاريخ ارسال الطلب : {{ \Carbon\Carbon::parse($request->created_at)->format('Y-m-d H:i') }}
+                                    {{ __('messages.s1') }} {{ $file->name }}
+                                    {{ __('messages.s2') }} {{ $request->name }}
+                                    {{ __('messages.s3') }} {{ \Carbon\Carbon::parse($request->created_at)->format('Y-m-d H:i') }}
                                 </div>
                                 <div class="btngroups" style="display: flex; gap: 10px;">
                                     <!-- نموذج Accept -->
@@ -32,7 +32,7 @@
                                         action="{{ route('acceptRequest', ['fileId' => $file->id, 'groupId' => $request->id]) }}"
                                         method="POST">
                                         @csrf
-                                        <button type="submit" class="btn btn-Add">قبول</button>
+                                        <button type="submit" class="btn btn-Add">{{ __('messages.yes') }}</button>
                                     </form>
 
                                     <!-- نموذج Delete -->
@@ -41,7 +41,7 @@
                                         method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-delete">الغاء</button>
+                                        <button type="submit" class="btn btn-delete">{{ __('messages.no') }}</button>
                                     </form>
                                 </div>
                             </li>
@@ -49,29 +49,6 @@
                     @endforeach
                 </ul>
             @endif
-
-            <!-- Modal for search -->
-            <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="searchModalLabel">بحث</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="#" method="GET">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" name="query" placeholder="Enter...">
-                                </div>
-                                <button type="submit" class="btn btn-Add">اوك</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
                     {{ session('success') }}

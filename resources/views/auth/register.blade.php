@@ -28,11 +28,11 @@
     <img width="40" height="40" src="https://img.icons8.com/color/48/google-translate.png" alt="Switch Language"
         id="languageSwitcher">
     <div class="content">
-        <div class="heading">{{ 'messages.heading' }}</div>
+        <div class="heading">{{ __('messages.heading') }}</div>
         <form id="registerForm" method="POST" action="{{ route('register') }}">
             @csrf
             <div class="form-group">
-                <input id="name" type="text" placeholder="{{ 'messages.name' }}" class="form-control"
+                <input id="name" type="text" placeholder="{{ __('messages.name') }}" class="form-control"
                     name="name">
                 @error('name')
                     <div class="invalid-feedback">
@@ -43,7 +43,7 @@
                 @enderror
             </div>
             <div class="form-group">
-                <input id="email" type="email" placeholder="{{ 'messages.email' }}" class="form-control"
+                <input id="email" type="email" placeholder="{{ __('messages.email') }}" class="form-control"
                     name="email">
                 @error('email')
                     <div class="invalid-feedback">
@@ -54,7 +54,7 @@
                 @enderror
             </div>
             <div class="form-group">
-                <input id="password" type="password" placeholder="{{ 'messages.password' }}" class="form-control"
+                <input id="password" type="password" placeholder="{{ __('messages.password') }}" class="form-control"
                     name="password">
 
                 @error('password')
@@ -66,10 +66,10 @@
                 @enderror
             </div>
 
-            <button type="submit">{{ 'messages.Register' }}</button>
+            <button type="submit">{{ __('messages.Register') }}</button>
 
             <div class="register-link">
-                <p>{{ 'messages.quess' }}<a href="{{ route('login') }}"
+                <p>{{ __('messages.quess') }} <a href="{{ route('login') }}"
                         style="color: rgb(190, 209, 226);">{{ __('messages.Login') }}</a></p>
             </div>
         </form>

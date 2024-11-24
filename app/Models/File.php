@@ -22,7 +22,7 @@ class File extends Model
 
     public function groups()
     {
-        return $this->belongsToMany(Group::class, 'group_files')->withPivot('status', 'type');
+        return $this->belongsToMany(Group::class, 'group_files')->withPivot('status', 'type')->withTimestamps();
     }
 
     public function user()

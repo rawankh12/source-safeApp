@@ -24,12 +24,12 @@
     <div class="container mt-5 main">
         <div class="row mb-4">
             <div class="col-12">
-                <h1 class="title">كل الغروبات</h1>
+                <h1 class="title">{{ __('messages.all') }}</h1>
             </div>
         </div>
         <div class="rrow">
             @if ($groups->isEmpty())
-            <p class="text-center" style="margin-right: 50px;">لا يوجد غروبات</p>
+            <p class="text-center" style="margin-right: 50px;">{{ __('messages.no_groups') }}</p>
             @else
                 @foreach ($groups as $group)
                     <div class="col-md-4" style="margin-bottom: 20px;">
@@ -42,7 +42,7 @@
                                 action="{{ route('sendrequest', ['groupid' => $group->id]) }}"
                                 method="POST">
                                 @csrf
-                                <button type="submit" class="btn btn-invite">ارسل طلب انضمام</button>
+                                <button type="submit" class="btn btn-invite">{{ __('messages.sendinvite') }}</button>
                             </form>
                             </div>
                         </div>

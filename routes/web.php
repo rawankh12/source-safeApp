@@ -16,11 +16,12 @@ use App\Http\Controllers\BlockController;
 
 //ترجمة
 Route::get('langChange', [LanguageController::class, 'langChange'])->name('langChange');
-
+Route::get('/notifications/unread-count', [EmailController::class, 'unreadCount']);
+Route::post('/notifications/mark-as-read', [EmailController::class, 'markAsRead']);
+Route::get('/notifications', [EmailController::class, 'fetchNotifications']);
 
 
 Auth::routes();
-
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::get('/register', [AuthController::class, 'showRegistrForm'])->name('register');
 Route::get('/allgroups', action: [GroupController::class, 'index'])->name('allgroups');

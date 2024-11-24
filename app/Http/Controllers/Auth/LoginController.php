@@ -41,13 +41,13 @@ class LoginController extends Controller
             $user = User::where('email', $validatedData['email'])->first();
 
             if (!$user || !Hash::check($validatedData['password'], $user->password)) {
-                return redirect()->back()->withErrors('Invalid credentials.');
+                return redirect()->back()->with('error', 'Invalid credentials.');
             }
 
             $accessToken = $user->createToken('auth_token')->plainTextToken;
 
-            $refreshToken = Str::random(64); 
-            $expiresAt = now()->addDays(30); 
+            $refreshToken = Str::random(64);
+            $expiresAt = now()->addDays(30);
 
             DB::table('refresh_tokens')->insert([
                 'user_id' => $user->id,

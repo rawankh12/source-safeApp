@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\TestNotification;
 use App\Http\Requests\FileRequest;
 use App\Jobs\LookFile;
 use App\Models\GroupFile;
@@ -29,7 +30,7 @@ class FileController extends Controller
         }
         $existingFiles = $group->acceptedfiles;
         $userFiles = File::where('user_id', Auth::id())->get();
-        return view('indexfile', compact('group', 'existingFiles','userFiles'));
+        return view('indexfile', compact('group', 'existingFiles', 'userFiles'));
     }
     public function showmemberFiles($id)
     {
@@ -63,15 +64,15 @@ class FileController extends Controller
                 }
             ])
             ->get();
-            // $group = Group::findOrFail($id);
+        // $group = Group::findOrFail($id);
         return view('lockedfile', compact('files'));
     }
     public function show($id)
     {
         $file = File::findOrFail($id);
-        $group = GroupFile::where('file_id',$file->id)->get();
+        $group = GroupFile::where('file_id', $file->id)->get();
 
-        return view('show', compact('file','group'));
+        return view('show', compact('file', 'group'));
     }
     public function store(Request $request, FileService $fileService)
     {
@@ -128,7 +129,7 @@ class FileController extends Controller
     }
     public function blockFile(Request $request, $groupId)
     {
-        $response = $this->fileService->blockFile($request,$groupId);
+        $response = $this->fileService->blockFile($request, $groupId);
         if ($response['status'] === 'success') {
             return redirect()->back()->with('success', $response['message']);
         }

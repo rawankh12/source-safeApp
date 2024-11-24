@@ -15,12 +15,6 @@
             display: none;
         }
 
-        .invalid-feedback {
-            color: red;
-            font-size: 0.875em;
-            display: block;
-        }
-
         #languageSwitcher {
             position: absolute;
             top: 10px;
@@ -35,38 +29,36 @@
         id="languageSwitcher">
     <div class="content">
         <div class="heading">{{ __('messages.heading') }}</div>
-
-        @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-                {{ session('success') }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        @endif
-
         <form id="loginForm" method="POST" action="{{ route('login') }}">
             @csrf
             <div class="form-group">
                 <input id="email" type="email" placeholder="{{ __('messages.email') }}"
-                    class="form-control @error('email') is-invalid @enderror" name="email"
-                    value="{{ old('email') }}">
-                @if ($errors->has('email'))
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $errors->first('email') }}</strong>
-                    </span>
-                @endif
+                    class="form-control @error('email') is-invalid @enderror" name="email">
+                @error('email')
+                    <div class="invalid-feedback">
+                        @foreach ($errors->get('email') as $message)
+                            <p><strong>{{ $message }}</strong></p>
+                        @endforeach
+                    </div>
+                @enderror
             </div>
             <div class="form-group">
                 <input id="password" type="password" placeholder="{{ __('messages.password') }}"
                     class="form-control @error('password') is-invalid @enderror" name="password">
-                @if ($errors->has('password'))
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $errors->first('password') }}</strong>
-                    </span>
-                @endif
+                @error('password')
+                    <div class="invalid-feedback">
+                        @foreach ($errors->get('password') as $message)
+                            <p><strong>{{ $message }}</strong></p>
+                        @endforeach
+                    </div>
+                @enderror
             </div>
             <button type="submit">{{ __('messages.Login') }}</button>
+            @if (session('error'))
+                <div class="alert alert-danger" style="background-color: rgb(211, 231, 231); color:black;">
+                    {{ session('error') }}
+                </div>
+            @endif
             <div class="register-link">
                 <p>{{ __('messages.ques') }} <a href="{{ route('register') }}"
                         style="color: rgb(190, 209, 226);">{{ __('messages.Register') }}</a></p>

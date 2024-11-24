@@ -36,16 +36,26 @@ class LookFile implements ShouldQueue
     public function handle(): void
     {
 
-        // $file = File::find($this->file_id);
-        // $lockKey = 'file:' . $file->id . ':field_lock';
-        //$lockValue = 'locked';
+        $file = File::find($this->file_id);
+        $lockKey = 'file:' . $file->id . ':field_lock';
+
+        // إزالة القفل بعد انتهاء المدة
+        if (Cache::has($lockKey)) {
+            Cache::forget($lockKey);
+        }
+
         DB::table('reports')->insert([
             'report' => "check_out",
             'user_id' => $this->user_id,
-            'file_id' => $this->file_id,
+            'file_id' => $file->id,
             'group_id' => $this->group_id,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
+        $pivot = $file->groups()->where('group_id', $this->group_id)->first()->pivot ?? null;
+        if ($pivot && $pivot->status === 'blocked') {
+            $file->groups()->updateExistingPivot($this->group_id, ['status' => 'free']);
+        }
+
     }
 }

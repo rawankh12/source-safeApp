@@ -1,11 +1,17 @@
 <?php
 
 namespace App\Services;
+use App\Events\FileStatusUpdated;
 use App\jobs\LookFile;
+use App\Models\Group;
+use App\Models\Notification;
 use App\Repositories\FileRepository;
 use App\Repositories\GroupRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\FileBlockedNotification;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class FileService
 {
@@ -100,9 +106,25 @@ class FileService
 
         foreach ($files as $file) {
 
+            $lockKey = 'file:' . $file->id . ':field_lock';
+            $lock = Cache::add($lockKey, true, 300); 
+
+            if (!$lock) {
+                return ['status' => 'error', 'message' => "File {$file->name} is already locked by another process."];
+            }
+
             $this->fileRepository->updateFileStatus($file->id, $groupId, 'blocked');
-            LookFile::dispatch($file->id, $user->id, $groupId);
+            LookFile::dispatch($file->id, $user->id, $groupId)->delay(now()->addMinutes(5));
+            foreach ($group->users as $member) {
+                $member->notify(new FileBlockedNotification($user->name, $file->name, 'حجز'));
+            }
+            $file->reports()->create([
+                'report' => 'check_in',
+                'user_id' => $user->id,
+                'group_id' => $groupId,
+            ]);
         }
+
         return ['status' => 'success', 'message' => 'The selected files were blocked successfully'];
     }
     public function unblockFile($groupId, $fileId)
@@ -131,13 +153,32 @@ class FileService
             return ['status' => 'error', 'message' => 'It\'s already unblocked'];
         }
 
-        if ($pivot && $pivot->status === 'blocked') {
-            $this->fileRepository->updateFileStatus($fileId, $groupId, 'free');
-            LookFile::dispatch($fileId, $user->id, $groupId);
-            return ['status' => 'success', 'message' => 'The file was unblocked successfully'];
+        if ($pivot && $pivot->status !== 'blocked') {
+            return ['status' => 'error', 'message' => 'The file cannot be unblocked because it is not in "blocked" state'];
         }
-        $delayedjob = (new LookFile($fileId, $user->id, $groupId));
-        return ['status' => 'error', 'message' => 'Unable to unblock the file.'];
+        // محاولة الحصول على القفل
+        $lockKey = 'file:' . $file->id . ':field_unlock';
+        if ($file && Cache::has($lockKey)) {
+            Cache::forget($lockKey);
+            $this->fileRepository->updateFileStatus($fileId, $groupId, 'free');
+            // إضافة سجل تقرير
+            DB::table('reports')->insert([
+                'report' => 'check_out',
+                'user_id' => $user->id,
+                'file_id' => $fileId,
+                'group_id' => $groupId,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+            $group = Group::with('users')->findOrFail($groupId);
+            $userName = auth()->user()->name;
+            // $affectedUsers = $group->users()->select('users.id', 'users.name')->get();
+            foreach ($group->users as $user) {
+                $user->notify(new FileBlockedNotification($userName, $file->name, 'فك حجز'));
+            }
+            return ['status' => 'success', 'message' => 'The file was unblocked successfully.'];
+        }
+        return ['status' => 'error', 'message' => 'The file is not locked or lock has already expired.'];
     }
 
     public function updateFile(array $data, $groupId, $fileId, $userId)
