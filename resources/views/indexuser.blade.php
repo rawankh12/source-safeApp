@@ -6,10 +6,10 @@
 
     <body>
         <div class="home">
-            <h2 class="text-right">ملفاتي</h2>
+            <h2 class="text-right">{{ __('messages.myfiles') }}</h2>
 
             @if ($Files->isEmpty())
-                <p class="text-right" style="margin-right: 50px;">لا يوجد ملفات</p>
+                <p class="text-right" style="margin-right: 50px;">{{ __('messages.nofile') }}</p>
             @else
                 <div class="row">
                     @foreach ($Files as $file)
@@ -25,32 +25,30 @@
                     @endforeach
                 </div>
             @endif
-
-            <!-- Modal for creating a new file -->
             <a href="#" class="floating-button" data-toggle="modal" data-target="#createFileModal"
-                title="انشاء ملف جديدة">+</a>
+                title="{{ __('messages.add_file') }}">+</a>
             <div class="modal fade" id="createFileModal" tabindex="-1" role="dialog"
                 aria-labelledby="createFileModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="createFileModalLabel">انشا ملف جديد</h5>
+                            <h5 class="modal-title" id="createFileModalLabel">{{ __('messages.add_file') }}</h5>
                         </div>
                         <div class="modal-body">
                             <form action="{{ route('files.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="fileName" style="text-align: right;">الاسم:</label>
+                                    <label for="fileName" style="text-align: right;">{{ __('messages.groupname') }}</label>
                                     <input type="text" class="form-control" id="fileName" name="name"
-                                        placeholder="ادخل اسم الملف" required>
+                                        placeholder="{{ __('messages.placeholder') }}" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="fileUpload" style="text-align: right;">الملف:</label>
+                                    <label for="fileUpload" style="text-align: right;">{{ __('messages.file') }}</label>
                                     <input type="file" class="form-control" id="fileUpload" name="file" required>
                                 </div>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                                    style="margin-bottom: 20px;">الغاء</button>
-                                <button type="submit" class="btn btn-Add">اضافة</button>
+                                    style="margin-bottom: 20px;">{{ __('messages.close') }}</button>
+                                <button type="submit" class="btn btn-Add">{{ __('messages.Addg') }}</button>
                             </form>
                         </div>
                     </div>

@@ -47,7 +47,7 @@ class AuthController extends Controller
         $refreshToken = RefreshToken::where('token', $request->refresh_token)->first();
 
         if (!$refreshToken || $refreshToken->expires_at < Carbon::now()) {
-            return response()->json(['message' => 'Invalid or expired refresh token'], 401);
+            return response()->json(['message' => __('messages.invalid_refresh_token')], 401);
         }
 
         // إصدار توكين جديد باستخدام Sanctum

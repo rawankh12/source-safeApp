@@ -128,7 +128,7 @@ class GroupController extends Controller
             ->where('user_id', $userId)
             ->where('group_id', $groupId)
             ->delete();
-        return redirect()->back()->with('success', 'Join request deleted successfully.');
+        return redirect()->back()->with('success', __('messages.success_delete_request'));
     }
     public function acceptJoinRequest($userId, $groupId)
     {
@@ -136,7 +136,7 @@ class GroupController extends Controller
             ->where('user_id', $userId)
             ->where('group_id', $groupId)
             ->update(['status' => 'accepted']);
-        return redirect()->back()->with('success', 'Join request accepted successfully.');
+        return redirect()->back()->with('success', __('messages.success_delete_file_request'));
     }
     public function deleteRequest($fileId, $groupId)
     {
@@ -144,7 +144,7 @@ class GroupController extends Controller
             ->where('file_id', $fileId)
             ->where('group_id', $groupId)
             ->delete();
-        return redirect()->back()->with('success', ' request deleted successfully.');
+        return redirect()->back()->with('success', __('messages.success_delete_file_request'));
     }
     public function acceptRequest($fileId, $groupId)
     {
@@ -152,6 +152,6 @@ class GroupController extends Controller
             ->where('file_id', $fileId)
             ->where('group_id', $groupId)
             ->update(['type' => 'accepted']);
-        return redirect()->back()->with('success', ' request accepted successfully.');
+        return redirect()->back()->with('success', __('messages.success_accept_file_request'));
     }
 }

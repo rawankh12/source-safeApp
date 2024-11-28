@@ -14,19 +14,13 @@ class UserService
     {
         $this->userRepository = $userRepository;
     }
-
-    
     public function getUserById(int $id)
     {
         return $this->userRepository->findById($id);
-    }
-
-    
+    } 
     public function createUser(array $data)
     {
         $user = new \App\Models\User($data);
         return $this->userRepository->save($user);
     }
-
-
 }

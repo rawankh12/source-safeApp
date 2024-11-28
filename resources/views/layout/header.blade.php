@@ -4,14 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Header with Notifications</title>
-    <!-- Font Awesome CSS -->
+    <title>Header</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <!-- Bootstrap Bundle JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
-    <!-- jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
@@ -79,6 +76,7 @@
                 window.location.href = `/search?query=${encodeURIComponent(query)}`;
             }
         });
+
         document.querySelector('#search-input').addEventListener('keypress', function(event) {
             if (event.key === 'Enter') {
                 const query = this.value;
@@ -87,7 +85,6 @@
                 }
             }
         });
-
         // تحديث عدد الإشعارات
         function updateNotificationCount() {
             fetch('/notifications/unread-count')
@@ -102,7 +99,7 @@
                     }
                 })
                 .catch(error => {
-                    console.error({{ __('messages.error') }}, error);
+                    console.error('{{ __('messages.error') }}', error);
                 });
         }
 
@@ -140,7 +137,7 @@
                     }
                 })
                 .catch(error => {
-                    console.error({{ __('messages.error') }}, error);
+                    console.error('{{ __('messages.error') }}', error);
                 });
         }
         // التابع لتحديث حالة الإشعارات إلى مقروءة
@@ -158,14 +155,57 @@
                     console.log(data.message);
                 })
                 .catch(error => {
-                    console.error({{ __('messages.error') }}, error);
+                    console.error('{{ __('messages.error') }}', error);
                 });
         }
         // أول استدعاء لتحديث الإشعارات
         updateNotificationCount();
         setInterval(updateNotificationCount, 10000);
-    </script>
 
+        // تبديل الثيم
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeToggleBtn = document.getElementById('mode-toggle');
+            const themeIcon = themeToggleBtn.querySelector('i');
+            const body = document.body;
+            const sidebar = document.getElementById('sidebar');
+            const header = document.querySelector('.header');
+            const footer = document.querySelector('.footer');
+
+            themeToggleBtn.addEventListener('click', function() {
+                const isDarkMode = body.classList.toggle('dark-mode');
+                body.classList.toggle('light-mode', !isDarkMode);
+                header.classList.toggle('dark-mode', isDarkMode);
+                header.classList.toggle('light-mode', !isDarkMode);
+                sidebar.classList.toggle('dark-mode', isDarkMode);
+                sidebar.classList.toggle('light-mode', !isDarkMode);
+                footer.classList.toggle('dark-mode', isDarkMode);
+                footer.classList.toggle('light-mode', !isDarkMode);
+                if (isDarkMode) {
+                    themeIcon.classList.replace('lni-sun', 'lni-night');
+                } else {
+                    themeIcon.classList.replace('lni-night', 'lni-sun');
+                }
+                localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+            });
+
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                const isDarkMode = savedTheme === 'dark';
+                body.classList.add(`${savedTheme}-mode`);
+                header.classList.add(`${savedTheme}-mode`);
+                sidebar.classList.add(`${savedTheme}-mode`);
+                footer.classList.add(`${savedTheme}-mode`);
+                themeIcon.classList.add(isDarkMode ? 'lni-night' : 'lni-sun');
+                themeIcon.classList.remove(isDarkMode ? 'lni-sun' : 'lni-night');
+            } else {
+                body.classList.add('dark-mode');
+                header.classList.add('dark-mode');
+                sidebar.classList.add('dark-mode');
+                footer.classList.add('dark-mode');
+                themeIcon.classList.add('lni-night');
+            }
+        });
+    </script>
     <style>
         .header img {
             border-radius: 50%;
@@ -207,7 +247,6 @@
             border-bottom: none;
         }
     </style>
-
 </body>
 
 </html>

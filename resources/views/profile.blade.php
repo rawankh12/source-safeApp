@@ -6,37 +6,22 @@
     <div class="container mt-5 main">
         <div class="grid-container-profile">
             <div class="section profile-section">
-                {{-- <img alt="Profile Image" height="300" --}}
                 <i class="fa fa-user profile-icon" style="font-size: 200px; color: #0c2347;"></i>
-                {{-- width="300" /> --}}
                 <div class="info">
                     <p>
-                        <strong>آخر تسجيل دخول:</strong>
-                        17 أغسطس 2021
-                    </p>
-                    <p>
-                        <strong>الاسم:</strong>
+                        <strong>{{ __('messages.groupname') }}</strong>
                         {{ Auth::user()->name }}
                     </p>
                     <p>
-                        <strong>الهاتف:</strong>
-                        +1 855-869-999-1236
-                    </p>
-                    <p>
-                        <strong>البريد الإلكتروني:</strong>
+                        <strong>{{ __('messages.emailpro') }}</strong>
                         {{ Auth::user()->email }}
                     </p>
                 </div>
             </div>
-            <div class="section files-section">
+            <div class="section1 files-section">
                 <div class="subsection" id="my-files-section">
                     <div style="display: flex; justify-content: space-between; align-items: center; direction: rtl;">
-                        <h3 style="margin: 0;">ملفاتي</h3>
-                        {{-- <form action="{{ route('files.store') }}" method="POST">
-                            @csrf
-                            <button type="submit" class="btn btn-sm btn-Addd"> إضافة
-                                ملف</button>
-                        </form> --}}
+                        <h3 style="margin: 0;">{{ __('messages.myfiles') }}</h3>
                     </div>
                     <hr>
                     <div class="section-content" id="my-files-content">
@@ -44,18 +29,16 @@
                             <div class="file-item" data-id="{{ $file->id }}">
                                 <div>
                                     <strong>{{ $file->name }}</strong>
-                                    {{-- <p>{{ $file->url }}</p> --}}
                                 </div>
                             </div>
                         @endforeach
                     </div>
-                    <a href="{{ route('user.files') }}" class="btn btn-more">رؤية المزيد</a>
+                    <a href="{{ route('user.files') }}" class="btn btn-more1">{{ __('messages.more') }}</a>
                 </div>
 
                 <div class="subsection" id="locked-files-section">
                     <div style="display: flex; justify-content: space-between; align-items: center; direction: rtl;">
-                        <h3 style="margin: 0;">ملفاتي المحجوزة</h3>
-                        {{-- <a href="{{ route('files.store') }}" class="btn btn-sm btn-primary" style="margin-left: 20px;">فك حجز</a> --}}
+                        <h3 style="margin: 0;">{{ __('messages.lockefile') }}</h3>
                     </div>
                     <hr>
                     <div class="section-content" id="locked-files-content">
@@ -63,12 +46,11 @@
                             <div class="file-item" data-id="{{ $file->id }}">
                                 <div>
                                     <strong>{{ $file->name }}</strong>
-                                    {{-- <p>{{ $file->title }}</p> <!-- Assuming you have a title field --> --}}
                                 </div>
                             </div>
                         @endforeach
                     </div>
-                    <a href="{{ route('user.lockedfiles') }}" class="btn btn-more">رؤية المزيد</a>
+                    <a href="{{ route('user.lockedfiles') }}" class="btn btn-more1">{{ __('messages.more') }}</a>
                 </div>
             </div>
         </div>

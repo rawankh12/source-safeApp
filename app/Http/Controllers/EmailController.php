@@ -36,8 +36,6 @@ class EmailController extends Controller
     public function markAsRead(Request $request)
     {
         $user = $request->user();
-
-        // تحديث جميع الإشعارات للمستخدم الحالي إلى مقروءة
         $user->unreadNotifications->markAsRead();
         return response()->json(['success' => 'تم تحديث الإشعارات إلى مقروءة']);
     }

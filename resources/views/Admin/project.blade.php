@@ -20,54 +20,42 @@
 <body>
     <div class="page d-flex">
         <div class="sidebar bg-white p-20 p-relative">
-            <h3 class="p-relative mt-0 text-center">{{ $user->name }}</h3>
+            <h3 class="p-relative mt-0 text-center">{{ Auth::user()->name }}</h3>
             <ul>
                 <li>
                     <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('adminHome') }}">
                         <i class="fa fa-bar-chart"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Dashboard</span>
+                        <span class="fs-14 ml-14 hide-mobile">{{ __('messages.home') }}</span>
                     </a>
                 </li>
                 <li>
                     <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('adminSetting') }}">
                         <i class="fa fa-gear fa-fw"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Setting</span>
+                        <span class="fs-14 ml-14 hide-mobile">{{ __('messages.Setting') }}</span>
                     </a>
                 </li>
                 <li>
-                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('profile') }}">
+                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('profileAdmin') }}">
                         <i class="fa fa-user-o fa-fw"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Profile</span>
+                        <span class="fs-14 ml-14 hide-mobile">{{ __('messages.profile') }}</span>
                     </a>
                 </li>
                 <li>
-                    <a class="active d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('profile') }}">
+                    <a class="active d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('project') }}">
                         <i class="fa fa-share-alt fa-fw"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Projects</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="course.html">
-                        <i class="fa fa-graduation-cap fa-fw"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Courses</span>
+                        <span class="fs-14 ml-14 hide-mobile">{{ __('messages.all') }}</span>
                     </a>
                 </li>
                 <li>
                     <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('adminUser') }}">
                         <i class="fa fa-user-circle-o fa-fw"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Friends</span>
+                        <span class="fs-14 ml-14 hide-mobile">{{ __('messages.allusers') }}</span>
                     </a>
                 </li>
                 <li>
                     <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('adminFile') }}">
                         <i class="fa fa-file-o fa-fw"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Files</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="plan.html">
-                        <i class="fa fa-th-list"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Plans</span>
+                        <span class="fs-14 ml-14 hide-mobile">{{ __('messages.allfiles') }}</span>
                     </a>
                 </li>
             </ul>
@@ -82,237 +70,97 @@
                         <i class="fa fa-bell fa-lg"></i>
                     </span>
                     <img src="images/avatar3.png" alt="">
+                    <form action="{{ route('logout') }}" method="POST" onsubmit="return confirmlogout(event)">
+                        @csrf
+                        <button id="profile-btn" class="logout-btn" type="submit">
+                            <img width="30" height="30" src="https://img.icons8.com/sf-regular/48/exit.png"
+                                alt="exit" />
+                        </button>
+                    </form>
                 </div>
             </div>
-            <h1 class="p-relative">Projects</h1>
+            <h1 class="p-relative">{{ __('messages.all') }}</h1>
             <div class="projects-page d-grid gap-20 m-20 ">
                 <div class="project bg-white p-20 rad-6 p-relative">
-                    <span class="date fs-13 c-grey">15/10/2022</span>
-                    <h4 class="m-0">Al-Ekander</h4>
-                    <p class="c-grey mt-10 mb-10 fs-14">Al-Ekander Dashbord Project Design And Programming And Hosting
-                    </p>
-                    <div class="team">
-                        <a href="#"><img src="images/avatar1.jpg" alt=""></a>
-                        <a href="#"><img src="images/avatar2.png" alt=""></a>
-                        <a href="#"><img src="images/avatar3.png" alt=""></a>
-                        <a href="#"><img src="images/avatar5.png" alt=""></a>
-                        <a href="#"><img src="images/avatar6.jpeg" alt=""></a>
-                    </div>
-                    <div class="tech d-flex">
-                        <span class="fs-13 rad-6 bg-eee">Programming</span>
-                        <span class="fs-13 rad-6 bg-eee">Hosting</span>
-                        <span class="fs-13 rad-6 bg-eee">Design</span>
-                        <span class="fs-13 rad-6 bg-eee">Marketing</span>
-                    </div>
-                    <div class="info between-flex ">
-                        <div class="prog bg-eee">
-                            <span class="bg-red" style="width: 50%;"></span>
-                        </div>
-                        <div class="fs-14 c-grey bg-eee p-10 rad-6">
-                            <i class="fa fa-dollar"></i>
-                            2500
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="project bg-white p-20 rad-6 p-relative">
                     <span class="date fs-13 c-grey">25/11/2020</span>
-                    <h4 class="m-0">Mohammed</h4>
-                    <p class="c-grey mt-10 mb-10 fs-14">MohammedDashbord Project Design 
+                    <h4 class="m-0">group 1</h4>
+                    <p class="c-grey mt-10 mb-10 fs-14">Dashbord Project Design
                     </p>
                     <div class="team">
                         <a href="#"><img src="images/avatar1.jpg" alt=""></a>
                         <a href="#"><img src="images/avatar2.png" alt=""></a>
                         <a href="#"><img src="images/avatar6.jpeg" alt=""></a>
-                    </div>
-                    <div class="tech d-flex">
-                        <span class="fs-13 rad-6 bg-eee">Programming</span>
-                        <span class="fs-13 rad-6 bg-eee">Design</span>
                     </div>
                     <div class="info between-flex ">
                         <div class="prog bg-eee">
                             <span class="bg-green" style="width: 30%;"></span>
                         </div>
-                        <div class="fs-14 c-grey bg-eee p-10 rad-6">
-                            <i class="fa fa-dollar"></i>
-                            500
-                        </div>
                     </div>
-
                 </div>
-
                 <div class="project bg-white p-20 rad-6 p-relative">
-                    <span class="date fs-13 c-grey">5/1/2022</span>
-                    <h4 class="m-0">School </h4>
-                    <p class="c-grey mt-10 mb-10 fs-14">School Dashbord Project Programming And Hosting
+                    <span class="date fs-13 c-grey">25/11/2020</span>
+                    <h4 class="m-0">group 2</h4>
+                    <p class="c-grey mt-10 mb-10 fs-14">Dashbord Project Design
                     </p>
                     <div class="team">
                         <a href="#"><img src="images/avatar1.jpg" alt=""></a>
                         <a href="#"><img src="images/avatar2.png" alt=""></a>
-                        <a href="#"><img src="images/avatar3.png" alt=""></a>
-                    </div>
-                    <div class="tech d-flex">
-                        <span class="fs-13 rad-6 bg-eee">Programming</span>
-                        <span class="fs-13 rad-6 bg-eee">Hosting</span>
-                    </div>
-                    <div class="info between-flex ">
-                        <div class="prog bg-eee">
-                            <span class="bg-green" style="width: 70%;"></span>
-                        </div>
-                        <div class="fs-14 c-grey bg-eee p-10 rad-6">
-                            <i class="fa fa-dollar "></i>
-                            2000
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="project bg-white p-20 rad-6 p-relative">
-                    <span class="date fs-13 c-grey">11/12/2019</span>
-                    <h4 class="m-0">GoGo</h4>
-                    <p class="c-grey mt-10 mb-10 fs-14">GoGo Dashbord Project Design And Programming And Hosting
-                    </p>
-                    <div class="team">
-                        <a href="#"><img src="images/avatar1.jpg" alt=""></a>
-                        <a href="#"><img src="images/avatar3.png" alt=""></a>
-                        <a href="#"><img src="images/avatar5.png" alt=""></a>
                         <a href="#"><img src="images/avatar6.jpeg" alt=""></a>
                     </div>
-                    <div class="tech d-flex">
-                        <span class="fs-13 rad-6 bg-eee">Programming</span>
-                        <span class="fs-13 rad-6 bg-eee">Hosting</span>
-                        <span class="fs-13 rad-6 bg-eee">Design</span>
-                        <span class="fs-13 rad-6 bg-eee">Marketing</span>
-                    </div>
                     <div class="info between-flex ">
                         <div class="prog bg-eee">
-                            <span class="bg-red" style="width: 45%;"></span>
-                        </div>
-                        <div class="fs-14 c-grey bg-eee p-10 rad-6">
-                            <i class="fa fa-dollar"></i>
-                            1400
+                            <span class="bg-green" style="width: 30%;"></span>
                         </div>
                     </div>
-
                 </div>
-
                 <div class="project bg-white p-20 rad-6 p-relative">
-                    <span class="date fs-13 c-grey">15/09/2021</span>
-                    <h4 class="m-0">Al-Doctor</h4>
-                    <p class="c-grey mt-10 mb-10 fs-14">Al-Doctor Dashbord Project Design And Programming 
-                    </p>
-                    <div class="team">
-                        <a href="#"><img src="images/avatar2.png" alt=""></a>
-                        <a href="#"><img src="images/avatar3.png" alt=""></a>
-                        <a href="#"><img src="images/avatar6.jpeg" alt=""></a>
-                    </div>
-                    <div class="tech d-flex">
-                        <span class="fs-13 rad-6 bg-eee">Programming</span>
-                        <span class="fs-13 rad-6 bg-eee">Design</span>
-                        <span class="fs-13 rad-6 bg-eee">Marketing</span>
-                    </div>
-                    <div class="info between-flex ">
-                        <div class="prog bg-eee">
-                            <span class="bg-red" style="width: 90%;"></span>
-                        </div>
-                        <div class="fs-14 c-grey bg-eee p-10 rad-6">
-                            <i class="fa fa-dollar"></i>
-                            3500
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="project bg-white p-20 rad-6 p-relative">
-                    <span class="date fs-13 c-grey">10/08/2020</span>
-                    <h4 class="m-0">Al-Ekander</h4>
-                    <p class="c-grey mt-10 mb-10 fs-14">Al-Ekander Dashbord Project Programming And Hosting
+                    <span class="date fs-13 c-grey">25/11/2020</span>
+                    <h4 class="m-0">group 3</h4>
+                    <p class="c-grey mt-10 mb-10 fs-14">Dashbord Project Design
                     </p>
                     <div class="team">
                         <a href="#"><img src="images/avatar1.jpg" alt=""></a>
                         <a href="#"><img src="images/avatar2.png" alt=""></a>
-                    </div>
-                    <div class="tech d-flex">
-                        <span class="fs-13 rad-6 bg-eee">Programming</span>
-                        <span class="fs-13 rad-6 bg-eee">Hosting</span>
-                        <span class="fs-13 rad-6 bg-eee">Marketing</span>
+                        <a href="#"><img src="images/avatar6.jpeg" alt=""></a>
                     </div>
                     <div class="info between-flex ">
                         <div class="prog bg-eee">
-                            <span class="bg-green" style="width: 35%;"></span>
-                        </div>
-                        <div class="fs-14 c-grey bg-eee p-10 rad-6">
-                            <i class="fa fa-dollar"></i>
-                            200
+                            <span class="bg-green" style="width: 30%;"></span>
                         </div>
                     </div>
-
                 </div>
-
                 <div class="project bg-white p-20 rad-6 p-relative">
-                    <span class="date fs-13 c-grey">18/03/2020</span>
-                    <h4 class="m-0">Supermarket</h4>
-                    <p class="c-grey mt-10 mb-10 fs-14">Supermarket Dashbord Project Design And Hosting
-                    </p>
-                    <div class="team">
-                        <a href="#"><img src="images/avatar2.png" alt=""></a>
-                        <a href="#"><img src="images/avatar3.png" alt=""></a>
-                        <a href="#"><img src="images/avatar5.png" alt=""></a>
-                    </div>
-                    <div class="tech d-flex">
-                        <span class="fs-13 rad-6 bg-eee">Hosting</span>
-                        <span class="fs-13 rad-6 bg-eee">Design</span>
-                        <span class="fs-13 rad-6 bg-eee">Marketing</span>
-                    </div>
-                    <div class="info between-flex ">
-                        <div class="prog bg-eee">
-                            <span class="bg-green" style="width: 40%;"></span>
-                        </div>
-                        <div class="fs-14 c-grey bg-eee p-10 rad-6">
-                            <i class="fa fa-dollar"></i>
-                            2000
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="project bg-white p-20 rad-6 p-relative">
-                    <span class="date fs-13 c-grey">19/10/2021</span>
-                    <h4 class="m-0">Zero</h4>
-                    <p class="c-grey mt-10 mb-10 fs-14">Zero Dashbord Project Design And Programming And Hosting
+                    <span class="date fs-13 c-grey">25/11/2020</span>
+                    <h4 class="m-0">group 4</h4>
+                    <p class="c-grey mt-10 mb-10 fs-14">Dashbord Project Design
                     </p>
                     <div class="team">
                         <a href="#"><img src="images/avatar1.jpg" alt=""></a>
                         <a href="#"><img src="images/avatar2.png" alt=""></a>
-                        <a href="#"><img src="images/avatar5.png" alt=""></a>
                         <a href="#"><img src="images/avatar6.jpeg" alt=""></a>
-                    </div>
-                    <div class="tech d-flex">
-                        <span class="fs-13 rad-6 bg-eee">Programming</span>
-                        <span class="fs-13 rad-6 bg-eee">Hosting</span>
-                        <span class="fs-13 rad-6 bg-eee">Design</span>
-                        <span class="fs-13 rad-6 bg-eee">Marketing</span>
                     </div>
                     <div class="info between-flex ">
                         <div class="prog bg-eee">
-                            <span class="bg-red" style="width: 75%;"></span>
-                        </div>
-                        <div class="fs-14 c-grey bg-eee p-10 rad-6">
-                            <i class="fa fa-dollar"></i>
-                            1900
+                            <span class="bg-green" style="width: 30%;"></span>
                         </div>
                     </div>
-
                 </div>
-
-               
-
-
             </div>
         </div>
     </div>
 
 </body>
+<style>
+    .logout-btn {
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+    }
+
+    .logout-btn img {
+        display: block;
+    }
+</style>
 
 </html>

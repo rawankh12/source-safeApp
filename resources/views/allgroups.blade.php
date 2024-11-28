@@ -42,7 +42,7 @@
                                 action="{{ route('sendrequest', ['groupid' => $group->id]) }}"
                                 method="POST">
                                 @csrf
-                                <button type="submit" class="btn btn-invite">{{ __('messages.sendinvite') }}</button>
+                                <button type="submit" class="btn btn-invite">{{ __('messages.sendrequest') }}</button>
                             </form>
                             </div>
                         </div>
@@ -51,33 +51,32 @@
             @endif
         </div>
 
-        <a href="{{ route('groups.create') }}" class="floating-button" data-toggle="modal" data-target="#createGroupModal" title="انشاء مجموعة جديدة">
+        <a href="{{ route('groups.create') }}" class="floating-button" data-toggle="modal" data-target="#createGroupModal" title="{{ __('messages.add_group') }}">
             +
         </a>
     </div>
-
     <!-- Modal for create group -->
     <div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="createGroupModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="createGroupModalLabel">انشاء غروب جديد</h5>
+                    <h5 class="modal-title" id="createGroupModalLabel">{{ __('messages.add_group') }}</h5>
                 </div>
                 <div class="modal-body">
                     <form action="{{ route('groups.store') }}" method="POST">
                         @csrf
                         <div class="form-group">
-                            <label id="name">الاسم:</label>
+                            <label id="name">{{ __('messages.groupname') }}</label>
                             <input type="text" name="name" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label id="description">الوصف:</label>
+                            <label id="description">{{ __('messages.description') }}</label>
                             <input type="text" name="description" class="form-control" required>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
-                            <button type="submit" class="btn btn-Add">اضافة غروب</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('messages.close') }}</button>
+                            <button type="submit" class="btn btn-Add">{{ __('messages.Addg') }}</button>
                         </div>
                     </form>
                 </div>

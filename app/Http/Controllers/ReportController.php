@@ -24,7 +24,8 @@ class ReportController extends Controller
         $users = $reports->map(function ($report) {
             return $report->user;
         });
-        return $reports;
+        return view('viewreport',compact('reports','users'));
+        // return $reports;
     }
 
     public function getAllReportUser($user_id)

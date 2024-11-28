@@ -4,23 +4,9 @@
 
 @section('content')
 
-    {{-- <div class="header">
-        <div class="link">
-            <a href="{{ route('home') }}">
-                <i class="fa fa-home"></i>
-            </a>
-            <a href="{{ route('profile') }}">
-                <i class="fa fa-user"></i>
-            </a>
-            <a href="{{ route('users') }}">
-                <i class="fa fa-users"></i>
-            </a>
-        </div>
-    </div> --}}
-
     <body>
         <div class="home">
-            <h2 class="text-right">المستخدمين</h2>
+            <h2 class="text-right">{{ __('messages.allusers') }}</h2>
             @if (session('error'))
                 <div class="alert alert-danger" role="alert">
                     {{ session('error') }}
@@ -28,50 +14,49 @@
             @endif
             <div class="row">
                 @if ($users->isEmpty())
-                <p class="text-center" style="margin-right: 50px;">لا يوجد مستخدمين</p>
+                    <p class="text-center" style="margin-right: 50px;">{{ __('messages.nouser') }}</p>
                 @else
                     @foreach ($users as $user)
                         <div class="col-md-4" style="margin-bottom: 20px;">
                             <div class="card mb-4 shadow-sm">
+                                <form action="#" method="POST"
+                                    style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-delete-icon">
+                                        <img src="https://img.icons8.com/material-rounded/24/filled-trash.png"
+                                            alt="filled-trash" title="{{ __('messages.deletefile') }}"
+                                            style="filter: invert(33%) sepia(95%) saturate(5335%) hue-rotate(0deg) brightness(70%) contrast(120%);" />
+                                    </button>
+                                </form>
                                 <div class="card-body">
                                     <i class="fa fa-user"></i>
                                     <h5 class="card-title">{{ $user->name }}</h5>
                                     <h5 class="card-text">{{ $user->email }}</h5>
-                                    {{-- <a href="{{ route('invite') }}" class="btn btn-invite">
-                                        ارسال دعوة
-                                    </a> --}}
+                                    <hr>
+                                    <div class="icons fs-14 p-relative">
+                                        <div class="mb-10">
+                                            <i class="fa fa-file fa-fw"></i>
+                                            <span> Files</span>
+                                        </div>
+                                        <div class="mb-10">
+                                            <img width="20" height="20"
+                                                src="https://img.icons8.com/ios/50/apple-files.png" alt="apple-files" />
+                                            <span> My Groups</span>
+                                        </div>
+                                        <div>
+                                            <img width="20" height="20"
+                                                src="https://img.icons8.com/glyph-neue/64/add-user-group-woman-woman.png"
+                                                alt="add-user-group-woman-woman" />
+                                            <span> Groups Join</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     @endforeach
                 @endif
             </div>
-
-            <!-- Modal for search -->
-            {{-- <a href="#" class="floating-button2" data-toggle="modal" data-target="#searchModal">
-                <i class="fa fa-search"></i>
-            </a> --}}
-            <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="searchModalLabel">search</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="{{ route('search') }}" method="GET">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" name="query" placeholder="enter.....">
-                                </div>
-                                <button type="submit" class="btn btn-Add">Ok ...</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
                     {{ session('success') }}

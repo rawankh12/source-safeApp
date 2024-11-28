@@ -25,49 +25,37 @@
                 <li>
                     <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('adminHome') }}">
                         <i class="fa fa-bar-chart"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Dashboard</span>
+                        <span class="fs-14 ml-14 hide-mobile">{{ __('messages.home') }}</span>
                     </a>
                 </li>
                 <li>
                     <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('adminSetting') }}">
                         <i class="fa fa-gear fa-fw"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Setting</span>
+                        <span class="fs-14 ml-14 hide-mobile">{{ __('messages.Setting') }}</span>
                     </a>
                 </li>
                 <li>
-                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('profile') }}">
+                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('profileAdmin') }}">
                         <i class="fa fa-user-o fa-fw"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Profile</span>
+                        <span class="fs-14 ml-14 hide-mobile">{{ __('messages.profile') }}</span>
                     </a>
                 </li>
                 <li>
-                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('profile') }}">
+                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('project') }}">
                         <i class="fa fa-share-alt fa-fw"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Projects</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="course.html">
-                        <i class="fa fa-graduation-cap fa-fw"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Courses</span>
+                        <span class="fs-14 ml-14 hide-mobile">{{ __('messages.all') }}</span>
                     </a>
                 </li>
                 <li>
                     <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('adminUser') }}">
                         <i class="fa fa-user-circle-o fa-fw"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Friends</span>
+                        <span class="fs-14 ml-14 hide-mobile">{{ __('messages.allusers') }}</span>
                     </a>
                 </li>
                 <li>
                     <a class="active d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('adminFile') }}">
                         <i class="fa fa-file-o fa-fw"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Files</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="plan.html">
-                        <i class="fa fa-th-list"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Plans</span>
+                        <span class="fs-14 ml-14 hide-mobile">{{ __('messages.allfiles') }}</span>
                     </a>
                 </li>
             </ul>
@@ -82,16 +70,23 @@
                         <i class="fa fa-bell fa-lg"></i>
                     </span>
                     <img src="images/avatar3.png" alt="">
+                    <form action="{{ route('logout') }}" method="POST" onsubmit="return confirmlogout(event)">
+                        @csrf
+                        <button id="profile-btn" class="logout-btn" type="submit">
+                            <img width="30" height="30" src="https://img.icons8.com/sf-regular/48/exit.png"
+                                alt="exit" />
+                        </button>
+                    </form>
                 </div>
             </div>
-            <h1 class="p-relative">Files</h1>
+            <h1 class="p-relative">{{ __('messages.allfiles') }}</h1>
             <div class="file-page m-20 d-flex gap-20">
                 <div class="file-stats p-20 bg-white rad-10">
-                    <h2 class="mt-0 mb-15 text-center-mobile">Files Statistics</h2>
+                    <h2 class="mt-0 mb-15 text-center-mobile">{{ __('messages.FilesStatistics') }}</h2>
                     <div class="d-flex algin-center b-eee p-10 mb-15 rad-6 fs-13">
                         <i class="blue fa fa-file-pdf-o fa-lg center-flex c-red icon"></i>
                         <div class="info ">
-                            <span>Count File</span>
+                            <span>{{ __('messages.CountFile') }}</span>
                             <span class="c-grey d-block mb-5">{{ $countFiles }}</span>
                         </div>
                         <div class="size c-grey">{{ $totalSizeInMb }} Mb</div>
@@ -100,7 +95,7 @@
                     <a class="upload bg-blue c-white fs-13 rad-6 d-block w-fit"
                         href="{{ route('download.all.files') }}">
                         <i class="fa fa-hand-pointer-o mr-10"></i>
-                        Upload All File
+                        {{ __('messages.UploadAllFile') }}
                     </a>
                 </div>
                 <div class="file-content d-grid gap-20">
@@ -126,5 +121,17 @@
     </div>
 </body>
 
+<style>
+    .logout-btn {
+        background: none;
+        border: none;
+        padding: 0;       
+        cursor: pointer;
+    }
+
+    .logout-btn img {
+        display: block;
+    }
+</style>
 
 </html>

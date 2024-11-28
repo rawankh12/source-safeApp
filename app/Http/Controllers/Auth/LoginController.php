@@ -41,7 +41,7 @@ class LoginController extends Controller
             $user = User::where('email', $validatedData['email'])->first();
 
             if (!$user || !Hash::check($validatedData['password'], $user->password)) {
-                return redirect()->back()->with('error', 'Invalid credentials.');
+                return redirect()->back()->with('error', __('messages.invalid_credentials'));
             }
 
             $accessToken = $user->createToken('auth_token')->plainTextToken;
@@ -60,13 +60,13 @@ class LoginController extends Controller
 
             if ($user->role == 1) {
                 return redirect()->route('home')->with([
-                    'success' => 'Login successful.',
+                    'success' => __('messages.login_success'),
                     'access_token' => $accessToken,
                     'refresh_token' => $refreshToken
                 ]);
             } else {
                 return redirect()->route('adminHome')->with([
-                    'success' => 'Login successful.',
+                    'success' => __('messages.login_success'),
                     'access_token' => $accessToken,
                     'refresh_token' => $refreshToken
                 ]);
@@ -74,9 +74,10 @@ class LoginController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             \Log::error($e->getMessage());
-            return back()->withErrors(['error' => 'Something went wrong, please try again.']);
+            return back()->withErrors(['error' => __('messages.error_message')]);
         }
     }
+
 
 
 

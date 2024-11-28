@@ -30,7 +30,7 @@ class FileBlockedNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => "المستخدم {$this->userName} {$this->action} الملف: {$this->fileName}", 
+            'message' => "{$this->userName} {$this->action}  {$this->fileName}", 
             'userName' => $this->userName,
             'fileName' => $this->fileName,
             'action' => $this->action,

@@ -59,10 +59,12 @@ class AdminController extends Controller
     {
         $user = Auth::user();
         $allUsers = User::where('role', 1)
-            ->withCount(['files', 'groups', 'createdGroups']) // حساب عدد الملفات والمجموعات
-            ->with(['bannedUser' => function ($query) { // جلب بيانات حالة الحظر
-                $query->select('user_id'); // إذا كنت تحتاج فقط لـ user_id
-            }])
+            ->withCount(['files', 'groups', 'createdGroups'])
+            ->with([
+                'bannedUser' => function ($query) {
+                    $query->select('user_id');
+                }
+            ])
             ->get();
 
         // return $allUsers;
@@ -86,5 +88,28 @@ class AdminController extends Controller
             return response()->download($zipFilePath)->deleteFileAfterSend(true);
         }
         return response()->json(['error' => 'Failed to create ZIP file'], 500);
+    }
+
+    public function indexx()
+    {
+        $user = Auth::user();
+        $files = File::where('user_id', Auth::id())->get();
+        $lockedFiles = File::where('user_id', $user->id)
+            ->whereHas('groups', function ($query) {
+                $query->where('status', 'blocked');
+            })
+            ->with([
+                'groups' => function ($query) {
+                    $query->where('status', 'blocked');
+                }
+            ])
+            ->get();
+
+        return view('Admin.porfile', compact('user', 'files', 'lockedFiles'));
+    }
+
+    public function view()
+    {
+          return view('Admin.project');
     }
 }

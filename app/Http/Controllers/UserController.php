@@ -42,12 +42,12 @@ class UserController extends Controller
                 ->get();
 
             if ($users->isEmpty()) {
-                return back()->with('error', 'No users found for your search.')->withInput();
+                return back()->with('error', __('messages.no_users_found'))->withInput();
             }
 
             return view('usersearch', compact('users'));
         } else {
-            return back()->with('error', 'Please enter a search term.')->withInput();
+            return back()->with('error', __('messages.enter_search_term'))->withInput();
         }
     }
 
@@ -63,7 +63,7 @@ class UserController extends Controller
         //  return $inviting ;
         if ($inviting) {
 
-            return redirect()->back()->withErrors('You are already send a invitation to this user, wait for the responce!');
+            return redirect()->back()->withErrors(__('messages.invitation_already_sent'));
         } else {
 
             $invite = UserGroup::create([
@@ -74,18 +74,15 @@ class UserController extends Controller
                 'updated_at' => now()
             ]);
             // return $inviting ;
-            return redirect()->back()->with('success', 'invitation request sent successfully.');
+            return redirect()->back()->with('success', __('messages.invitation_sent_successfully'));
         }
     }
-
-    //    return view('mygroup',compact('inviteuser'));
-    // }
-
+    
     public function indexx()
-{
-    $user = Auth::user(); // جلب المستخدم الحالي
-    $files = File::where('user_id', Auth::id())->get();
-    $lockedFiles = File::where('user_id', $user->id)
+    {
+        $user = Auth::user(); 
+        $files = File::where('user_id', Auth::id())->get();
+        $lockedFiles = File::where('user_id', $user->id)
             ->whereHas('groups', function ($query) {
                 $query->where('status', 'blocked');
             })
@@ -96,7 +93,7 @@ class UserController extends Controller
             ])
             ->get();
 
-    return view('profile', compact('user', 'files', 'lockedFiles'));
-}
+        return view('profile', compact('user', 'files', 'lockedFiles'));
+    }
 
 }

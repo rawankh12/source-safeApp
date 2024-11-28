@@ -129,7 +129,7 @@ a.sidebar-link {
    margin-right: 0; 
 }
 a.sidebar-link:hover {
-   background-color: #eae7f413;
+   background-color: #b0aeb4;
    border-right: 3px solid #3b7ddd; 
 }
 .sidebar-item {
@@ -137,7 +137,7 @@ a.sidebar-link:hover {
    margin-right: 0;
 }
 .sidebar-link.active {
-   color: rgb(106, 176, 195) !important;
+   color: rgb(118, 201, 225) !important;
 }
 .footer {
    position: fixed;
@@ -419,10 +419,9 @@ body.light-mode .profile-btn a {
 /*home*/
 .grid-container {
    display: flex;
-   gap: 5px;
+   gap: 10px;
    justify-content: space-between;
    top: 50px;
-   
    position: relative;
 }
 .main-text-section {
@@ -436,37 +435,25 @@ body.light-mode .profile-btn a {
    display: block;
    max-width: 80%;
    object-fit: cover;
-   /* height: 80%; */
 }
 .section {
    padding: 10px;
    background-color: var(--primary-color);
    border-radius: 20px;
-   width: 30%;
    border: 1px solid var(--border-color);
    flex: 1;
+   height: 300px;
 }
 .section h3 {
    text-align: right;
    margin-bottom: 15px;
-}
-.section-content {
-   flex: 1;
-   overflow-y: auto;
-   text-align: right;
-   border-radius: 20px;
-}
-.item {
-   padding: 5px;
-   margin: 5px 0;
-   background-color: var(--background-color);
 }
 .grid-container .section:nth-child(n + 2) {
    grid-column: span 2; 
 }
 .btn-more {
    display: block;
-   margin-top: 20px;
+   margin-top: 170px;
    padding: 10px;
    text-align: center;
    color: var(--text-color);
@@ -479,6 +466,13 @@ body.light-mode .profile-btn a {
 .grid-container-profile {
    display: flex;
    gap: 20px;
+}
+.section1 {
+   padding: 10px;
+   background-color: var(--primary-color);
+   border-radius: 20px;
+   border: 1px solid var(--border-color);
+   flex: 1;
 }
 .profile-section {
    border: 2px solid var(--border-color);
@@ -500,14 +494,25 @@ body.light-mode .profile-btn a {
    display: flex;
    flex-direction: column;
    gap: 20px;
-   width: 65%;
+   width: 50%;
+   /* height: 37.5rem; */
    border-radius: 20px;
    border: 1px solid  var(--border-color);
+}
+.btn-more1 {
+   display: block;
+   margin-top: 100px;
+   padding: 10px;
+   text-align: center;
+   color: var(--text-color);
+   text-decoration: none;
+   border: 1px solid var(--text-color);
+   font-weight: bold;
+   border-radius: 15px;
 }
 .subsection {
    padding: 20px;
    background-color: var(--background-color);
-
    display: flex;
    flex-direction: column;
 }

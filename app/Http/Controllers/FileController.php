@@ -26,7 +26,7 @@ class FileController extends Controller
         $user = Auth::user();
         $group = Group::findOrFail($id);
         if (!$group) {
-            return redirect()->back()->withErrors('No group found for the user');
+            return redirect()->back()->withErrors(__('messages.no_group_found'));
         }
         $existingFiles = $group->acceptedfiles;
         $userFiles = File::where('user_id', Auth::id())->get();
@@ -37,10 +37,11 @@ class FileController extends Controller
         $user = Auth::user();
         $group = Group::findOrFail($id);
         if (!$group) {
-            return redirect()->back()->withErrors('No group found for the user');
+            return redirect()->back()->withErrors(__('messages.no_group_found'));
         }
         $existingFiles = $group->acceptedfiles;
-        return view('memberfile', compact('group', 'existingFiles'));
+        $userFiles = File::where('user_id', Auth::id())->get();
+        return view('memberfile', compact('group', 'existingFiles', 'userFiles'));
     }
     public function userFile(Request $request)
     {
@@ -78,7 +79,7 @@ class FileController extends Controller
     {
         $this->validate($request, ['file' => 'required|mimes:pdf,docx']);
         $fileService->storeFile($request->file('file'), $request->all());
-        return redirect()->back()->with('success', 'File created successfully');
+        return redirect()->back()->with('success', __('messages.file_created'));
     }
     public function addToGroup(Request $request, FileService $fileService)
     {
@@ -104,7 +105,7 @@ class FileController extends Controller
             $updated = $this->fileService->updateFile($request->validated(), $groupId, $fileId, $userId);
 
             if ($updated) {
-                return redirect()->back()->with('success', 'File updated successfully');
+                return redirect()->back()->with('success', __('messages.file_updated'));
             } else {
                 return redirect()->back()->withErrors('File or Group not found');
             }
@@ -124,7 +125,7 @@ class FileController extends Controller
 
             return redirect()->back()->withErrors($result['message']);
         } catch (\Exception $e) {
-            return redirect()->back()->withErrors('An error occurred while deleting the file.');
+            return redirect()->back()->withErrors(__('messages.delete_error'));
         }
     }
     public function blockFile(Request $request, $groupId)
@@ -174,7 +175,7 @@ class FileController extends Controller
 
             return redirect()->back()->withErrors($result['message']);
         } catch (\Exception $e) {
-            return redirect()->back()->withErrors('An error occurred while uploading the file.');
+            return redirect()->back()->withErrors(__('messages.upload_error'));
         }
     }
 }

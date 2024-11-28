@@ -25,53 +25,58 @@
                 <li>
                     <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('adminHome') }}">
                         <i class="fa fa-bar-chart"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Dashboard</span>
+                        <span class="fs-14 ml-14 hide-mobile">{{ __('messages.home') }}</span>
                     </a>
                 </li>
                 <li>
                     <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('adminSetting') }}">
                         <i class="fa fa-gear fa-fw"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Setting</span>
+                        <span class="fs-14 ml-14 hide-mobile">{{ __('messages.Setting') }}</span>
                     </a>
                 </li>
                 <li>
-                    <a class="active d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('profile') }}">
+                    <a class="active d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('profileAdmin') }}">
                         <i class="fa fa-user-o fa-fw"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Profile</span>
+                        <span class="fs-14 ml-14 hide-mobile">{{ __('messages.profile') }}</span>
                     </a>
                 </li>
                 <li>
-                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('profile') }}">
+                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('project') }}">
                         <i class="fa fa-share-alt fa-fw"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Projects</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="course.html">
-                        <i class="fa fa-graduation-cap fa-fw"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Courses</span>
+                        <span class="fs-14 ml-14 hide-mobile">{{ __('messages.all') }}</span>
                     </a>
                 </li>
                 <li>
                     <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('adminUser') }}">
                         <i class="fa fa-user-circle-o fa-fw"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Friends</span>
+                        <span class="fs-14 ml-14 hide-mobile">{{ __('messages.allusers') }}</span>
                     </a>
                 </li>
                 <li>
                     <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('adminFile') }}">
                         <i class="fa fa-file-o fa-fw"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Files</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="plan.html">
-                        <i class="fa fa-th-list"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Plans</span>
+                        <span class="fs-14 ml-14 hide-mobile">{{ __('messages.allfiles') }}</span>
                     </a>
                 </li>
             </ul>
         </div>
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                {{ session('success') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+        @if ($errors->any())
+            <div class="alert alert-danger" style="background-color: rgb(211, 231, 231); color:black;">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="content w-full">
             <div class="head bg-white p-15 between-flex">
                 <div class="search p-relative">
@@ -82,173 +87,60 @@
                         <i class="fa fa-bell fa-lg"></i>
                     </span>
                     <img src="images/avatar3.png" alt="">
+                    <form action="{{ route('logout') }}" method="POST" onsubmit="return confirmlogout(event)">
+                        @csrf
+                        <button id="profile-btn" class="logout-btn" type="submit">
+                            <img width="30" height="30" src="https://img.icons8.com/sf-regular/48/exit.png"
+                                alt="exit" />
+                        </button>
+                    </form>
                 </div>
             </div>
-            <h1 class="p-relative">Profile</h1>
+            <h1 class="p-relative">{{ __('messages.profile') }}</h1>
             <div class="profile-page p-20">
                 <div class="overview bg-white rad-10 d-flex algin-center">
                     <div class="avater-box p-20 text-center">
                         <img class="mb-10 rad-hlef" src="images/avatar3.png" alt="">
-                        <h3 class="m-0">Kahder Eskander</h3>
-                        <p class="c-grey mb-10">level 10</p>
+                        <h3 class="m-0">{{ $user->name }}</h3>
                         <div class="level rad-6 bg-eee p-relative">
                             <span style="width:70%"></span>
                         </div>
-                        <div class="rating mt-10 mb-10">
-                            <i class="fa fa-star c-orange fs-13"></i>
-                            <i class="fa fa-star c-orange fs-13"></i>
-                            <i class="fa fa-star c-orange fs-13"></i>
-                            <i class="fa fa-star c-orange fs-13"></i>
-                            <i class="fa fa-star c-orange fs-13"></i>
-                        </div>
-                        <p class="c-grey m-0 fs-13">550 Rating</p>
                     </div>
 
                     <div class="info-box w-full text-center-mobile">
                         <div class="box p-20 d-flex algin-center">
-                            <h4 class="fs-15 m-0 w-full c-grey">Genral Information</h4>
+                            <h4 class="fs-15 m-0 w-full c-grey">{{ __('messages.GenralInformation') }}</h4>
                             <div class="fs-14">
-                                <span class="c-grey">Full Name: </span>
-                                <span>Khader Eskander</span>
+                                <span class="c-grey">{{ __('messages.groupname') }} </span>
+                                <span>{{ $user->name }}</span>
                             </div>
-                            <div class="fs-14">
+                            {{-- <div class="fs-14">
                                 <span class="c-grey">Gender: </span>
                                 <span>Male</span>
-                            </div>
+                            </div> --}}
                             <div class="fs-14">
-                                <span class="c-grey">Contry: </span>
-                                <span>Syria</span>
-                            </div>
-                            <div class="fs-14">
-                                <label>
-                                    <input class="toggle-checkbox" type="checkbox" />
-                                    <div class="toggle-switch"></div>
-
-                                </label>
+                                <span class="c-grey">{{ __('messages.emailpro') }} </span>
+                                <span>{{ $user->email }}</span>
                             </div>
                         </div>
-                        <div class="box p-20 d-flex algin-center">
-                            <h4 class="fs-15 m-0 w-full c-grey">Personal Information</h4>
-                            <div class="fs-14">
-                                <span class="c-grey">Email: </span>
-                                <span>Khader@gmail.com</span>
-                            </div>
-                            <div class="fs-14">
-                                <span class="c-grey">Phone: </span>
-                                <span>+963930668517</span>
-                            </div>
-                            <div class="fs-14">
-                                <span class="c-grey">Date Of Brath: </span>
-                                <span>17/3/2001</span>
-                            </div>
-                            <div class="fs-14">
-                                <label>
-                                    <input class="toggle-checkbox" type="checkbox" />
-                                    <div class="toggle-switch"></div>
-
-                                </label>
-                            </div>
-                        </div>
-                        <div class="box p-20 d-flex algin-center">
-                            <h4 class="fs-15 m-0 w-full c-grey">Job Information</h4>
-                            <div class="fs-14">
-                                <span class="c-grey">Title: </span>
-                                <span>FrontEnd Develpoer</span>
-                            </div>
-                            <div class="fs-14">
-                                <span class="c-grey">Program Language: </span>
-                                <span>React.js</span>
-                            </div>
-                            <div class="fs-14">
-                                <span class="c-grey">Year Of Experience: </span>
-                                <span>2 Year</span>
-                            </div>
-                            <div class="fs-14">
-                                <label>
-                                    <input class="toggle-checkbox" type="checkbox" />
-                                    <div class="toggle-switch"></div>
-
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-
-                </div>
-                <div class="othere-data d-flex gap-20">
-                    <div class="skills-card mt-20 bg-white rad-10 ">
-                        <h2 class="ml-14 ">My Skills</h2>
-                    <p class="c-grey mt-0 mb-20 ml-14 fs-15">Complete Skills List</p>
-                    <ul>
-                        <li><span>HTML</span></li>
-                        <li><span>Css</span></li>
-                        <li><span>JavaScript</span></li>
-                        <li><span>REact.js</span></li>
-                        <li><span>PHP</span></li>
-                        <li><span>Laravel</span></li>
-                    </ul>
-                    </div>
-
-                    <div class="activities mt-20 bg-white rad-10 ">
-                        <h2 class="ml-14">Latest Activities</h2>
-                    <p class="c-grey mt-0 mb-20 ml-14 fs-15">Latest Activities Done By The User</p>
-                    <div class="activity d-flex algin-center text-center-mobile">
-                        <img src="images/desicon3.png" alt="">
-                        <div class="info">
-                            <span class="d-block mb-10">Store</span>
-                            <span class="c-grey ">Bought The Mastring React Course</span>
-                        </div>
-                        <div class="date">
-                            <span class="time d-block mb-10">18:15</span>
-                            <span class="c-grey ">Yesterday</span>
-                        </div>
-                    </div>
-                    <div class="activity d-flex algin-center text-center-mobile">
-                        <img src="images/icon05.png" alt="">
-                        <div class="info">
-                            <span class="d-block mb-10">Academy</span>
-                            <span class="c-grey ">Got The React Certificate</span>
-                        </div>
-                        <div class="date">
-                            <span class="time d-block mb-10">10:15</span>
-                            <span class="c-grey ">Yesterday</span>
-                        </div>
-                    </div>
-                    <div class="activity d-flex algin-center text-center-mobile">
-                        <img src="images/icon06.png" alt="">
-                        <div class="info">
-                            <span class="d-block mb-10">Badges</span>
-                            <span class="c-grey ">Unlocked The 10 Skills Badges</span>
-                        </div>
-                        <div class="date">
-                            <span class="time d-block mb-10">18:15</span>
-                            <span class="c-grey ">Yesterday</span>
-                        </div>
-                    </div>
-                    <div class="activity d-flex algin-center text-center-mobile">
-                        <img src="images/desicon3.png" alt="">
-                        <div class="info">
-                            <span class="d-block mb-10">Store</span>
-                            <span class="c-grey ">Bought The Mastring React Course</span>
-                        </div>
-                        <div class="date">
-                            <span class="time d-block mb-10">18:15</span>
-                            <span class="c-grey ">Yesterday</span>
-                        </div>
-                    </div>
-
                     </div>
                 </div>
-
-
-
-
             </div>
         </div>
     </div>
 
 </body>
+<style>
+    .logout-btn {
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+    }
+
+    .logout-btn img {
+        display: block;
+    }
+</style>
 
 </html>

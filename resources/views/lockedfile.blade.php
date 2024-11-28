@@ -6,10 +6,10 @@
 
     <body>
         <div class="home">
-            <h2 class="text-right">ملفاتي المحجوزة</h2>
+            <h2 class="text-right">{{ __('messages.lockefile') }}</h2>
 
             @if ($files->isEmpty())
-                <p class="text-center" style="margin-right: 50px;">لا يوجد ملفات محجوزة</p>
+                <p class="text-center" style="margin-right: 50px;">{{ __('messages.nofile') }}</p>
             @else
                 <div class="row">
                     @foreach ($files as $file)
@@ -33,7 +33,7 @@
                                             action="{{ route('unblockfile', ['groupId' => $group->id, 'fileId' => $file->id]) }}"
                                             style="display:inline;">
                                             @csrf
-                                            <button type="submit" class="btn btn-Add">فك الحجز</button>
+                                            <button type="submit" class="btn btn-Add">{{ __('messages.unlock') }}</button>
                                         </form>
                                     @endforeach
                                 </div>
@@ -45,22 +45,23 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="uploadFileModalLabel-{{ $file->id }}">رفع ملف
-                                        </h5>
+                                        <h5 class="modal-title" id="uploadFileModalLabel-{{ $file->id }}">
+                                            {{ __('messages.uploadfile') }}</h5>
                                     </div>
                                     <div class="modal-body">
                                         <form action="{{ route('uploadfile', ['fileId' => $file->id]) }}" method="POST"
                                             enctype="multipart/form-data">
                                             @csrf
                                             <div class="form-group">
-                                                <label for="file-{{ $file->id }}">اختر ملفًا:</label>
+                                                <label for="file-{{ $file->id }}">{{ __('messages.choose') }}</label>
                                                 <input type="file" name="file" id="file-{{ $file->id }}"
                                                     class="form-control" required>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary"
-                                                    data-dismiss="modal">إلغاء</button>
-                                                <button type="submit" class="btn btn-Add">رفع</button>
+                                                    data-dismiss="modal">{{ __('messages.no') }}</button>
+                                                <button type="submit"
+                                                    class="btn btn-Add">{{ __('messages.upload') }}</button>
                                             </div>
                                         </form>
                                     </div>

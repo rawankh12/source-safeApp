@@ -6,23 +6,25 @@
 
     <body>
         <div class="home">
-            <h2 class="text-right">ملفات الغروب : {{ $group->name }}</h2>
+            <h2 class="text-right">{{ __('messages.fileof') }} {{ $group->name }}</h2>
             @if ($existingFiles->isEmpty())
-                <p class="text-right" style="margin-right: 50px;">لا يوجد أي ملفات متاحة هنا.</p>
+                <p class="text-right" style="margin-right: 50px;">{{ __('messages.nofile') }}</p>
             @else
-                <form action="{{ route('blockfile', ['groupId' => $group->id]) }}" method="POST" id="multiFileActionForm">
+                <div class="text-right mb-4">
+                    <button id="showCheckboxes" class="btn btn-Addcheck">{{ __('messages.select') }}</button>
+                </div>
+                <form action="{{ route('blockfile', ['groupId' => $group->id]) }}" method="POST" id="multiFileBookingForm">
                     @csrf
                     <div class="row">
                         @foreach ($existingFiles as $file)
                             <div class="col-md-4" style="margin-bottom: 20px;">
                                 <div class="card shadow-sm">
                                     <div class="card-body">
-                                        <!-- شيك بوكس لتحديد الملفات -->
                                         <input type="checkbox" name="file_ids[]" value="{{ $file->id }}"
-                                            id="file-{{ $file->id }}" class="form-check-input">
-                                        <label for="file-{{ $file->id }}" class="form-check-label"></label>
+                                            id="file-{{ $file->id }}" class="form-check-input file-checkbox d-none">
+                                        <label for="file-{{ $file->id }}" class="form-check-label d-none"></label>
                                         <h5 class="card-title">{{ $file->name }}</h5>
-                                        <p class="card-text">حالة الملف: {{ $file->pivot->status }}</p>
+                                        <p class="card-text">{{ __('messages.status') }} {{ $file->pivot->status }}</p>
                                         <p class="card-text">
                                             <a href="{{ url('/view-file/' . $file->url) }}" target="_blank"
                                                 rel="noopener noreferrer">{{ $file->url }}</a>
@@ -32,48 +34,47 @@
                             </div>
                         @endforeach
                         <div class="text-left mt-4">
-                            <button type="submit" class="btn btn-Addb" style="margin-top: 30px;">حجز الملفات
-                                المختارة</button>
+                            <button type="submit" class="btn btn-Addb d-none" style="margin-top: 30px;" id="bookAllButton">{{ __('messages.do') }}</button>
                         </div>
                     </div>
                 </form>
             @endif
             <!-- Modal for creating a new file -->
             <a href="#" class="floating-button" data-toggle="modal" data-target="#createFileModal"
-                title="انشاء ملف جديدة">+</a>
+                title="{{ __('messages.add_file') }}">+</a>
             <div class="modal fade" id="createFileModal" tabindex="-1" role="dialog"
                 aria-labelledby="createFileModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="createFileModalLabel">اختر ملف</h5>
+                            <h5 class="modal-title" id="createFileModalLabel">{{ __('messages.choose') }}</h5>
                         </div>
                         <div class="modal-body">
                             <form action="{{ route('addToGroup') }}" method="POST">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="fileSelect">اختر ملف:</label>
+                                    <label for="fileSelect">{{ __('messages.choose') }}</label>
                                     @foreach ($userFiles as $file)
                                         <div class="form-check">
                                             <input class="form-check-input custom-checkbox" type="checkbox"
                                                 name="file_ids[]" value="{{ $file->id }}"
                                                 id="file_{{ $file->id }}">
-                                            <label class="form-check-label custom-label" for="file_{{ $file->id }}" style="margin-right: 50px;">
+                                            <label class="form-check-label custom-label" for="file_{{ $file->id }}"
+                                                style="margin-right: 50px;">
                                                 {{ $file->name }}
                                             </label>
                                         </div>
                                     @endforeach
                                 </div>
-                                {{-- <input type="hidden" name="file_id" value="{{ $file->id }}"> --}}
                                 <input type="hidden" name="group_id" value="{{ $group->id }}">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
-                                <button type="submit" class="btn btn-Add">اضافة</button>
+                                <button type="button" class="btn btn-secondary"
+                                    data-dismiss="modal">{{ __('messages.close') }}</button>
+                                <button type="submit" class="btn btn-Add">{{ __('messages.Addg') }}</button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- رسائل التنبيه -->
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
                     {{ session('success') }}
@@ -93,8 +94,21 @@
             @endif
         </div>
     </body>
+    <script>
+        document.getElementById('showCheckboxes').addEventListener('click', function() {
+            document.querySelectorAll('.file-checkbox').forEach(checkbox => checkbox.classList.toggle('d-none'));
+            document.querySelectorAll('.form-check-label').forEach(label => label.classList.toggle('d-none'));
+            document.getElementById('bookAllButton').classList.toggle('d-none');
+        });
+
+        document.getElementById('bookAllButton').addEventListener('click', function(event) {
+
+            event.preventDefault();
+
+            document.getElementById('multiFileBookingForm').submit();
+        });
+    </script>
     <style>
-        /* هيدر */
         .header {
             position: fixed;
             top: 0;
@@ -149,12 +163,10 @@
             margin-top: 100px;
         }
 
-        /* تعديل التنسيقات العامة للصفحة */
         .container {
             margin-top: 5rem;
         }
 
-        /* Title*/
         .title {
             text-align: right;
             position: relative;

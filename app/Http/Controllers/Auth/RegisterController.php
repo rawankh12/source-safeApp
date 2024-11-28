@@ -51,7 +51,6 @@ class RegisterController extends Controller
     {
         DB::beginTransaction();
         try {
-            
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -63,8 +62,8 @@ class RegisterController extends Controller
 
             $accessToken = $user->createToken('auth_token')->plainTextToken;
 
-            $refreshToken = Str::random(64); 
-            $expiresAt = now()->addDays(30); 
+            $refreshToken = Str::random(64);
+            $expiresAt = now()->addDays(30);
 
             DB::table('refresh_tokens')->insert([
                 'user_id' => $user->id,
@@ -74,14 +73,15 @@ class RegisterController extends Controller
 
             DB::commit();
             return redirect()->route('home')->with([
-                'success' => 'You are logged in successfully.',
+                'success' => __('messages.registration_success'),
                 'access_token' => $accessToken,
                 'refresh_token' => $refreshToken
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withErrors(['Something went wrong, please try again.']);
+            return back()->withErrors(['error' => __('messages.error_messages')]);
         }
     }
+
 
 }

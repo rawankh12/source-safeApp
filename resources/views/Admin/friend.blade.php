@@ -26,49 +26,37 @@
                 <li>
                     <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('adminHome') }}">
                         <i class="fa fa-bar-chart"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Dashboard</span>
+                        <span class="fs-14 ml-14 hide-mobile">{{ __('messages.home') }}</span>
                     </a>
                 </li>
                 <li>
                     <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('adminSetting') }}">
                         <i class="fa fa-gear fa-fw"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Setting</span>
+                        <span class="fs-14 ml-14 hide-mobile">{{ __('messages.Setting') }}</span>
                     </a>
                 </li>
                 <li>
-                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('profile') }}">
+                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('profileAdmin') }}">
                         <i class="fa fa-user-o fa-fw"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Profile</span>
+                        <span class="fs-14 ml-14 hide-mobile">{{ __('messages.profile') }}</span>
                     </a>
                 </li>
                 <li>
-                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('profile') }}">
+                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('project') }}">
                         <i class="fa fa-share-alt fa-fw"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Projects</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="course.html">
-                        <i class="fa fa-graduation-cap fa-fw"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Courses</span>
+                        <span class="fs-14 ml-14 hide-mobile">{{ __('messages.all') }}</span>
                     </a>
                 </li>
                 <li>
                     <a class="active d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('adminUser') }}">
                         <i class="fa fa-user-circle-o fa-fw"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Friends</span>
+                        <span class="fs-14 ml-14 hide-mobile">{{ __('messages.allusers') }}</span>
                     </a>
                 </li>
                 <li>
                     <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="{{ route('adminFile') }}">
                         <i class="fa fa-file-o fa-fw"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Files</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-items fs-14 rad-6 c-black p-10" href="plan.html">
-                        <i class="fa fa-th-list"></i>
-                        <span class="fs-14 ml-14 hide-mobile">Plans</span>
+                        <span class="fs-14 ml-14 hide-mobile">{{ __('messages.allfiles') }}</span>
                     </a>
                 </li>
             </ul>
@@ -83,9 +71,16 @@
                         <i class="fa fa-bell fa-lg"></i>
                     </span>
                     <img src="images/avatar3.png" alt="">
+                    <form action="{{ route('logout') }}" method="POST" onsubmit="return confirmlogout(event)">
+                        @csrf
+                        <button id="profile-btn" class="logout-btn" type="submit">
+                            <img width="30" height="30" src="https://img.icons8.com/sf-regular/48/exit.png"
+                                alt="exit" />
+                        </button>
+                    </form>
                 </div>
             </div>
-            <h1 class="p-relative">Friends</h1>
+            <h1 class="p-relative">{{ __('messages.allusers') }}</h1>
             <div class="friend-page d-grid p-relative gap-20 m-20">
                 @foreach ($allUsers as $user)
                     <div class="friend bg-white rad-6 p-20 p-relative">
@@ -97,31 +92,31 @@
                         <div class="icons fs-14 p-relative">
                             <div class="mb-10">
                                 <i class="fa fa-file fa-fw"></i>
-                                <span>{{ $user->files_count }} Files</span>
+                                <span>{{ $user->files_count }} {{ __('messages.allusers') }}</span>
                             </div>
                             <div class="mb-10">
                                 <i class="fa fa-group fa-fw"></i>
-                                <span>{{ $user->created_groups_count }} My Groups</span>
+                                <span>{{ $user->created_groups_count }} {{ __('messages.mygroups') }}</span>
                             </div>
                             <div>
                                 <i class="fa fa-newspaper-o fa-fw"></i>
-                                <span>{{ $user->groups_count }} Groups Join</span>
+                                <span>{{ $user->groups_count }} {{ __('messages.membergroup') }}</span>
                             </div>
                         </div>
                         <div class="info between-flex fs-13">
-                            <span class="c-crey">Joined
+                            <span class="c-crey">{{ __('messages.membergroup') }}
                                 {{ \Carbon\Carbon::parse($user->created_at)->format('d/m/Y') }}</span>
                             <div>
                                 @if ($user->bannedUser)
                                     <a class="bg-blue c-white button-shape unBlock-user-btn disabled" href="#"
                                         data-user-id="{{ $user->id }}">
-                                        Blocked
+                                        {{ __('messages.Blocked') }}
                                     </a>
                                 @else
                                     <a class="bg-red c-white button-shape block-user-btn" href="#"
                                         data-user-id="{{ $user->id }}">
                                         <i class="fa fa-user-times"></i>
-                                        Block
+                                        {{ __('messages.Block') }}
                                     </a>
                                 @endif
                             </div>
@@ -139,8 +134,8 @@
                     event.preventDefault();
                     const userId = this.getAttribute('data-user-id');
                     Swal.fire({
-                        title: 'Are you sure?',
-                        text: "Do you really want to block this user?",
+                        title: '{{ __('messages.Are') }}',
+                        text: "{{ __('messages.Do') }}",
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
@@ -233,5 +228,17 @@
 
 </body>
 
+<style>
+    .logout-btn {
+        background: none;
+        border: none;
+        padding: 0;       
+        cursor: pointer;
+    }
+
+    .logout-btn img {
+        display: block;
+    }
+</style>
 
 </html>
