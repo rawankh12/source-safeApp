@@ -12,6 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500&display=swap">
     <link rel="stylesheet" href="Css/normalize.css">
+    <script src="/js/script.js"></script>
 
     <title>Friends</title>
 
@@ -20,7 +21,7 @@
 
 <body>
     <div class="page d-flex">
-        <div class="sidebar bg-white p-20 p-relative">
+        <div class="sidebar p-20 p-relative">
             <h3 class="p-relative mt-0 text-center">{{ $user->name }}</h3>
             <ul>
                 <li>
@@ -62,7 +63,7 @@
             </ul>
         </div>
         <div class="content w-full">
-            <div class="head bg-white p-15 between-flex">
+            <div class="head p-15 between-flex">
                 <div class="search p-relative">
                     <input class="p-10" type="text" placeholder="Search">
                 </div>
@@ -70,7 +71,7 @@
                     <span class="notifcation p-relative cur-pointer ">
                         <i class="fa fa-bell fa-lg"></i>
                     </span>
-                    <img src="images/avatar3.png" alt="">
+                    {{-- <img src="images/avatar3.png" alt=""> --}}
                     <form action="{{ route('logout') }}" method="POST" onsubmit="return confirmlogout(event)">
                         @csrf
                         <button id="profile-btn" class="logout-btn" type="submit">
@@ -78,12 +79,16 @@
                                 alt="exit" />
                         </button>
                     </form>
+                    <!-- زر تبديل الوضع -->
+                    <button id="mode-toggle" class="theme-btn">
+                        <img width="30" height="30" src="https://img.icons8.com/ios/50/sun.png" alt="sun" />
+                    </button>
                 </div>
             </div>
             <h1 class="p-relative">{{ __('messages.allusers') }}</h1>
             <div class="friend-page d-grid p-relative gap-20 m-20">
                 @foreach ($allUsers as $user)
-                    <div class="friend bg-white rad-6 p-20 p-relative">
+                    <div class="friend bg-white rad-6 p-20 p-relative" style="border: 1px solid black;">
                         <div class="text-center">
                             <img class="rad-half mt-10 mb-10 w-100 h-100" src="images/avatar2.png" alt="">
                             <h4 class="m-0">{{ $user->name }}</h4>
@@ -209,7 +214,7 @@
                                             'Success' : 'Error',
                                         text: data.message,
                                     });
-                                
+
                                 })
                                 .catch(error => {
                                     console.error('Error:', error);
@@ -223,20 +228,98 @@
                     });
                 });
             });
+            // تبديل الثيم
+            document.addEventListener('DOMContentLoaded', function() {
+                const themeToggleBtn = document.getElementById('mode-toggle');
+                const themeIcon = themeToggleBtn.querySelector('img');
+                const body = document.body;
+                const sidebar = document.getElementById('sidebar');
+                const header = document.querySelector('.header');
+                const footer = document.querySelector('.footer');
+
+                // استرداد الثيم المحفوظ
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme) {
+                    applyTheme(savedTheme);
+                } else {
+                    applyTheme('light'); // الوضع الافتراضي
+                }
+
+                // تبديل الثيم عند النقر
+                themeToggleBtn.addEventListener('click', function() {
+                    const currentTheme = body.classList.contains('dark-mode') ? 'dark' : 'light';
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    applyTheme(newTheme);
+                    localStorage.setItem('theme', newTheme); // حفظ الثيم الجديد
+                });
+
+                // تابع لتطبيق الثيم
+                function applyTheme(theme) {
+                    if (theme === 'dark') {
+                        body.classList.add('dark-mode');
+                        body.classList.remove('light-mode');
+                        if (sidebar) {
+                            sidebar.classList.add('dark-mode');
+                            sidebar.classList.remove('light-mode');
+                        }
+
+                        if (header) {
+                            header.classList.add('dark-mode');
+                            header.classList.remove('light-mode');
+                        }
+
+                        if (footer) {
+                            footer.classList.add('dark-mode');
+                            footer.classList.remove('light-mode');
+                        }
+
+                        themeIcon.src = 'https://img.icons8.com/ios/50/moon-symbol.png'; // أيقونة الوضع الليلي
+                    } else {
+                        body.classList.add('light-mode');
+                        body.classList.remove('dark-mode');
+
+                        if (sidebar) {
+                            sidebar.classList.add('light-mode');
+                            sidebar.classList.remove('dark-mode');
+                        }
+
+                        if (header) {
+                            header.classList.add('light-mode');
+                            header.classList.remove('dark-mode');
+                        }
+
+                        if (footer) {
+                            footer.classList.add('light-mode');
+                            footer.classList.remove('dark-mode');
+                        }
+
+                        themeIcon.src = 'https://img.icons8.com/ios/50/sun.png'; // أيقونة الوضع النهاري
+                    }
+                }
+            });
         </script>
-
-
 </body>
 
 <style>
     .logout-btn {
         background: none;
         border: none;
-        padding: 0;       
+        padding: 0;
         cursor: pointer;
     }
 
     .logout-btn img {
+        display: block;
+    }
+
+    .theme-btn {
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+    }
+
+    .theme-btn img {
         display: block;
     }
 </style>

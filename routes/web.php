@@ -69,7 +69,8 @@ Route::group(['prefix' => 'files'], function () {
     Route::get('/', [FileController::class, 'userFile'])->name('user.files');
     Route::get('/locked', [FileController::class, 'userlockedFile'])->name('user.lockedfiles');
     Route::get('/{id}', [FileController::class, 'show'])->name('show');
-    Route::get('/create', [FileController::class, 'createFile'])->name('files.create');
+    // Route::get('/create', [FileController::class, 'createFile'])->name('files.create');
+    Route::get('/{file_id}/{group_id}', [ReportController::class, 'getAllReportFile'])->name('reportfile');
     Route::post('/add', [FileController::class, 'store'])->name('files.store');
     Route::post('/addToGroup', [FileController::class, 'addToGroup'])->name('addToGroup');
     Route::put('/update/{group_id}/{id}', [FileController::class, 'updatefile'])->name('updatefile');

@@ -1,10 +1,26 @@
 :root {
-    --bule-color: #0075ff;
+    /* light mood */
+    /* --bule-color: #0075ff; */
     --blue-color-alt: #0d69d5;
-    --green-color: #22c55e;
-    --red-color: #f44336;
+    --green-color:  rgb(89, 101, 152);
+    --red-color: rgb(89, 101, 152);
     --orange-color: #f59e0b;
-    --grey-color: #888;
+    --grey-color: #6d5bdd;
+    --white-color: white;
+    --white-eee-color: #eee;
+    --white-ccc-color: #ccc;
+    --black-color: black;
+    /* Dark mode */
+    /* --bule-color-dark: #87a4c6;
+    --blue-color-alt-dark: #395472; */
+    --green-color-dark: rgb(78, 86, 121);
+    --red-color-dark: rgb(78, 86, 121);
+    /* --orange-color-dark: #f59e0b; */
+    --grey-color-dark: #aeacac;
+    --white-color-dark: rgb(78, 86, 121);
+    --white-eee-color-dark: #eee;
+    --white-ccc-color-dark: #ccc;
+    --black-color-dark: rgb(41, 5, 48);
 }
 
 
@@ -13,274 +29,254 @@
 }
 
 .bg-white {
-    background-color: white;
+    background-color: var(--white-color);
 }
-
+body.dark-mode .bg-white {
+    background-color: var(--white-color-dark);
+}
 .bg-eee {
-    background-color: #eee;
+    background-color: var(--white-eee-color);
 }
-
+body.dark-mode .bg-eee {
+    background-color: var(--white-eee-color-dark);
+}
 .bg-blue {
     background-color: var(--bule-color);
 }
-
+body.dark-mode .bg-blue {
+    background-color: var(--bule-color-dark);
+}
 .bg-red {
     background-color: var(--red-color);
 }
-
+body.dark-mode .bg-red {
+    background-color: var(--red-color-dark);
+}
 .bg-grey {
     background-color: var(--grey-color);
 }
-
+body.dark-mode .bg-grey {
+    background-color: var(--grey-color-dark);
+}
 .bg-orange {
     background-color: var(--orange-color);
 }
-
+body.dark-mode .bg-orange {
+    background-color: var(--orange-color-dark);
+}
 .bg-green {
     background-color: var(--green-color);
 }
-
+body.dark-mode .bg-green {
+    background-color: var(--green-color-dark);
+}
 .p-20 {
     padding: 20px;
+    /* border: 1px solid black; */
 }
-
+.p-201 {
+    padding: 20px;
+    border: 1px solid black;
+}
 .pt-15 {
     padding-top: 15px;
 }
 .pt-10 {
     padding-top: 10px;
 }
-
-
 .pb-10 {
     padding-bottom: 10px;
 }
-
 .pb-15 {
     padding-bottom: 15px;
 }
-
 .pb-20 {
     padding-bottom: 20px;
 }
-
 .pt-20 {
     padding-top: 20px;
 }
-
 .pl-15 {
     padding-left: 15px;
 }
-
 .m-auto {
     margin: auto;
 }
-
 .m-20 {
     margin: 20px;
 }
-
 .mt-0 {
     margin-top: 0;
 }
-
 .mt-15 {
     margin-top: 15px;
 }
-
 .mb-0 {
     margin-bottom: 0;
 }
-
 .mb-5 {
     margin-bottom: 5px;
 }
-
 .mb-10 {
     margin-bottom: 10px;
 }
-
 .mb-15 {
     margin-bottom: 15px;
 }
-
 .m-15 {
     margin: 15px;
 }
-
 .mb-20 {
     margin-bottom: 20px;
 }
-
 .mb-25 {
     margin-bottom: 25px;
 }
-
 .mr-10 {
     margin-right: 10px;
 }
-
 .mr-15 {
     margin-right: 15px;
 }
-
 .p-relative {
     position: relative;
 }
-
 .text-center {
     text-align: center;
 }
-
 .align-items {
     align-items: center;
 }
-
 .fs-14 {
     font-size: 14px;
 }
-
 .fs-15 {
     font-size: 15px;
 }
-
 .f-wrap {
     flex-wrap: wrap;
 }
-
-
 .p-10 {
     padding: 10px;
 }
-
 .pb-20 {
     padding-bottom: 20px;
 }
-
 .p-15 {
     padding: 15px;
 }
-
 .ml-14 {
     margin-left: 14px;
 }
-
 .mt-5 {
     margin-top: 5px;
 }
-
 .m-0 {
     margin: 0;
 }
-
 .mt-20 {
     margin-top: 20px;
 }
-
 .mt-10 {
     margin-top: 10px;
 }
-
 .c-grey {
-    color: var(--grey-color);
-}
-
-.c-black {
     color: black;
 }
-
+body.dark-mode .c-grey {
+    color: var(--grey-color-dark);
+}
+.c-black {
+    color: var(--black-color);
+}
+body.dark-mode .c-black {
+    color: var(--black-color-dark);
+}
 .d-block {
     display: block;
 }
-
 .fs-13 {
     font-size: 13px;
 }
-
 .fs-14 {
     font-size: 14px;
 }
-
 .fs-25 {
     font-size: 25px;
 }
-
 .rad-6 {
     border-radius: 6px;
 }
-
 .rad-hlef {
     border-radius: 50%;
 }
-
 .w-fit {
     width: fit-content;
 }
-
 .w-full {
     width: 100%;
 }
 .w-100 {
     width: 100px;
-
 }
 .b-none {
     border: none;
 }
-
 .b-ccc {
-    border: 1px solid #ccc;
+    border: 1px solid var(--white-ccc-color);
+}
+body.dark-mode .b-ccc {
+    border: 1px solid var(--white-ccc-color-dark);
 }
 .b-eee {
-    border: 1px solid #eee;
+    border: 1px solid var(--white-eee-color);
+}
+body.dark-mode .b-eee {
+    border: 1px solid var(--white-eee-color-dark);
 }
 .c-white {
-    color: white;
+    color: var(--white-color);
 }
-
+body.dark-mode .c-white {
+    color: var(--white-color-dark);
+}
 .c-red {
     color: var(--red-color);
 }
-
-
-
+body.dark-mode .c-red {
+    color: var(--red-color-dark);
+}
 @media (max-width: 767px) {
     .hide-mobile {
         display: none;
     }
-
     .hide-mobile {
         display: none;
     }
-
     .block-mobile {
         display: block;
     }
-
     .text-center-mobile {
         text-align: center;
     }
-
     .profile-page .overview {
         flex-direction: column;
     }
-
     .profile-page .avater-box {
-        border-bottom: 2px solid #eee;
+        border-bottom: 2px solid var(--white-eee-color);
         margin-bottom: 20px;
         padding-bottom: 20px;
-
     }
-
+    body.dark-mode .profile-page .avater-box {
+        border-bottom: 2px solid var(--white-eee-color-dark);
+    }
     .profile-page .info-box .toggle-switch {
         margin: auto;
     }
 }
-
 .w-full {
     width: 100%;
 }
-
 .h-full {
     height: 100%;
 }
@@ -291,37 +287,29 @@
     display: flex;
     align-items: center;
 }
-
 .between-flex {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
-
 .space-between {
     justify-content: space-between;
 }
-
 .algin-center {
     align-items: center;
 }
-
 .d-grid {
     display: grid;
 }
-
 .gap-20 {
     gap: 20px;
 }
-
 .rad-10 {
     border-radius: 10px;
 }
-
 .cur-pointer {
     cursor: pointer;
 }
-
 .button-shape {
     padding: 10px;
     border-radius: 6px;
@@ -333,19 +321,24 @@
 .tras-3 {
     transition: 0.3s;
 }
-
 .c-blue {
     color: var(--bule-color);
 }
-
+body.dark-mode .c-blue {
+    color: var(--bule-color-dark);
+}
 .c-orange {
     color: var(--orange-color);
 }
-
+body.dark-mode .c-orange {
+    color: var(--orange-color-dark);
+}
 .c-green {
     color: var(--green-color);
 }
-
+body.dark-mode .c-green {
+    color: var(--green-color-dark);
+}
 .fw-bold {
     font-weight: bold;
 }

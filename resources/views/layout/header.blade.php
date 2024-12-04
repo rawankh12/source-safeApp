@@ -40,7 +40,7 @@
                 </div>
                 <!-- زر تبديل الوضع -->
                 <button id="mode-toggle" style="margin-top: 10px;">
-                    <img width="35" height="35" src="https://img.icons8.com/ios/50/sun.png" alt="sun" />
+                    <img width="30" height="30" src="https://img.icons8.com/ios/50/sun.png" alt="sun" />
                 </button>
 
                 <!-- زر تبديل اللغة -->
@@ -51,7 +51,7 @@
                 <form action="{{ route('logout') }}" method="POST" onsubmit="return confirmlogout(event)">
                     @csrf
                     <button id="profile-btn" type="submit">
-                        <img width="30" height="30" src="https://img.icons8.com/sf-regular/48/exit.png"
+                        <img width="35" height="35" src="https://img.icons8.com/sf-regular/48/exit.png"
                             alt="exit" />
                     </button>
                 </form>
@@ -165,88 +165,101 @@
         // تبديل الثيم
         document.addEventListener('DOMContentLoaded', function() {
             const themeToggleBtn = document.getElementById('mode-toggle');
-            const themeIcon = themeToggleBtn.querySelector('i');
+            const themeIcon = themeToggleBtn.querySelector('img');
             const body = document.body;
             const sidebar = document.getElementById('sidebar');
             const header = document.querySelector('.header');
             const footer = document.querySelector('.footer');
 
-            themeToggleBtn.addEventListener('click', function() {
-                const isDarkMode = body.classList.toggle('dark-mode');
-                body.classList.toggle('light-mode', !isDarkMode);
-                header.classList.toggle('dark-mode', isDarkMode);
-                header.classList.toggle('light-mode', !isDarkMode);
-                sidebar.classList.toggle('dark-mode', isDarkMode);
-                sidebar.classList.toggle('light-mode', !isDarkMode);
-                footer.classList.toggle('dark-mode', isDarkMode);
-                footer.classList.toggle('light-mode', !isDarkMode);
-                if (isDarkMode) {
-                    themeIcon.classList.replace('lni-sun', 'lni-night');
-                } else {
-                    themeIcon.classList.replace('lni-night', 'lni-sun');
-                }
-                localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
-            });
-
+            // استرداد الثيم المحفوظ
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme) {
-                const isDarkMode = savedTheme === 'dark';
-                body.classList.add(`${savedTheme}-mode`);
-                header.classList.add(`${savedTheme}-mode`);
-                sidebar.classList.add(`${savedTheme}-mode`);
-                footer.classList.add(`${savedTheme}-mode`);
-                themeIcon.classList.add(isDarkMode ? 'lni-night' : 'lni-sun');
-                themeIcon.classList.remove(isDarkMode ? 'lni-sun' : 'lni-night');
+                applyTheme(savedTheme);
             } else {
-                body.classList.add('dark-mode');
-                header.classList.add('dark-mode');
-                sidebar.classList.add('dark-mode');
-                footer.classList.add('dark-mode');
-                themeIcon.classList.add('lni-night');
+                applyTheme('light'); // الوضع الافتراضي
+            }
+
+            // تبديل الثيم عند النقر
+            themeToggleBtn.addEventListener('click', function() {
+                const currentTheme = body.classList.contains('dark-mode') ? 'dark' : 'light';
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                applyTheme(newTheme);
+                localStorage.setItem('theme', newTheme); // حفظ الثيم الجديد
+            });
+
+            // تابع لتطبيق الثيم
+            function applyTheme(theme) {
+                if (theme === 'dark') {
+                    body.classList.add('dark-mode');
+                    body.classList.remove('light-mode');
+                    if (sidebar) {
+                        sidebar.classList.add('dark-mode');
+                        sidebar.classList.remove('light-mode');
+                    }
+
+                    if (header) {
+                        header.classList.add('dark-mode');
+                        header.classList.remove('light-mode');
+                    }
+
+                    if (footer) {
+                        footer.classList.add('dark-mode');
+                        footer.classList.remove('light-mode');
+                    }
+
+                    themeIcon.src = 'https://img.icons8.com/ios/50/moon-symbol.png'; // أيقونة الوضع الليلي
+                } else {
+                    body.classList.add('light-mode');
+                    body.classList.remove('dark-mode');
+
+                    if (sidebar) {
+                        sidebar.classList.add('light-mode');
+                        sidebar.classList.remove('dark-mode');
+                    }
+
+                    if (header) {
+                        header.classList.add('light-mode');
+                        header.classList.remove('dark-mode');
+                    }
+
+                    if (footer) {
+                        footer.classList.add('light-mode');
+                        footer.classList.remove('dark-mode');
+                    }
+
+                    themeIcon.src = 'https://img.icons8.com/ios/50/sun.png'; // أيقونة الوضع النهاري
+                }
             }
         });
     </script>
-    <style>
-        .header img {
-            border-radius: 50%;
-        }
-
-        .header .user-info {
-            display: flex;
-            align-items: center;
-        }
-
-        .header .user-info span {
-            margin-left: 10px;
-        }
-
-        #notification-popup {
-            position: absolute;
-            top: 50px;
-            width: 300px;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            padding: 10px;
-        }
-
-        #notification-popup ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        #notification-popup ul li {
-            padding: 8px;
-            border-bottom: 1px solid #eee;
-        }
-
-        #notification-popup ul li:last-child {
-            border-bottom: none;
-        }
-    </style>
 </body>
+<style>
+    #notification-popup {
+        position: absolute;
+        top: 50px;
+        width: 300px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        padding: 10px;
+    }
+
+    #notification-popup ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    #notification-popup ul li {
+        padding: 8px;
+        border-bottom: 1px solid #eee;
+    }
+
+    #notification-popup ul li:last-child {
+        border-bottom: none;
+    }
+</style>
 
 </html>

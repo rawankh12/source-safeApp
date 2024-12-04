@@ -1,42 +1,69 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const themeToggleBtn = document.getElementById('mode-toggle');
-    const themeIcon = themeToggleBtn.querySelector('i');
-    const body = document.body;
-    const sidebar = document.getElementById('sidebar');
-    const header = document.querySelector('.header');
-    const footer = document.querySelector('.footer');
+//  // تبديل الثيم
+//  document.addEventListener('DOMContentLoaded', function() {
+//     const themeToggleBtn = document.getElementById('mode-toggle');
+//     const themeIcon = themeToggleBtn.querySelector('img');
+//     const body = document.body;
+//     const sidebar = document.getElementById('sidebar');
+//     const header = document.querySelector('.header');
+//     const footer = document.querySelector('.footer');
 
-    themeToggleBtn.addEventListener('click', function() {
-        const isDarkMode = body.classList.toggle('dark-mode');
-        body.classList.toggle('light-mode', !isDarkMode);
-        header.classList.toggle('dark-mode', isDarkMode);
-        header.classList.toggle('light-mode', !isDarkMode);
-        sidebar.classList.toggle('dark-mode', isDarkMode);
-        sidebar.classList.toggle('light-mode', !isDarkMode);
-        footer.classList.toggle('dark-mode', isDarkMode);
-        footer.classList.toggle('light-mode', !isDarkMode);
-        if (isDarkMode) {
-            themeIcon.classList.replace('lni-sun', 'lni-night');
-        } else {
-            themeIcon.classList.replace('lni-night', 'lni-sun');
-        }
-        localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
-    });
+//     // استرداد الثيم المحفوظ
+//     const savedTheme = localStorage.getItem('theme');
+//     if (savedTheme) {
+//         applyTheme(savedTheme);
+//     } else {
+//         applyTheme('light'); // الوضع الافتراضي
+//     }
 
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-        const isDarkMode = savedTheme === 'dark';
-        body.classList.add(`${savedTheme}-mode`);
-        header.classList.add(`${savedTheme}-mode`);
-        sidebar.classList.add(`${savedTheme}-mode`);
-        footer.classList.add(`${savedTheme}-mode`);
-        themeIcon.classList.add(isDarkMode ? 'lni-night' : 'lni-sun');
-        themeIcon.classList.remove(isDarkMode ? 'lni-sun' : 'lni-night');
-    } else {
-        body.classList.add('dark-mode');
-        header.classList.add('dark-mode');
-        sidebar.classList.add('dark-mode');
-        footer.classList.add('dark-mode');
-        themeIcon.classList.add('lni-night');
-    }
-});
+//     // تبديل الثيم عند النقر
+//     themeToggleBtn.addEventListener('click', function() {
+//         const currentTheme = body.classList.contains('dark-mode') ? 'dark' : 'light';
+//         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+//         applyTheme(newTheme);
+//         localStorage.setItem('theme', newTheme); // حفظ الثيم الجديد
+//     });
+
+//     // تابع لتطبيق الثيم
+//     function applyTheme(theme) {
+//         if (theme === 'dark') {
+//             body.classList.add('dark-mode');
+//             body.classList.remove('light-mode');
+//             if (sidebar) {
+//                 sidebar.classList.add('dark-mode');
+//                 sidebar.classList.remove('light-mode');
+//             }
+
+//             if (header) {
+//                 header.classList.add('dark-mode');
+//                 header.classList.remove('light-mode');
+//             }
+
+//             if (footer) {
+//                 footer.classList.add('dark-mode');
+//                 footer.classList.remove('light-mode');
+//             }
+
+//             themeIcon.src = 'https://img.icons8.com/ios/50/moon-symbol.png'; // أيقونة الوضع الليلي
+//         } else {
+//             body.classList.add('light-mode');
+//             body.classList.remove('dark-mode');
+
+//             if (sidebar) {
+//                 sidebar.classList.add('light-mode');
+//                 sidebar.classList.remove('dark-mode');
+//             }
+
+//             if (header) {
+//                 header.classList.add('light-mode');
+//                 header.classList.remove('dark-mode');
+//             }
+
+//             if (footer) {
+//                 footer.classList.add('light-mode');
+//                 footer.classList.remove('dark-mode');
+//             }
+
+//             themeIcon.src = 'https://img.icons8.com/ios/50/sun.png'; // أيقونة الوضع النهاري
+//         }
+//     }
+// });

@@ -26,39 +26,42 @@
     @endif
     <div class="container mt-5 main">
         <div class="grid-container">
-            <div class="section" id="groups-section">
-                <h3>{{ __('messages.all') }}</h3>
-                <hr>
-                {{-- <div class="section-content" id="groups-content">
-                    @foreach ($groups->take(3) as $group)
-                        <div class="group-item"
-                            >
-                            <div class="item" data-id="{{ $group->id }}">{{ $group->name }}</div>
-                        </div>
-                    @endforeach
-                </div> --}}
-                <a href="{{ route('allgroups') }}" class="btn btn-more">{{ __('messages.more') }}</a>
+            <div class="welcome rad-10 txt-c-mobile block-mobile">
+                <div class="intro p-20 d-flex space-between bg-eee">
+                    <div>
+                        <h2 class="m-0">{{ __('messages.welcome') }}</h2>
+                        <p class="c-grey mt-5">{{ Auth::user()->name }}</p>
+                    </div>
+                </div>
+                <div class="avatar-container text-center mt-20">
+                    <img src="images/avatar3.png" alt="" class="avatar">
+                </div>
+                <div class="body p-20 d-flex text-center mt-20 block-mobile">
+                    <div>{{ Auth::user()->name }}
+                        <span class="d-block c-grey fs-14 mt-10">{{ Auth::user()->name }}</span>
+                    </div>
+                    <div>{{ __('messages.emailpro') }}
+                        <span class="d-block c-grey fs-14 mt-10">{{ Auth::user()->email }}</span>
+                    </div>
+                </div>
             </div>
-            <div class="section" id="files-section">
-                <h3>{{ __('messages.allfiles') }}</h3>
-                <hr>
-                {{-- <div class="section-content" id="files-content">
-                    @foreach ($files->take(3) as $file)
-                        <div class="item" data-id="{{ $file->id }}">{{ $file->name }}</div>
-                    @endforeach
-                </div> --}}
-                <a href="{{ route('user.files') }}" class="btn btn-more">{{ __('messages.more') }}</a>
-            </div>
-            <div class="section" id="users-section">
-                <h3>{{ __('messages.allusers') }}</h3>
-                <hr>
-                {{-- <div class="section-content" id="users-content">
-                    @foreach ($users->take(3) as $user)
-                        <div class="item" data-id="{{ $user->id }}">{{ $user->name }}</div>
-                    @endforeach
-                </div> --}}
-                <div class="section_footer">
-                    <a href="{{ route('users') }}" class="btn btn-more">{{ __('messages.more') }}</a>
+            <div class="tickets p-20 rad-10">
+                <div class="statistics-container d-flex justify-content-around gap-20 flex-wrap">
+                    <div class="box p-20 rad-10 fs-13 c-grey text-center" style="cursor: pointer;"
+                        onclick="window.location.href='{{ route('users') }}';">
+                        <i class="fa fa-user fa-3x m-auto"></i>
+                        {{ __('messages.allusers') }}
+                    </div>
+                    <div class="box p-20 rad-10 fs-13 c-grey text-center" style="cursor: pointer;"
+                        onclick="window.location.href='{{ route('user.files') }}';">
+                        <i class="fa fa-file fa-2x mb-10 c-red"></i>
+                        {{ __('messages.allfiles') }}
+                    </div>
+                    <div class="box p-20 rad-10 fs-13 c-grey text-center" style="cursor: pointer;"
+                        onclick="window.location.href='{{ route('allgroups') }}';">
+                        <i class="fa fa-layer-group fa-2x mb-10 c-green"></i>
+                        {{ __('messages.all') }}
+                    </div>
                 </div>
             </div>
         </div>

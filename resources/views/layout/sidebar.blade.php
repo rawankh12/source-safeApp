@@ -1,9 +1,7 @@
-<aside id="sidebar" class='light-mode' style="background-color: white">
-    <div class="d-flex flex-column align-items-center">
-        <div class="sidebar-logo">
-            <img src="{{ asset('img/photo.jpg') }}" class="image">
-        </div>
-    </div>
+<aside id="sidebar">
+     <div class="d-flex flex-column align-items-center" style="margin-top: 30px; margin-bottom:30px;">
+        <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/artstation.png" alt="artstation"/>
+    </div> 
     <ul class="sidebar-nav">
         <li class="sidebar-item">
             <a href="{{ route('home') }}" class="sidebar-link {{ request()->routeIs('home') ? 'active' : '' }}">
@@ -18,14 +16,6 @@
                 <span>{{ __('messages.profile') }}</span>
             </a>
         </li>
-        {{-- <li class="sidebar-item">
-
-            <a href="{{ route('users') }}" class="sidebar-link {{ request()->routeIs('users') ? 'active' : '' }}">
-
-                <i class="lni lni-car-alt"></i>
-                <span>المستخدمين</span>
-            </a>
-        </li>   --}}
         <li class="sidebar-item">
             <a href="{{ route('mygroup') }}" class="sidebar-link {{ request()->routeIs('mygroup') ? 'active' : '' }}">
                 <img width="20" height="20" src="https://img.icons8.com/ios/50/apple-files.png"

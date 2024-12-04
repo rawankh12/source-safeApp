@@ -16,12 +16,13 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="/js/script.js"></script>
     <title>Settings</title>
 </head>
 
 <body>
     <div class="page d-flex">
-        <div class="sidebar bg-white p-20 p-relative">
+        <div class="sidebar p-20 p-relative">
             <h3 class="p-relative mt-0 text-center">{{ $user->name }}</h3>
             <ul>
                 <li>
@@ -63,7 +64,7 @@
             </ul>
         </div>
         <div class="content w-full">
-            <div class="head bg-white p-15 between-flex">
+            <div class="head p-15 between-flex">
                 <div class="search p-relative">
                     <input class="p-10" type="text" placeholder="Search">
                 </div>
@@ -71,7 +72,7 @@
                     <span class="notifcation p-relative cur-pointer ">
                         <i class="fa fa-bell fa-lg"></i>
                     </span>
-                    <img src="images/avatar3.png" alt="">
+                    {{-- <img src="images/avatar3.png" alt=""> --}}
                     <form action="{{ route('logout') }}" method="POST" onsubmit="return confirmlogout(event)">
                         @csrf
                         <button id="profile-btn" class="logout-btn" type="submit">
@@ -79,14 +80,18 @@
                                 alt="exit" />
                         </button>
                     </form>
+                    <!-- زر تبديل الوضع -->
+                    <button id="mode-toggle" class="theme-btn">
+                        <img width="30" height="30" src="https://img.icons8.com/ios/50/sun.png" alt="sun" />
+                    </button>
                 </div>
             </div>
             <h1 class="p-relative">{{ __('messages.Setting') }}</h1>
             <div class="setting-page m-20 d-grid gap-20">
-                <div class="p-20 bg-white rad-10">
+                <div class="p-201 rad-10">
                     <h2 class="mt-0 mb-10">{{ __('messages.Setting') }}</h2>
                     <p class="mt-0 mb-20 c-grey fs-15">{{ __('messages.control') }}</p>
-                    <div class="mt-15 between-flex"style="margin-bottom: 50px">
+                    {{-- <div class="mt-15 between-flex"style="margin-bottom: 50px">
                         <div>
                             <span>{{ __('messages.DarkMood') }}</span>
                             <p class="c-grey mt-5 mb-0 fs-13">{{ __('messages.changewebSite') }}</p>
@@ -94,11 +99,10 @@
                         <div>
                             <label>
                                 <input class="toggle-checkbox" type="checkbox" />
-                                <div class="toggle-switch"></div>
+                                <div class="toggle-switch" id="mode-toggle"></div>
                             </label>
                         </div>
-
-                    </div>
+                    </div> --}}
                     <div class="mt-15 between-flex">
                         <div>
                             <span>{{ __('messages.ArbicMood') }}</span>
@@ -113,7 +117,7 @@
                     </div>
                 </div>
 
-                <div class="p-20 bg-white rad-10">
+                <div class="p-201 rad-10">
                     <h2 class="mt-0 mb-10">{{ __('messages.GenralInformation') }}</h2>
                     {{-- <p class="mt-0 mb-20 c-grey fs-15">General Information About Your Account</p> --}}
                     <div class="mb-15">
@@ -128,7 +132,8 @@
                             placeholder="Email" value="{{ $user->email }}" disabled>
                     </div>
                     <div>
-                        <label class="fs-14 c-grey d-block mb-10" for="email">{{ __('messages.changePassword') }}</label>
+                        <label class="fs-14 c-grey d-block mb-10"
+                            for="email">{{ __('messages.changePassword') }}</label>
                         <form action="">
                             <input class="email b-none p-10 rad-6 d-block w-full b-ccc mb-15" type="email"
                                 id="email" placeholder="{{ __('messages.NewPassword') }}">
@@ -149,6 +154,75 @@
         var nextLanguage = currentLanguage === 'ar' ? 'en' : 'ar';
         window.location.href = url + "?lang=" + nextLanguage;
     });
+    // تبديل الثيم
+    document.addEventListener('DOMContentLoaded', function() {
+        const themeToggleBtn = document.getElementById('mode-toggle');
+        const themeIcon = themeToggleBtn.querySelector('img');
+        const body = document.body;
+        const sidebar = document.getElementById('sidebar');
+        const header = document.querySelector('.header');
+        const footer = document.querySelector('.footer');
+
+        // استرداد الثيم المحفوظ
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            applyTheme(savedTheme);
+        } else {
+            applyTheme('light'); // الوضع الافتراضي
+        }
+
+        // تبديل الثيم عند النقر
+        themeToggleBtn.addEventListener('click', function() {
+            const currentTheme = body.classList.contains('dark-mode') ? 'dark' : 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(newTheme);
+            localStorage.setItem('theme', newTheme); // حفظ الثيم الجديد
+        });
+
+        // تابع لتطبيق الثيم
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                body.classList.add('dark-mode');
+                body.classList.remove('light-mode');
+                if (sidebar) {
+                    sidebar.classList.add('dark-mode');
+                    sidebar.classList.remove('light-mode');
+                }
+
+                if (header) {
+                    header.classList.add('dark-mode');
+                    header.classList.remove('light-mode');
+                }
+
+                if (footer) {
+                    footer.classList.add('dark-mode');
+                    footer.classList.remove('light-mode');
+                }
+
+                themeIcon.src = 'https://img.icons8.com/ios/50/moon-symbol.png'; // أيقونة الوضع الليلي
+            } else {
+                body.classList.add('light-mode');
+                body.classList.remove('dark-mode');
+
+                if (sidebar) {
+                    sidebar.classList.add('light-mode');
+                    sidebar.classList.remove('dark-mode');
+                }
+
+                if (header) {
+                    header.classList.add('light-mode');
+                    header.classList.remove('dark-mode');
+                }
+
+                if (footer) {
+                    footer.classList.add('light-mode');
+                    footer.classList.remove('dark-mode');
+                }
+
+                themeIcon.src = 'https://img.icons8.com/ios/50/sun.png'; // أيقونة الوضع النهاري
+            }
+        }
+    });
 </script>
 <style>
     .logout-btn {
@@ -159,6 +233,17 @@
     }
 
     .logout-btn img {
+        display: block;
+    }
+
+    .theme-btn {
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+    }
+
+    .theme-btn img {
         display: block;
     }
 </style>

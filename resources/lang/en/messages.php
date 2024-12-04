@@ -70,7 +70,7 @@ return [
     'UploadAllFile' => 'Upload All File',
     'welcome' => 'welcome',
     'LatestUplods' => 'Latest Uplods',
-    'GenralInformation' => 'Genral Information',
+    'GenralInformation' => 'Genral Information :',
     'Sitecontrol' => 'Site control',
     'control' => 'Control The Website If There Is maintenance',
     'DarkMood' => 'Dark Mood',
@@ -147,4 +147,5 @@ return [
     'Are' => 'Are you sure?',
     'Do' => 'Do you really want to block this user?',
     'select' => 'select',
+    'sendrequest' => 'Send Request',
 ];
