@@ -30,6 +30,9 @@
                                             <a href="{{ url('/view-file/' . $file->url) }}" target="_blank"
                                                 rel="noopener noreferrer">{{ $file->url }}</a>
                                         </p>
+                                        <!-- زر التقرير -->
+                                        <button type="button" class="btn btn-report report-btn"
+                                            data-file-id="{{ $file->id }}">{{ __('messages.showreport') }}</button>
                                     </div>
                                 </div>
                             </div>
@@ -97,17 +100,31 @@
         </div>
     </body>
     <script>
+        // إظهار وإخفاء المربعات الاختيارية
         document.getElementById('showCheckboxes').addEventListener('click', function() {
             document.querySelectorAll('.file-checkbox').forEach(checkbox => checkbox.classList.toggle('d-none'));
             document.querySelectorAll('.form-check-label').forEach(label => label.classList.toggle('d-none'));
             document.getElementById('bookAllButton').classList.toggle('d-none');
         });
 
+        // تنفيذ الإجراء عند اختيار ملفات متعددة
         document.getElementById('bookAllButton').addEventListener('click', function(event) {
-
             event.preventDefault();
-
             document.getElementById('multiFileBookingForm').submit();
+        });
+
+        // التعامل مع زر عرض التقارير
+        document.querySelectorAll('.report-btn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                const fileId = this.dataset.fileId;
+                const groupId = "{{ $group->id }}";
+                const baseUrl = "{{ url('/files') }}";
+                const reportForm = document.createElement('form');
+                reportForm.method = 'GET';
+                reportForm.action = `${baseUrl}/${fileId}/${groupId}`;
+                document.body.appendChild(reportForm);
+                reportForm.submit();
+            });
         });
     </script>
     <style>

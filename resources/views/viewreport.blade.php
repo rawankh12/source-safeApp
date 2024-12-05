@@ -7,7 +7,7 @@
     <body>
         <div class="home">
             @if ($reports->isEmpty())
-                <p class="text-center" style="margin-right: 50px;">{{ __('messages.no_request') }}</p>
+                <p class="text-center" style="margin-right: 50px;">{{ __('messages.no_report') }}</p>
             @else
                 <ul>
                     @foreach ($reports as $report)

@@ -238,6 +238,7 @@ a.sidebar-link:hover {
     transition: background-color 0.3s ease;
     margin-top: 20px;
     color: var(--background-color);
+    margin-right: 20px;
  }
  body.dark-mode .btn-view {
    background-color:  var(--btn-color-dark);
@@ -389,7 +390,7 @@ body.dark-mode .modal-body .btn-fileReauests {
     background-color: var(--btn2-color);
     margin-top:20px;
     color: var(--background-color);
-    margin-right: 10px;
+    margin-right: 30px;
  }
  body.dark-mode .card-body .btn-report {
    background-color: var(--btn2-color-dark);

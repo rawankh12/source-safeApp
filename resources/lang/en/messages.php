@@ -148,4 +148,5 @@ return [
     'Do' => 'Do you really want to block this user?',
     'select' => 'select',
     'sendrequest' => 'Send Request',
+    'no_report' => 'there is no report',
 ];

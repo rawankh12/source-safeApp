@@ -31,12 +31,9 @@
                                             <a href="{{ url('/view-file/' . $file->url) }}" target="_blank"
                                                 rel="noopener noreferrer">{{ $file->url }}</a>
                                         </p>
-                                        {{-- <form action={{ route('reportfile', ['file_id' => $file->id ,'group_id' => $group->id]) }}
-                                            style="display:inline;">
-                                            @csrf
-                                            <button type="submit"
-                                                class="btn btn-report">{{ __('messages.showreport') }}</button>
-                                        </form> --}}
+                                        <!-- زر التقرير -->
+                                        <button type="button" class="btn btn-report report-btn"
+                                            data-file-id="{{ $file->id }}">{{ __('messages.showreport') }}</button>
                                     </div>
                                 </div>
                             </div>
@@ -112,10 +109,21 @@
         });
 
         document.getElementById('bookAllButton').addEventListener('click', function(event) {
-
             event.preventDefault();
-
             document.getElementById('multiFileBookingForm').submit();
+        });
+        // التعامل مع زر عرض التقارير
+        document.querySelectorAll('.report-btn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                const fileId = this.dataset.fileId;
+                const groupId = "{{ $group->id }}";
+                const baseUrl = "{{ url('/files') }}";
+                const reportForm = document.createElement('form');
+                reportForm.method = 'GET';
+                reportForm.action = `${baseUrl}/${fileId}/${groupId}`;
+                document.body.appendChild(reportForm);
+                reportForm.submit();
+            });
         });
     </script>
     <style>
