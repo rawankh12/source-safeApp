@@ -71,7 +71,7 @@
                                             <input type="hidden" name="group_id" value="{{ $group->id }}">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                                 style="margin-bottom: 20px;">{{ __('messages.close') }}</button>
-                                            <button type="submit" class="btn btn-Add"></button>
+                                                <button type="submit" class="btn btn-Add">{{ __('messages.Addg') }}</button>
                                         </form>
                                     </div>
                                 </div>
@@ -105,7 +105,7 @@
                                 <input type="text" name="description" class="form-control" required>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary"
+                                <button type="button" class="btn btn-secondary" style="margin-bottom: 17px;"
                                     data-dismiss="modal">{{ __('messages.close') }}</button>
                                 <button type="submit" class="btn btn-Add">{{ __('messages.Addg') }}</button>
                             </div>

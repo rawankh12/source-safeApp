@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
 
 <head>
     <meta charset="UTF-8">
@@ -34,8 +34,8 @@
                 <div class="search-container"
                     style="direction: rtl; display: flex; align-items: center; border: 1px solid #ccc; border-radius: 15px; padding: 5px; gap: 5px;">
                     <input type="text" id="search-input" placeholder="{{ __('messages.search') }}"
-                        style="border: none; outline: none; flex: 1; direction: ltr;">
-                    <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/search--v1.png"
+                        style="border-radius: 10px; border:0; outline: none; flex: 1; direction: ltr;">
+                    <img width="20" height="20" src="https://img.icons8.com/ios-glyphs/30/search--v1.png"
                         alt="search--v1" style="cursor: pointer;" id="search-button">
                 </div>
                 <!-- زر تبديل الوضع -->
@@ -44,14 +44,14 @@
                 </button>
 
                 <!-- زر تبديل اللغة -->
-                <img width="40" height="40" src="https://img.icons8.com/color/48/google-translate.png"
+                <img width="35" height="35" src="https://img.icons8.com/color/48/google-translate.png"
                     alt="Switch Language" id="languageSwitcher" style="cursor: pointer;">
 
                 <!-- زر تسجيل الخروج -->
                 <form action="{{ route('logout') }}" method="POST" onsubmit="return confirmlogout(event)">
                     @csrf
                     <button id="profile-btn" type="submit">
-                        <img width="35" height="35" src="https://img.icons8.com/sf-regular/48/exit.png"
+                        <img width="30" height="30" src="https://img.icons8.com/sf-regular/48/exit.png"
                             alt="exit" />
                     </button>
                 </form>
@@ -66,6 +66,7 @@
         // تغيير اللغة
         document.getElementById('languageSwitcher').addEventListener('click', function() {
             var nextLanguage = currentLanguage === 'ar' ? 'en' : 'ar';
+            document.body.setAttribute('dir', nextLanguage === 'ar' ? 'rtl' : 'ltr');
             window.location.href = url + "?lang=" + nextLanguage;
         });
 

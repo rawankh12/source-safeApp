@@ -33,24 +33,6 @@
                                     <i class="fa fa-user"></i>
                                     <h5 class="card-title">{{ $user->name }}</h5>
                                     <h5 class="card-text">{{ $user->email }}</h5>
-                                    <hr>
-                                    <div class="icons fs-14 p-relative">
-                                        <div class="mb-10">
-                                            <i class="fa fa-file fa-fw"></i>
-                                            <span> Files</span>
-                                        </div>
-                                        <div class="mb-10">
-                                            <img width="20" height="20"
-                                                src="https://img.icons8.com/ios/50/apple-files.png" alt="apple-files" />
-                                            <span> My Groups</span>
-                                        </div>
-                                        <div>
-                                            <img width="20" height="20"
-                                                src="https://img.icons8.com/glyph-neue/64/add-user-group-woman-woman.png"
-                                                alt="add-user-group-woman-woman" />
-                                            <span> Groups Join</span>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>

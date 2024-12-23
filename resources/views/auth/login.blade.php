@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
 
 <head>
     <meta charset="UTF-8">
@@ -10,18 +10,6 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>Source Safe</title>
-    <style>
-        .hidden {
-            display: none;
-        }
-
-        #languageSwitcher {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-        }
-    </style>
 </head>
 
 <body>
@@ -73,6 +61,7 @@
     var currentLanguage = "{{ session()->get('language') }}";
     document.getElementById('languageSwitcher').addEventListener('click', function() {
         var nextLanguage = currentLanguage === 'ar' ? 'en' : 'ar';
+        document.body.setAttribute('dir', nextLanguage === 'ar' ? 'rtl' : 'ltr');
         window.location.href = url + "?lang=" + nextLanguage;
     });
 </script>

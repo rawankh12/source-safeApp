@@ -86,7 +86,7 @@
             </div>
             <h1 class="p-relative">{{ __('messages.allfiles') }}</h1>
             <div class="file-page m-20 d-flex gap-20">
-                <div class="file-stats p-20 bg-white rad-10" style="border: 1px solid black;">
+                {{-- <div class="file-stats p-20 bg-white rad-10" style="border: 1px solid black;">
                     <h2 class="mt-0 mb-15 text-center-mobile">{{ __('messages.FilesStatistics') }}</h2>
                     <div class="d-flex algin-center b-eee p-10 mb-15 rad-6 fs-13">
                         <i class="blue fa fa-file-pdf-o fa-lg center-flex c-red icon"></i>
@@ -102,10 +102,10 @@
                         <i class="fa fa-hand-pointer-o mr-10"></i>
                         {{ __('messages.UploadAllFile') }}
                     </a>
-                </div>
+                </div> --}}
                 <div class="file-content d-grid gap-20">
                     @foreach ($filesWithDetails as $fileData)
-                        <div class="file bg-white p-10 rad-10 ">
+                        <div class="file bg-white p-10 rad-10" style="border: 1px solid black;">
                             <a href="{{ asset('uploads/' . $fileData['file']) }}" class="download-link" download>
                                 <i class="fa fa-download p-absolute c-grey"></i>
                             </a>

@@ -14,8 +14,10 @@
                 <div class="row">
                     @foreach ($Files as $file)
                         <div class="col-md-4" style="margin-bottom: 20px;">
-                            <div class="card mb-4 shadow-sm">
+                            <div class="card1 mb-4 shadow-sm">
                                 <div class="card-body">
+                                    <img width="30" height="30" src="https://img.icons8.com/carbon-copy/100/file.png"
+                                        alt="file" />
                                     <h5 class="card-title">{{ $file->name }}</h5>
                                     <p class="card-text"> <a href="{{ url('/view-file/' . $file->url) }}" target="_blank"
                                             rel="noopener noreferrer">{{ $file->url }}</a></p>

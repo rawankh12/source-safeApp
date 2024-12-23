@@ -50,7 +50,7 @@ return [
     's4' => 'The user:',
     's5' => 'sending you a new request:',
     'lockefile' => 'My Locked File',
-    'unlock' => 'Un Lock',
+    'unlock' => 'Un Locke',
     'uploadfile' => 'Upload File',
     'upload' => 'upload',
     'viewfile' => 'View Files',

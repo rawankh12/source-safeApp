@@ -19,6 +19,7 @@
     --white-ccc-color: #ccc;
     --white-eee-color: #eee;
     --greeng-color: rgb(34 197 94 / 20%);
+    --h-and-s-color:  rgb(154, 164, 208);
     /*dark mood*/
     --bule-color-dark: #87a4c6;
     --blue-color-alt-dark: #395472;
@@ -27,9 +28,9 @@
     --orange-color-dark: #5b4113;
     --grey-color-dark: #e4e3e3;
     --whitef-color-dark: #2b3741;
-    --white-color-dark: rgb(133, 95, 140);
+    --white-color-dark: rgb(78, 86, 121);
     --lightgray-color-dark: #5a1d1d;
-    --black-color-dark: rgb(240, 237, 244);
+    --black-color-dark: rgb(14, 14, 14);
     --white-ccc-color-dark: #ccc;
     --white-eee-color-dark: #eee;
     --greeng-color-dark: rgba(89, 147, 110, 0.2);
@@ -52,7 +53,7 @@ body.dark-mode .page {
     background-color: var(--whitef-color-dark);
 }
 .head {
-    background-color: rgb(154, 164, 208);
+    background-color: var(--h-and-s-color);
 }
 body.dark-mode .head {
     background-color: var(--white-color-dark);
@@ -85,7 +86,7 @@ body.dark-mode ::-webkit-scrollbar-thumb {
 .sidebar {
     width: 250px;
     box-shadow: 0 0 10px var(--lightgray-color);
-    background-color: rgb(154, 164, 208);
+    background-color: var(--h-and-s-color);
 }
 body.dark-mode .sidebar {
     box-shadow: 0 0 10px var(--lightgray-color-dark);
@@ -578,64 +579,6 @@ body.dark-mode .latest-post .post-content {
     border-bottom: 1px solid var(--white-eee-color-dark);
     border-top: 1px solid var(--white-eee-color-dark);
 }
-/* .social-media .box {
-    padding-left: 70px;
-}
-.social-media .box i {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 52px;
-    transition: 0.3s;
-}
-.social-media .box i:hover {
-    transform: rotate(5deg);
-}
-.social-media .twitter {
-    background-color: rgb(29 161 242 /20%);
-    color: #1da1f2;
-}
-.social-media .twitter i,
-.social-media .twitter a {
-    background-color: #1da1f2;
-}
-.fa-twitter:before {
-    margin-left: 10px;
-}
-.social-media .facebook {
-    background-color: rgb(24 119 242 /20%);
-    color: #1877f2;
-}
-.social-media .facebook i,
-.social-media .facebook a {
-    background-color: #1877f2;
-}
-.fa-facebook:before {
-    margin-left: 15px;
-    margin-top: 8px;
-}
-.social-media .youtube {
-    background-color: rgb(255 0 0 /20%);
-    color: #ff0000;
-}
-.social-media .youtube i,
-.social-media .youtube a {
-    background-color: #ff0000;
-}
-.fa-youtube:before {
-    margin-left: 10px;
-}
-.social-media .linkedin {
-    background-color: rgb(0 119 181 /20%);
-    color: #0077b5;
-}
-.social-media .linkedin i,
-.social-media .linkedin a {
-    background-color: #0077b5;
-}
-.fa-linkedin:before {
-    margin-left: 10px;
-} */
  .project {
     background-color:  var(--white-eee-color);
     border : 1px solid black;

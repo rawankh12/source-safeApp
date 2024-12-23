@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,20 +9,7 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>Source safe</title>
-    <style>
-        .hidden {
-            display: none;
-        }
-
-        #languageSwitcher {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-        }
-    </style>
 </head>
-
 <body>
     <img width="40" height="40" src="https://img.icons8.com/color/48/google-translate.png" alt="Switch Language"
         id="languageSwitcher">
@@ -73,25 +59,7 @@
                         style="color: rgb(190, 209, 226);">{{ __('messages.Login') }}</a></p>
             </div>
         </form>
-
     </div>
-    {{-- @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-            {{ session('success') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    @endif
-    @if ($errors->any())
-        <div class="alert alert-danger" style="background-color: rgb(211, 231, 231); color:black;">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif --}}
 </body>
 
 </html>
@@ -103,6 +71,7 @@
     var currentLanguage = "{{ session()->get('language') }}";
     document.getElementById('languageSwitcher').addEventListener('click', function() {
         var nextLanguage = currentLanguage === 'ar' ? 'en' : 'ar';
+        document.body.setAttribute('dir', nextLanguage === 'ar' ? 'rtl' : 'ltr');
         window.location.href = url + "?lang=" + nextLanguage;
     });
 </script>

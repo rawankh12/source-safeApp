@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html en>
+<html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
 
 <head>
     <meta charset="UTF-8">
@@ -36,6 +36,12 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var currentDir = "{{ session('language') == 'ar' ? 'rtl' : 'ltr' }}";
+            document.body.setAttribute('dir', currentDir);
+        });
+    </script>
 </body>
 
 </html>

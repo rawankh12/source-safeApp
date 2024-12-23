@@ -20,7 +20,7 @@
             </div>
             <div class="section1 files-section">
                 <div class="subsection" id="my-files-section">
-                    <div style="display: flex; justify-content: space-between; align-items: center; direction: rtl;">
+                    <div style="display: flex; justify-content: space-between;">
                         <h3 style="margin: 0;">{{ __('messages.myfiles') }}</h3>
                     </div>
                     <hr>
@@ -37,7 +37,7 @@
                 </div>
 
                 <div class="subsection" id="locked-files-section">
-                    <div style="display: flex; justify-content: space-between; align-items: center; direction: rtl;">
+                    <div style="display: flex; justify-content: space-between;">
                         <h3 style="margin: 0;">{{ __('messages.lockefile') }}</h3>
                     </div>
                     <hr>
