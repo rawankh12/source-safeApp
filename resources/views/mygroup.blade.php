@@ -6,7 +6,7 @@
 
     <body>
         <div class="home">
-            <h2 class="text-right">{{ __('messages.mygroups') }}</h2>
+            <h2>{{ __('messages.mygroups') }}</h2>
             <div class="row">
                 @if ($groups->isEmpty())
                     <p class="text-center" style="margin-right: 50px;">{{ __('messages.no_groups') }}</p>

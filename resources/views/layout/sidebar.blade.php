@@ -4,7 +4,7 @@
         <hr style="width: 100px; color:black;">
         {{-- <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/artstation.png" alt="artstation"/> --}}
     </div> 
-    <ul class="sidebar-nav">
+    <ul class="sidebar-nav" style="list-style-type: none;">
         <li class="sidebar-item">
             <a href="{{ route('home') }}" class="sidebar-link {{ request()->routeIs('home') ? 'active' : '' }}">
                 <img class="sidebar-icon" width="20" height="20" src="https://img.icons8.com/ios/50/home.png" alt="home" />

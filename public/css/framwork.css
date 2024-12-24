@@ -20,7 +20,17 @@
     --black-color-dark: rgb(41, 5, 48);
 }
 
-
+html[dir="rtl"] {
+    font-family: 'Noto Naskh Arabic', serif;
+    text-align: right;
+    direction: rtl;
+ }
+ 
+ html[dir="ltr"] {
+    font-family: 'Poppins', sans-serif;
+    text-align: left;
+    direction: ltr;
+ }
 .d-flex {
     display: flex;
 }

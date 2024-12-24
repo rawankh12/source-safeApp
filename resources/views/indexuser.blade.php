@@ -6,7 +6,7 @@
 
     <body>
         <div class="home">
-            <h2 class="text-right">{{ __('messages.myfiles') }}</h2>
+            <h2>{{ __('messages.myfiles') }}</h2>
 
             @if ($Files->isEmpty())
                 <p class="text-right" style="margin-right: 50px;">{{ __('messages.nofile') }}</p>

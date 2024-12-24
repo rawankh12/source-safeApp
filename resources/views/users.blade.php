@@ -6,7 +6,7 @@
 
     <body>
         <div class="home">
-            <h2 class="text-right">{{ __('messages.allusers') }}</h2>
+            <h2>{{ __('messages.allusers') }}</h2>
             @if (session('error'))
                 <div class="alert alert-danger" role="alert">
                     {{ session('error') }}

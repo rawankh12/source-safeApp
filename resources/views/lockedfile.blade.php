@@ -6,7 +6,7 @@
 
     <body>
         <div class="home">
-            <h2 class="text-right">{{ __('messages.lockefile') }}</h2>
+            <h2>{{ __('messages.lockefile') }}</h2>
 
             @if ($files->isEmpty())
                 <p class="text-center" style="margin-right: 50px;">{{ __('messages.nofile') }}</p>
@@ -149,8 +149,8 @@
             --greeng-color-dark: rgba(89, 147, 110, 0.2);
         }
 
-        body {
-            font-family: 'Poppins', sans-serif;
+        html[dir="rtl"] body {
+            font-family: 'Noto Naskh Arabic', serif;
             direction: rtl;
             margin-right: 260px;
             width: calc(100% - 240px);
@@ -162,22 +162,26 @@
             font-family: 'Poppins', sans-serif;
             direction: ltr;
             margin-left: 260px;
+            width: calc(100% - 240px);
             margin-right: 0;
             padding-right: 30px;
+            margin-top: 100px;
         }
 
         html[dir="rtl"] {
+            font-family: 'Noto Naskh Arabic', serif;
             text-align: right;
             direction: rtl;
         }
 
         html[dir="ltr"] {
+            font-family: 'Poppins', sans-serif;
             text-align: left;
             direction: ltr;
         }
 
         /* هيدر */
-        .header {
+        html[dir="ltr"] .header {
             position: fixed;
             top: 0;
             right: 0;
@@ -194,8 +198,19 @@
         }
 
         html[dir="rtl"] .header {
+            position: fixed;
+            top: 0;
             left: 0;
             right: auto;
+            width: calc(100% - 240px);
+            z-index: 1000;
+            background-color: var(--h-and-s-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            transition: all 0.25s ease-in-out;
+            margin-bottom: 30px;
         }
 
         .header-container {
@@ -204,7 +219,7 @@
             width: 100%;
         }
 
-        .header-icons {
+        html[dir="ltr"] .header-icons {
             display: flex;
             align-items: center;
             gap: 10px;
@@ -212,11 +227,14 @@
         }
 
         html[dir="rtl"] .header-icons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             margin-right: auto;
             margin-left: 0;
         }
 
-        .header-icons button {
+        html[dir="ltr"] .header-icons button {
             background-color: transparent;
             border: none;
             color: var(--background-color);
@@ -226,11 +244,16 @@
         }
 
         html[dir="rtl"] .header-icons button {
+            background-color: transparent;
+            border: none;
+            color: var(--background-color);
             margin-left: 1rem;
             margin-right: 0;
+            font-size: 1.25rem;
+            cursor: pointer;
         }
 
-        .modal-header .btn-close.move-right {
+        html[dir="ltr"] .modal-header .btn-close.move-right {
             position: absolute;
             left: 1rem;
             right: auto;
@@ -238,6 +261,7 @@
         }
 
         html[dir="rtl"] .modal-header .btn-close.move-right {
+            position: absolute;
             right: 1rem;
             left: auto;
             text-align: right;
@@ -252,7 +276,7 @@
             align-items: center;
         }
 
-        .header .user-info span {
+        html[dir="ltr"] .header .user-info span {
             margin-left: 10px;
         }
 
@@ -271,7 +295,7 @@
         html[dir="ltr"] a.sidebar-link {
             text-align: left;
             margin-right: 0;
-            margin-left: 20px;
+            margin-left: 0;
         }
 
         html[dir="ltr"] .sidebar-link {
@@ -281,7 +305,7 @@
 
         html[dir="ltr"] .sidebar-icon {
             order: -1;
-            margin-right: 10px;
+            margin-right: 5px;
             margin-left: 0;
         }
 
@@ -295,7 +319,8 @@
         html[dir="rtl"] a.sidebar-link {
             text-align: right;
             margin-right: 0;
-            margin-left: 20px;
+            margin-left: 0;
+            font-size: 0.9rem;
         }
 
         html[dir="rtl"] .sidebar-link {
@@ -305,7 +330,7 @@
 
         html[dir="rtl"] .sidebar-icon {
             order: -1;
-            margin-left: 10px;
+            margin-left: 5px;
             margin-right: 0;
         }
 
@@ -389,14 +414,40 @@
             margin-top: 15px;
         }
 
+        html[dir="ltr"] .title {
+            text-align: left;
+        }
+
+        html[dir="rtl"] .title {
+            text-align: right;
+            position: relative;
+            margin-right: 55px;
+            margin-top: 15px;
+        }
+
         .home {
             justify-content: center;
             text-align: right;
             margin: 0 0 0 50px;
         }
 
-        .home h2 {
-            margin-right: 30px;
+        html[dir="rtl"] .home {
+            text-align: right;
+            margin: 0 0 0 50px;
+            justify-content: center;
+        }
+
+        html[dir="ltr"] .home {
+            text-align: left;
+        }
+
+        html[dir="rtl"] .home h2 {
+            /* margin-right: 30px; */
+            font-weight: bold;
+        }
+
+        html[dir="ltr"] .home h2 {
+            /* margin-left: 30px; */
             font-weight: bold;
         }
 
@@ -422,11 +473,19 @@
             margin-top: 40px;
         }
 
+        html[dir="ltr"] .rrow {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: left;
+            text-align: center;
+            margin-top: 40px;
+        }
+
         .card {
             border-radius: 15px;
             transition: transform 0.2s, box-shadow 0.2s;
             height: 100%;
-            width: 96%;
+            width: 95%;
             background-color: white;
             margin-right: 30px;
             margin-top: 40px;
@@ -482,7 +541,18 @@
             transition: background-color 0.3s ease;
             margin-top: 20px;
             color: var(--background-color);
-            margin-right: 50px;
+            margin-left: 120px;
+        }
+
+        html[dir="rtl"] .btn-view1 {
+            background-color: var(--btn-color);
+            border: none;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+            color: var(--background-color);
+            margin-right: 100px;
+            height: 40px;
+            width: 40%;
         }
 
         body.dark-mode .btn-view {
@@ -507,7 +577,7 @@
             margin-top: 20px;
             color: var(--text-color);
             font-weight: bold;
-            margin-right: 10px;
+            margin-right: 5px;
         }
 
         body.dark-mode .btn-sendinvite {
@@ -664,10 +734,29 @@
             background-color: var(--btn2-color);
             margin-top: 20px;
             color: var(--background-color);
-            margin-right: 20px;
+            margin-right: 10px;
         }
 
         body.dark-mode .card-body .btn-report {
+            background-color: var(--btn2-color-dark);
+            color: black;
+        }
+
+        .card-body .btn-report1 {
+            background-color: var(--btn2-color);
+            margin-top: 20px;
+            color: var(--background-color);
+            margin-left: 100px;
+        }
+
+        html[dir="rtl"] .card-body .btn-report1 {
+            background-color: var(--btn2-color);
+            margin-top: 20px;
+            color: var(--background-color);
+            margin-right: 100px;
+        }
+
+        body.dark-mode .card-body .btn-report1 {
             background-color: var(--btn2-color-dark);
             color: black;
         }
@@ -676,6 +765,17 @@
             position: absolute;
             top: 10px;
             left: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        html[dir="ltr"] .btn-delete-icon {
+            position: absolute;
+            top: 10px;
+            right: 0;
+            left: auto;
             background: none;
             border: none;
             cursor: pointer;

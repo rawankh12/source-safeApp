@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
 
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -152,6 +152,7 @@
     // تغيير اللغة
     document.getElementById('languageSwitcher').addEventListener('click', function() {
         var nextLanguage = currentLanguage === 'ar' ? 'en' : 'ar';
+        document.body.setAttribute('dir', nextLanguage === 'ar' ? 'rtl' : 'ltr');
         window.location.href = url + "?lang=" + nextLanguage;
     });
     // تبديل الثيم
